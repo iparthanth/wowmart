@@ -5,8 +5,10 @@ namespace App\Http\Requests\Admin;
 use App\Enums\DiscountType;
 use App\Enums\ShippingType;
 use App\Enums\StockVisibility;
+use App\Models\FlashDeal;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 /**
  * The seven-section product form. Field names match the captured reference form
@@ -20,7 +22,7 @@ use Illuminate\Validation\Rule;
  */
 class ProductRequest extends FormRequest
 {
-    /** Unticked checkboxes are simply absent from a form post, so each is normalised to a real boolean. */
+    /** Unticked checkboxes are simply absent from a form post, so a missing one means false. */
     private const CHECKBOXES = ['refundable', 'featured', 'todays_deal', 'cash_on_delivery', 'is_quantity_multiplied', 'has_warranty'];
 
     public function authorize(): bool
@@ -30,14 +32,19 @@ class ProductRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $tags = collect(explode(',', (string) $this->input('tags')))
-            ->map(fn ($t) => trim($t))
+        // The web form posts one comma-separated string; API clients may send a list.
+        $raw = $this->input('tags');
+        $tags = collect(is_array($raw) ? $raw : explode(',', is_string($raw) ? $raw : ''))
+            ->filter(fn ($t) => is_scalar($t))
+            ->map(fn ($t) => trim((string) $t))
             ->filter()
             ->unique(fn ($t) => mb_strtolower($t))
             ->implode(',');
 
         $this->merge([
-            ...array_combine(self::CHECKBOXES, array_map(fn ($f) => $this->boolean($f), self::CHECKBOXES)),
+            // Only a missing box becomes false. Any other value goes to the boolean
+            // rule, so an API client sending featured=maybe gets a 422, not a silent false.
+            ...array_combine(self::CHECKBOXES, array_map(fn ($f) => $this->input($f) ?? false, self::CHECKBOXES)),
             'tags' => $tags === '' ? null : $tags,
             'frequently_bought_selection_type' => $this->filled('fq_bought_product_category_id') ? 'category' : 'product',
         ]);
@@ -82,8 +89,14 @@ class ProductRequest extends FormRequest
             'discount_type' => ['required', Rule::enum(DiscountType::class)],
             // A percentage caps at 100; a flat amount can never exceed the price itself.
             'discount' => ['nullable', 'numeric', 'min:0', $percent ? 'max:100' : 'lte:unit_price'],
-            'discount_start_date' => ['nullable', 'date'],
-            'discount_end_date' => ['nullable', 'date', 'after:discount_start_date'],
+            // TIMESTAMP columns: MySQL cannot store dates outside 1970-2038.
+            'discount_start_date' => ['nullable', 'date', 'after:1970-01-02', 'before:2038-01-19'],
+            'discount_end_date' => [
+                'nullable', 'date', 'before:2038-01-19',
+                // after: parses the other field; an array there would throw, and an
+                // empty start would be read as the literal text "discount_start_date".
+                Rule::when(is_string($this->input('discount_start_date')) && $this->input('discount_start_date') !== '', 'after:discount_start_date'),
+            ],
             'current_stock' => ['required', 'integer', 'min:0', 'max:10000000'],
             'sku' => ['nullable', 'string', 'max:64'],
             'low_stock_quantity' => ['required', 'integer', 'min:0', 'max:100000'],
@@ -112,6 +125,25 @@ class ProductRequest extends FormRequest
             'frequently_bought_selection_type' => ['required', Rule::in(['product', 'category'])],
             'fq_bought_product_category_id' => ['nullable', 'integer', 'exists:categories,id'],
         ];
+    }
+
+    /**
+     * The flash-deal discount set from the product form obeys the same caps as
+     * the flash-deal screen, so neither form can sell a product below zero.
+     */
+    public function after(): array
+    {
+        return [function (Validator $validator) {
+            [$discount, $type, $price] = [$this->input('flash_discount'), $this->input('flash_discount_type'), $this->input('unit_price')];
+
+            if (! $this->filled('flash_deal_id') || ! is_numeric($discount) || ! is_string($type) || ! is_numeric($price)) {
+                return; // the field rules already report what is missing or malformed
+            }
+
+            if ($problem = FlashDeal::discountProblem((float) $discount, $type, (float) $price)) {
+                $validator->errors()->add('flash_discount', $problem);
+            }
+        }];
     }
 
     public function messages(): array

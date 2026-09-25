@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\User;
 use DomainException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -104,6 +105,21 @@ class ProductService
         // No thumbnail picked but gallery images given: use the first one rather
         // than letting the product fall into the "missing images" queue.
         $columns['thumbnail_img'] ??= $data['photos'][0] ?? null;
+
+        // Optional on the form but NOT NULL in the table: a cleared field means 0.
+        foreach (['weight', 'discount', 'shipping_cost'] as $key) {
+            if (array_key_exists($key, $columns)) {
+                $columns[$key] ??= 0;
+            }
+        }
+
+        // API clients may send an offset ("…Z"); store the instant in the app's
+        // timezone, as coupons and flash deals do, not the wall-clock digits.
+        foreach (['discount_start_date', 'discount_end_date'] as $key) {
+            if (! empty($columns[$key])) {
+                $columns[$key] = Date::parse($columns[$key])->setTimezone(config('app.timezone'));
+            }
+        }
 
         return $columns;
     }

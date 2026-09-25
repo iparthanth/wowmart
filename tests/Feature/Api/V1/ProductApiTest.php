@@ -239,6 +239,70 @@ class ProductApiTest extends TestCase
         $this->patchJson("/api/v1/products/{$product->id}/flags", ['user_id' => 999])->assertUnprocessable();
     }
 
+    public function test_tags_may_be_sent_as_a_list(): void
+    {
+        $this->postJson('/api/v1/products', $this->payload(['tags' => ['sensor', ' Sonar ', 'SENSOR', ['nested']]]))
+            ->assertCreated();
+
+        $this->assertSame('sensor,Sonar', Product::latest('id')->value('tags'));
+    }
+
+    public function test_malformed_input_is_422_never_500(): void
+    {
+        $this->postJson('/api/v1/products', $this->payload([
+            'featured' => 'maybe',
+            'discount_start_date' => ['2026-10-01'],
+            'discount_end_date' => '2026-10-02',
+        ]))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['featured', 'discount_start_date']);
+    }
+
+    public function test_the_flash_deal_discount_obeys_the_flash_deal_caps(): void
+    {
+        $deal = FlashDeal::firstOrFail();
+
+        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 151, 'flash_discount_type' => 'amount']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('flash_discount');
+
+        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 101, 'flash_discount_type' => 'percent']))
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('flash_discount');
+
+        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 150, 'flash_discount_type' => 'amount']))
+            ->assertCreated();
+    }
+
+    public function test_cleared_number_fields_are_stored_as_zero(): void
+    {
+        $product = Product::firstOrFail();
+
+        $this->putJson("/api/v1/products/{$product->id}", $this->payload(['weight' => null, 'discount' => null, 'shipping_cost' => null]))
+            ->assertOk();
+
+        $product->refresh();
+        $this->assertSame([0.0, 0.0, 0.0], [(float) $product->weight, (float) $product->discount, (float) $product->shipping_cost]);
+    }
+
+    public function test_discount_dates_are_stored_in_the_shop_timezone(): void
+    {
+        $this->postJson('/api/v1/products', $this->payload([
+            'discount' => 10,
+            'discount_start_date' => '2026-10-01T04:00:00Z',
+            'discount_end_date' => '2026-10-02T04:00:00Z',
+        ]))->assertCreated();
+
+        // 04:00 UTC is 10:00 in Dhaka (UTC+6).
+        $this->assertSame('2026-10-01 10:00', Product::latest('id')->first()->discount_start_date->format('Y-m-d H:i'));
+    }
+
+    public function test_an_end_date_without_a_start_date_is_allowed(): void
+    {
+        $this->postJson('/api/v1/products', $this->payload(['discount' => 10, 'discount_end_date' => '2026-12-31T23:59']))
+            ->assertCreated();
+    }
+
     public function test_requests_without_a_token_are_401(): void
     {
         $this->app['auth']->forgetGuards();

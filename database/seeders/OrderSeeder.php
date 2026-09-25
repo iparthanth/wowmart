@@ -19,6 +19,9 @@ use Illuminate\Database\Seeder;
  */
 class OrderSeeder extends Seeder
 {
+    /** Flat home-delivery charge per order, in ৳. */
+    private const DELIVERY_CHARGE = 60;
+
     private const CUSTOMERS = [
         ['Rafi Ahmed', 'rafi@customers.wowmart.test', 'House 12, Road 4, GEC Circle', 'Chattogram'],
         ['Nusrat Jahan', 'nusrat@customers.wowmart.test', 'Flat 3B, Block C, Mirpur 10', 'Dhaka'],
@@ -71,21 +74,27 @@ class OrderSeeder extends Seeder
                 'updated_at' => $placedAt,
             ])->save();
 
+            // The flat delivery charge sits on the first line, as the storefront's
+            // checkout records it, so grand_total always equals the sum of the lines.
+            $shipping = self::DELIVERY_CHARGE;
+
             foreach ($lines as $productIndex => $qty) {
                 $product = $products[$productIndex];
-                $total += (float) $product->unit_price * $qty;
+                $total += (float) $product->unit_price * $qty + $shipping;
 
                 $detail = $order->details()->make([
                     'seller_id' => $product->added_by === 'seller' ? $product->user_id : null,
                     'product_id' => $product->id,
                     'price' => $product->unit_price,
+                    'shipping_cost' => $shipping,
                     'quantity' => $qty,
                     'shipping_type' => 'home_delivery',
                 ]);
                 $detail->forceFill(['delivery_status' => $status, 'payment_status' => $order->payment_status])->save();
+                $shipping = 0;
             }
 
-            $order->forceFill(['grand_total' => round($total + 60, 2)])->save(); // + flat delivery
+            $order->forceFill(['grand_total' => round($total, 2)])->save();
         }
 
         $this->command?->info(sprintf('Orders: %d orders for %d customers.', count(self::ORDERS), count($customers)));

@@ -46,7 +46,8 @@ class CouponRequest extends FormRequest
             'discount' => ['required', 'numeric', 'decimal:0,2', 'gt:0', $percent ? 'max:100' : 'max:99999999'],
             // The columns are TIMESTAMP, which MySQL cannot store outside 1970-2038.
             'start_date' => ['required', 'date', 'after:1970-01-02', 'before:2038-01-19'],
-            'end_date' => ['required', 'date', 'after:start_date', 'before:2038-01-19'],
+            // after: parses start_date, and an array there would throw instead of failing.
+            'end_date' => ['required', 'date', Rule::when(is_string($this->input('start_date')), 'after:start_date'), 'before:2038-01-19'],
             'status' => ['boolean'],
             ...$this->detailRules(is_string($type) ? CouponType::tryFrom($type) : null),
         ];

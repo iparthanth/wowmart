@@ -360,4 +360,15 @@ class OrderTest extends TestCase
         $this->service()->setPaymentStatus($order, PaymentStatus::Unpaid);
         $this->assertSame(PaymentStatus::Unpaid, $order->fresh()->payment_status);
     }
+
+    /** The storefront writes orders this way too; the detail page's totals rely on it. */
+    public function test_every_seeded_order_total_is_the_sum_of_its_lines(): void
+    {
+        foreach (Order::with('details')->get() as $order) {
+            $lines = round($order->details->sum(fn ($d) => $d->lineTotal()) - (float) $order->coupon_discount, 2);
+
+            $this->assertSame($lines, (float) $order->grand_total, "Order {$order->code}");
+            $this->assertGreaterThan(0, (float) $order->details->sum('shipping_cost'), "Order {$order->code} has no delivery charge on its lines");
+        }
+    }
 }

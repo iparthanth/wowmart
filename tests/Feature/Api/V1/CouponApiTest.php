@@ -97,6 +97,11 @@ class CouponApiTest extends TestCase
 
         $wow = Coupon::where('code', 'WOW100')->firstOrFail();
         $this->putJson("/api/v1/coupons/{$wow->id}", ['code' => 'WOW100'] + $body)->assertUnprocessable()->assertJsonValidationErrors('type');
+
+        // An array start date used to crash the end date's after: rule with a 500.
+        $this->postJson('/api/v1/coupons', ['type' => 'cart_base', 'start_date' => ['2026-10-01']] + $body)
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('start_date');
     }
 
     public function test_money_in_details_is_sent_as_two_decimal_strings(): void
