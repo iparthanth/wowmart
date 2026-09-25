@@ -148,6 +148,33 @@ class FlashDealTest extends TestCase
         $this->actingAs($this->admin)
             ->post('/admin/flash_deals', $this->form([$p->id => ['discount' => '5', 'discount_type' => 'percent']]))
             ->assertSessionHasErrors(['products' => 'Include at least one product in the deal.']);
+
+        // The columns are MySQL TIMESTAMPs, which end in January 2038.
+        $this->actingAs($this->admin)
+            ->post('/admin/flash_deals', $this->form(
+                [$p->id => ['include' => '1', 'discount' => '5', 'discount_type' => 'percent']],
+                ['end_date' => '2040-01-01T09:00'],
+            ))
+            ->assertSessionHasErrors(['end_date' => 'Choose an end date before 2038.']);
+    }
+
+    public function test_a_product_already_in_another_deal_is_refused(): void
+    {
+        $taken = $this->weekend->products()->orderBy('products.id')->firstOrFail();
+
+        // The product form keeps one deal per product, so a second deal would lose it on the product's next save.
+        $this->actingAs($this->admin)
+            ->post('/admin/flash_deals', $this->form([$taken->id => ['include' => '1', 'discount' => '5', 'discount_type' => 'percent']]))
+            ->assertSessionHasErrors(['products' => "\"{$taken->name}\" is already in the flash deal \"Weekend Maker Sale\". Take it out of that deal first."]);
+        $this->assertSame(1, FlashDeal::count());
+
+        $this->actingAs($this->admin)->get('/admin/flash_deals/create')
+            ->assertSee('In "Weekend Maker Sale"', false);
+
+        // Its own deal can keep it.
+        $this->actingAs($this->admin)
+            ->put("/admin/flash_deals/{$this->weekend->id}", $this->form([$taken->id => ['include' => '1', 'discount' => '5', 'discount_type' => 'percent']]))
+            ->assertSessionHasNoErrors();
     }
 
     public function test_colours_must_be_hex(): void
@@ -231,4 +258,7 @@ class FlashDealTest extends TestCase
             ->assertSessionHas('status', fn ($s) => str_contains($s, 'normal prices'));
 
         $this->assertModelMissing($this->weekend);
-        $thi
+        $this->assertSame(0, DB::table('flash_deal_products')->count());
+        $this->assertSame(count($ids), Product::whereIn('id', $ids)->count());
+    }
+}

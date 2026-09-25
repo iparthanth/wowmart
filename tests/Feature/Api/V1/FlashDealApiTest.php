@@ -48,7 +48,7 @@ class FlashDealApiTest extends TestCase
 
     public function test_create_replace_and_delete(): void
     {
-        [$a, $b] = Product::where('unit_price', '>', 10)->orderBy('id')->limit(2)->get();
+        [$a, $b] = Product::doesntHave('flashDeals')->where('unit_price', '>', 10)->orderBy('id')->limit(2)->get();
 
         $id = $this->postJson('/api/v1/flash-deals', [
             'title' => 'API Deal', 'start_date' => '2026-10-01T00:00:00+00:00', 'end_date' => '2026-10-08T00:00:00+00:00',
@@ -83,8 +83,32 @@ class FlashDealApiTest extends TestCase
 
     public function test_validation(): void
     {
-        $p = Product::where('unit_price', '>', 0)->orderBy('unit_price')->firstOrFail();
+        $p = Product::doesntHave('flashDeals')->where('unit_price', '>', 0)->orderBy('unit_price')->firstOrFail();
         $base = ['title' => 'X', 'start_date' => '2026-10-01', 'end_date' => '2026-10-02'];
+        $row = ['id' => $p->id, 'discount' => 1, 'discount_type' => 'amount'];
+
+        // Unreadable rows fail as 422, never 500 or a quietly different product.
+        foreach ([[['id' => [$p->id]] + $row], [['id' => true] + $row], [['id' => 1.7] + $row], [['product_id' => $p->id, 'discount' => 1, 'discount_type' => 'amount']], [$p->id]] as $rows) {
+            $this->postJson('/api/v1/flash-deals', $base + ['products' => $rows])
+                ->assertUnprocessable()
+                ->assertJsonPath('errors.products.0', 'Each product needs its numeric id.');
+        }
+        $this->postJson('/api/v1/flash-deals', $base + ['products' => [$row, ['discount' => 50] + $row]])
+            ->assertUnprocessable()
+            ->assertJsonPath('errors.products.0', 'Each product can appear only once in a deal.');
+
+        $this->postJson('/api/v1/flash-deals', ['start_date' => ['x']] + $base + ['products' => [$row]])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('start_date');
+
+        $this->postJson('/api/v1/flash-deals', $base + ['products' => [['discount_type' => 'half'] + $row]])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(["products.{$p->id}.discount_type" => 'Choose Percent or Amount for each included product.']);
+
+        $taken = $this->weekend->products()->firstOrFail();
+        $this->postJson('/api/v1/flash-deals', $base + ['products' => [['id' => $taken->id] + $row]])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('products');
 
         $this->postJson('/api/v1/flash-deals', $base + ['products' => [['id' => $p->id, 'discount' => (float) $p->unit_price + 1, 'discount_type' => 'amount']]])
             ->assertUnprocessable()

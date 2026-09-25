@@ -109,4 +109,17 @@ class AuthApiTest extends TestCase
             $this->assertContains('admin', $middleware, "{$route->getName()} is missing the admin check");
         }
     }
+
+    /** Every update is a full replacement, so PATCH on it would wipe whatever the client left out. */
+    public function test_every_api_update_is_put_only(): void
+    {
+        $updates = collect(Router::getRoutes()->getRoutes())
+            ->filter(fn (Route $r) => preg_match('/^api\.v1\.[\w-]+\.update$/', (string) $r->getName()));
+
+        $this->assertNotEmpty($updates);
+
+        foreach ($updates as $route) {
+            $this->assertSame(['PUT'], $route->methods(), "{$route->getName()} must accept PUT only");
+        }
+    }
 }

@@ -491,3 +491,33 @@ fieldset .checks { margin-bottom: 0; }
 .file-name { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .file-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 6px; min-height: 30px; }
 .file-foot form { margin: 0; }
+
+/* ------------------------------------------------------------- orders */
+
+.filter-date { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.filter-date .input { width: auto; }
+.facts .order-total { padding-top: 10px; border-top: 1px solid var(--line-2); font-weight: 600; }
+.facts .order-total dt { color: var(--text); }
+
+/* ------------------------------------------------ coupon type chooser */
+/* Focus ring comes from the global :focus-visible rule. */
+
+.choices { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+.choice {
+  display: grid; gap: 6px; align-content: start;
+  padding: 16px 18px; border: 2px solid var(--line-2); border-radius: var(--radius);
+  background: var(--surface); color: var(--text);
+}
+.choice strong { font-family: var(--display); font-size: 15px; color: var(--ink); }
+.choice:hover { border-color: var(--tangerine); background: var(--tangerine-soft); }
+
+/* -------------------------------------------------------- flash deals */
+/* Per-product discount table inside the deal form. .error already sets size and colour. */
+
+.deal-products input[type="checkbox"] { accent-color: var(--tangerine); width: 16px; height: 16px; }
+.deal-products .input { width: 120px; }
+.deal-products .select { width: 140px; }
+.deal-products .error { display: block; margin-top: 4px; }
+.deal-products label.product-cell { cursor: pointer; }
+.form-section .card-body > .error { margin: 0 0 12px; font-size: 13px; }
+.field .input[type="color"] { width: 72px; padding: 4px; cursor: pointer; }

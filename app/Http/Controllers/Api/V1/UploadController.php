@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
 class UploadController extends Controller
 {
@@ -43,11 +42,11 @@ class UploadController extends Controller
         /** @var User $admin */
         $admin = $request->user();
 
-        // All or nothing, so a client retrying a failed batch does not get duplicates.
-        $created = DB::transaction(fn () => array_map(
+        // Same per-file saving as the web library; validation has already passed for every file.
+        $created = array_map(
             fn ($file) => new UploadResource($this->uploads->store($file, $admin)),
             $request->file('files'),
-        ));
+        );
 
         return UploadResource::collection($created)->response()->setStatusCode(201);
     }

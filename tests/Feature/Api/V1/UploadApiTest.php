@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api\V1;
 
+use App\Http\Controllers\Admin\UploadController;
 use App\Models\Product;
 use App\Models\Upload;
 use App\Models\User;
@@ -82,6 +83,23 @@ class UploadApiTest extends TestCase
         $this->assertSame($before, Upload::count());
     }
 
+    public function test_a_batch_over_twenty_files_or_a_file_over_the_size_limit_is_refused(): void
+    {
+        $before = Upload::count();
+
+        $files = array_map(fn ($i) => $this->file("sheet-{$i}.pdf", self::PDF), range(1, 21));
+        $this->post('/api/v1/uploads', ['files' => $files], ['Accept' => 'application/json'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors(['files' => 'at most 20 files']);
+
+        $big = $this->file('big.pdf', self::PDF.str_repeat(' ', UploadController::MAX_KB * 1024 + 1 - strlen(self::PDF)));
+        $this->post('/api/v1/uploads', ['files' => [$big]], ['Accept' => 'application/json'])
+            ->assertUnprocessable()
+            ->assertJsonValidationErrors('files.0');
+
+        $this->assertSame($before, Upload::count());
+    }
+
     public function test_the_list_filters_sorts_and_marks_files_in_use(): void
     {
         $pdf = $this->upload('wiring-guide.pdf', self::PDF);
@@ -102,6 +120,13 @@ class UploadApiTest extends TestCase
         $this->assertSame(['document'], array_values(array_unique(array_column($documents, 'type'))));
 
         $this->getJson('/api/v1/uploads?sort=oldest')->assertJsonPath('data.0.id', Upload::min('id'));
+        $this->getJson('/api/v1/uploads?sort=largest')->assertJsonPath('data.0.size_bytes', Upload::max('file_size'));
+
+        // Array values fall back to the defaults like unknown ones do, instead of a 500.
+        $this->getJson('/api/v1/uploads?search[]=x&sort[]=x&type[]=image')
+            ->assertOk()
+            ->assertJsonPath('meta.total', Upload::count())
+            ->assertJsonPath('data.0.id', $pdf['id']);
 
         $thumb = Product::whereNotNull('thumbnail_img')->value('thumbnail_img');
         $inUse = collect($this->getJson('/api/v1/uploads?per_page=100')->json('data'))->pluck('in_use', 'id');

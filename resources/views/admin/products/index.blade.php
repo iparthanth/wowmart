@@ -67,7 +67,7 @@
         </div>
     @else
         <div class="table-wrap">
-            <table class="table products">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Product</th>

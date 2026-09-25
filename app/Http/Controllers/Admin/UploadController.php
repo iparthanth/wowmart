@@ -37,10 +37,14 @@ class UploadController extends Controller
     /** The library's search/type/sort filters, unknown values falling back to "all, newest first". */
     public static function filters(Request $request): array
     {
+        // Scalars only: ?search[]=x would otherwise hit "Array to string conversion" and answer 500.
+        $search = $request->query('search');
+        $sort = $request->query('sort');
+
         return [
-            'search' => trim((string) $request->query('search')),
+            'search' => is_string($search) ? trim($search) : '',
             'type' => in_array($request->query('type'), ['image', 'document'], true) ? $request->query('type') : null,
-            'sort' => array_key_exists((string) $request->query('sort'), self::SORTS) ? $request->query('sort') : 'newest',
+            'sort' => is_string($sort) && array_key_exists($sort, self::SORTS) ? $sort : 'newest',
         ];
     }
 
