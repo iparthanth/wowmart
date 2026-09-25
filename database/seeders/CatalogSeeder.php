@@ -112,7 +112,9 @@ class CatalogSeeder extends Seeder
             $seller->forceFill(['user_type' => UserType::Seller])->save();
 
             $shop = new Shop(['user_id' => $seller->id, 'name' => $name]);
-            $shop->forceFill(['slug' => Str::slug($name), 'verification_status' => 'approved'])->save();
+            // The last seller waits for review, so the pending queue has a real row.
+            $status = $name === 'Volt Street' ? 'pending' : 'approved';
+            $shop->forceFill(['slug' => Str::slug($name), 'verification_status' => $status])->save();
 
             $out[] = $seller;
         }

@@ -13,10 +13,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[Fillable(['user_id', 'name', 'logo', 'address', 'phone'])]
 class Shop extends Model
 {
+    /** Every value verification_status can hold; a new shop starts pending. */
+    public const VERIFICATION_STATUSES = ['pending', 'approved', 'rejected'];
+
     protected function casts(): array
     {
         return [
             'rating' => 'decimal:2',
+            'user_id' => 'integer',
+            'logo' => 'integer',
+            'num_of_reviews' => 'integer',
         ];
     }
 
