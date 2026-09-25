@@ -77,8 +77,17 @@
                 @foreach ($rows as $row)
                     <tr>
                         <td>
-                            <a href="{{ route('admin.products.edit', $row['id']) }}" class="product-name">{{ $row['name'] }}</a>
-                            <div class="product-meta mono">{{ $row['sku'] ?? 'No SKU' }}</div>
+                            <div class="product-cell">
+                                @if ($row['thumb'])
+                                    <img src="{{ $row['thumb'] }}" alt="" class="thumb" loading="lazy">
+                                @else
+                                    <span class="thumb thumb-missing" title="No image"></span>
+                                @endif
+                                <div style="min-width:0">
+                                    <a href="{{ route('admin.products.edit', $row['id']) }}" class="product-name">{{ $row['name'] }}</a>
+                                    <div class="product-meta mono">{{ $row['sku'] ?? 'No SKU' }}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="muted">{{ $row['category'] ?? '—' }}</td>
                         <td class="right num">{{ number_format($row['current_stock']) }}</td>

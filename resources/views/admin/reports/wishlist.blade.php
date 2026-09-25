@@ -7,7 +7,7 @@
 @section('content')
 
 <div class="page-actions">
-    <p class="muted" style="margin:0">Products customers have saved to a wishlist, most wanted first.</p>
+    <p class="muted" style="margin:0">Every product with the number of wishlists it has, most wished first.</p>
     <a href="{{ $csvUrl }}" class="btn btn-ghost">Download CSV</a>
 </div>
 
@@ -29,11 +29,11 @@
     @if ($rows->isEmpty())
         <div class="empty">
             @if ($filters['category'])
-                <strong>No wishlisted products in this category</strong>
-                Pick another category, or <a href="{{ route('admin.reports.wishlist') }}" style="color:var(--tangerine)">see every category</a>.
+                <strong>No products in this category</strong>
+                Pick another, or <a href="{{ route('admin.reports.wishlist') }}" style="color:var(--tangerine)">see every category</a>.
             @else
-                <strong>No wishlists yet</strong>
-                Products appear here once customers save them from the storefront.
+                <strong>No products yet</strong>
+                Add products to see how often customers save them.
             @endif
         </div>
     @else
@@ -50,8 +50,17 @@
                 @foreach ($rows as $row)
                     <tr>
                         <td>
-                            <a href="{{ route('admin.products.edit', $row['id']) }}" class="product-name">{{ $row['name'] }}</a>
-                            <div class="product-meta mono">{{ $row['sku'] ?? 'No SKU' }}</div>
+                            <div class="product-cell">
+                                @if ($row['thumb'])
+                                    <img src="{{ $row['thumb'] }}" alt="" class="thumb" loading="lazy">
+                                @else
+                                    <span class="thumb thumb-missing" title="No image"></span>
+                                @endif
+                                <div style="min-width:0">
+                                    <a href="{{ route('admin.products.edit', $row['id']) }}" class="product-name">{{ $row['name'] }}</a>
+                                    <div class="product-meta mono">{{ $row['sku'] ?? 'No SKU' }}</div>
+                                </div>
+                            </div>
                         </td>
                         <td class="muted">{{ $row['category'] ?? '—' }}</td>
                         <td class="right num">{{ number_format($row['wishlists']) }}</td>

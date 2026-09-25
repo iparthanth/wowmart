@@ -15,39 +15,220 @@
 </head>
 <body>
 @php
-    // A module appears in the menu only once its routes exist, so the menu
-    // never links to a screen that has not been built.
+    /*
+     * The reference panel's sidebar, section for section (see
+     * docs/reference/admin_menu.json). A node with a 'route' links once that
+     * route exists; the rest render as muted "not built yet" placeholders, so
+     * the structure matches the reference without ever linking to a missing
+     * screen. Rendering is recursive: resources/views/components/admin/nav-node.
+     */
     $menu = [
-        [null, [['Dashboard', 'admin.dashboard', ['admin.dashboard']]]],
-        ['Products', [
-            ['All products', 'admin.products.index', ['admin.products.index', 'admin.products.edit']],
-            ['Add new product', 'admin.products.create', ['admin.products.create']],
-            ['Categories', 'admin.categories.index', ['admin.categories.*']],
-            ['Brands', 'admin.brands.index', ['admin.brands.*']],
-            ['Attributes', 'admin.attributes.index', ['admin.attributes.*']],
-            ['Colours', 'admin.colors.index', ['admin.colors.*']],
-            ['Warranties', 'admin.warranties.index', ['admin.warranties.*']],
-            ['Notes', 'admin.notes.index', ['admin.notes.*']],
-            ['Product reviews', 'admin.reviews.index', ['admin.reviews.*']],
+        ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'patterns' => ['admin.dashboard']],
+
+        ['label' => 'POS System', 'children' => [
+            ['label' => 'POS Manager'],
+            ['label' => 'POS Configuration'],
         ]],
-        ['Sales', [
-            ['All orders', 'admin.orders.index', ['admin.orders.*'], $pendingOrders ?? 0],
-            ['Refund requests', 'admin.refunds.index', ['admin.refunds.*'], $pendingRefunds ?? 0],
+
+        ['label' => 'Products', 'children' => [
+            ['label' => 'Add New Product', 'route' => 'admin.products.create', 'patterns' => ['admin.products.create']],
+            ['label' => 'All Products', 'route' => 'admin.products.index', 'patterns' => ['admin.products.index', 'admin.products.edit']],
+            ['label' => 'In House Products', 'route' => 'admin.products.index', 'params' => ['added_by' => 'admin']],
+            ['label' => 'Seller Products', 'children' => [
+                ['label' => 'Physical Products'],
+                ['label' => 'Digital Products'],
+            ]],
+            ['label' => 'Bulk Import'],
+            ['label' => 'Bulk Export'],
+            ['label' => 'Categories', 'route' => 'admin.categories.index', 'patterns' => ['admin.categories.*']],
+            ['label' => 'Category Based Discount'],
+            ['label' => 'Brands', 'children' => [
+                ['label' => 'All Brands', 'route' => 'admin.brands.index', 'patterns' => ['admin.brands.*']],
+                ['label' => 'Brand Bulk Import'],
+            ]],
+            ['label' => 'Attributes', 'route' => 'admin.attributes.index', 'patterns' => ['admin.attributes.*']],
+            ['label' => 'Colors', 'route' => 'admin.colors.index', 'patterns' => ['admin.colors.*']],
+            ['label' => 'Size Guide', 'children' => [
+                ['label' => 'Size Charts'],
+                ['label' => 'Measurement Points'],
+            ]],
+            ['label' => 'Warranties', 'route' => 'admin.warranties.index', 'patterns' => ['admin.warranties.*']],
+            ['label' => 'Product Reviews', 'route' => 'admin.reviews.index', 'patterns' => ['admin.reviews.*']],
+            ['label' => 'Notes', 'children' => [
+                ['label' => 'Add New Note'],
+                ['label' => 'Note List', 'route' => 'admin.notes.index', 'patterns' => ['admin.notes.*']],
+            ]],
+            ['label' => 'Wholesale Products', 'children' => [
+                ['label' => 'Add New Wholesale Product'],
+                ['label' => 'All Wholesale Products'],
+                ['label' => 'In House Wholesale Products'],
+                ['label' => 'Seller Wholesale Products'],
+            ]],
         ]],
-        ['People', [
-            ['Customers', 'admin.customers.index', ['admin.customers.*']],
-            ['Sellers', 'admin.sellers.index', ['admin.sellers.*'], $pendingSellers ?? 0],
+
+        ['label' => 'Sales', 'children' => [
+            ['label' => 'All Orders', 'route' => 'admin.orders.index', 'patterns' => ['admin.orders.*'], 'count' => $pendingOrders ?? 0],
+            ['label' => 'Inhouse Orders'],
+            ['label' => 'Seller Orders'],
+            ['label' => 'Pickup Point Orders'],
+            ['label' => 'Unpaid Orders'],
+            ['label' => 'Delivery Boy', 'children' => [
+                ['label' => 'All Delivery Boys'],
+                ['label' => 'Add Delivery Boy'],
+                ['label' => 'Payment Histories'],
+                ['label' => 'Collected Histories'],
+                ['label' => 'Cancel Requests'],
+                ['label' => 'Configuration'],
+            ]],
+            ['label' => 'Refunds', 'children' => [
+                ['label' => 'Refund Requests', 'route' => 'admin.refunds.index', 'patterns' => ['admin.refunds.*'], 'count' => $pendingRefunds ?? 0],
+                ['label' => 'Approved Refunds'],
+                ['label' => 'Rejected Refunds'],
+                ['label' => 'Refund Configuration'],
+            ]],
         ]],
-        ['Reports', [
-            ['Stock', 'admin.reports.stock', ['admin.reports.stock']],
-            ['In-house sales', 'admin.reports.in-house-sales', ['admin.reports.in-house-sales']],
-            ['Seller sales', 'admin.reports.seller-sales', ['admin.reports.seller-sales']],
-            ['Wishlists', 'admin.reports.wishlist', ['admin.reports.wishlist']],
+
+        ['label' => 'Customers', 'children' => [
+            ['label' => 'Customer List', 'route' => 'admin.customers.index', 'patterns' => ['admin.customers.*']],
+            ['label' => 'Classified Products'],
+            ['label' => 'Classified Packages'],
         ]],
-        ['Media', [['Uploaded files', 'admin.uploads.index', ['admin.uploads.*']]]],
-        ['Marketing', [
-            ['Flash deals', 'admin.flash-deals.index', ['admin.flash-deals.*']],
-            ['Coupons', 'admin.coupons.index', ['admin.coupons.*']],
+
+        ['label' => 'Sellers', 'children' => [
+            ['label' => 'All Sellers', 'route' => 'admin.sellers.index', 'patterns' => ['admin.sellers.*'], 'count' => $pendingSellers ?? 0],
+            ['label' => 'Seller Rating & Followers'],
+            ['label' => 'Payouts'],
+            ['label' => 'Payout Requests'],
+            ['label' => 'Seller Commission'],
+            ['label' => 'Seller Based Commission'],
+            ['label' => 'Category Based Commission'],
+            ['label' => 'Seller Packages'],
+            ['label' => 'Seller Verification Form'],
+            ['label' => 'Uploaded Files', 'route' => 'admin.uploads.index', 'patterns' => ['admin.uploads.*']],
+        ]],
+
+        ['label' => 'Reports', 'children' => [
+            ['label' => 'Earning Report'],
+            ['label' => 'In House Product Sale', 'route' => 'admin.reports.in-house-sales', 'patterns' => ['admin.reports.in-house-sales']],
+            ['label' => 'Seller Products Sale', 'route' => 'admin.reports.seller-sales', 'patterns' => ['admin.reports.seller-sales']],
+            ['label' => 'Products Stock', 'route' => 'admin.reports.stock', 'patterns' => ['admin.reports.stock']],
+            ['label' => 'Products Wishlist', 'route' => 'admin.reports.wishlist', 'patterns' => ['admin.reports.wishlist']],
+            ['label' => 'User Searches'],
+            ['label' => 'Commission History'],
+            ['label' => 'Wallet Recharge History'],
+        ]],
+
+        ['label' => 'Blog System', 'children' => [
+            ['label' => 'All Posts'],
+            ['label' => 'Categories'],
+        ]],
+
+        ['label' => 'Marketing', 'children' => [
+            ['label' => 'Flash Deals', 'route' => 'admin.flash-deals.index', 'patterns' => ['admin.flash-deals.*']],
+            ['label' => 'Dynamic Pop-up'],
+            ['label' => 'Custom Alert'],
+            ['label' => 'Email Templates', 'children' => [
+                ['label' => 'Admin Templates'],
+                ['label' => 'Seller Templates'],
+                ['label' => 'Customer Templates'],
+                ['label' => 'Common Templates'],
+            ]],
+            ['label' => 'Newsletters'],
+            ['label' => 'Notification', 'children' => [
+                ['label' => 'Settings'],
+                ['label' => 'Notification Types'],
+                ['label' => 'Custom Notification'],
+                ['label' => 'Custom Notification History'],
+            ]],
+            ['label' => 'Bulk SMS'],
+            ['label' => 'Subscribers'],
+            ['label' => 'Coupons', 'route' => 'admin.coupons.index', 'patterns' => ['admin.coupons.*']],
+        ]],
+
+        ['label' => 'Support', 'children' => [
+            ['label' => 'Tickets'],
+            ['label' => 'Product Conversations'],
+            ['label' => 'Product Queries'],
+            ['label' => 'Contacts'],
+        ]],
+
+        ['label' => 'Affiliate System', 'children' => [
+            ['label' => 'Affiliate Registration Form'],
+            ['label' => 'Affiliate Configurations'],
+            ['label' => 'Affiliate Users'],
+            ['label' => 'Referral Users'],
+            ['label' => 'Affiliate Withdraw Requests'],
+            ['label' => 'Affiliate Logs'],
+        ]],
+
+        ['label' => 'OTP System', 'children' => [
+            ['label' => 'OTP Login Configuration'],
+            ['label' => 'OTP Configurations'],
+            ['label' => 'SMS Templates'],
+        ]],
+
+        ['label' => 'Payment Gateways', 'children' => [
+            ['label' => 'Payment Methods'],
+            ['label' => 'Offline Payment System', 'children' => [
+                ['label' => 'Manual Payment Methods'],
+                ['label' => 'Offline Payment Orders'],
+                ['label' => 'Offline Wallet Recharge'],
+                ['label' => 'Offline Customer Package Payments'],
+                ['label' => 'Offline Seller Package Payments'],
+            ]],
+        ]],
+
+        ['label' => 'Website Setup', 'children' => [
+            ['label' => 'Select Homepage'],
+            ['label' => 'Homepage Settings'],
+            ['label' => 'Authentication Layout & Settings'],
+            ['label' => 'Header'],
+            ['label' => 'Footer'],
+            ['label' => 'Pages'],
+            ['label' => 'Appearance'],
+        ]],
+
+        ['label' => 'Setup & Configurations', 'children' => [
+            ['label' => 'Features Activation'],
+            ['label' => 'Languages'],
+            ['label' => 'Currency'],
+            ['label' => 'Vat & Tax'],
+            ['label' => 'Pickup Points'],
+            ['label' => 'SMTP Settings'],
+            ['label' => 'Order Configuration'],
+            ['label' => 'File System & Cache Configuration'],
+            ['label' => 'Social Media Logins', 'children' => [
+                ['label' => 'Facebook', 'children' => [
+                    ['label' => 'WhatsApp Chat'],
+                    ['label' => 'Facebook Comment'],
+                ]],
+                ['label' => 'Google', 'children' => [
+                    ['label' => 'Analytics Tools'],
+                    ['label' => 'Google reCAPTCHA'],
+                    ['label' => 'Google Map'],
+                    ['label' => 'Google Firebase'],
+                ]],
+            ]],
+            ['label' => 'Shipping', 'children' => [
+                ['label' => 'Shipping Configuration'],
+                ['label' => 'Shipping Countries'],
+                ['label' => 'Shipping States'],
+                ['label' => 'Shipping Cities'],
+                ['label' => 'Shipping Zones'],
+                ['label' => 'Shipping Carriers'],
+            ]],
+        ]],
+
+        ['label' => 'Staffs', 'children' => [
+            ['label' => 'All Staffs'],
+            ['label' => 'Staff Permissions'],
+        ]],
+
+        ['label' => 'System', 'children' => [
+            ['label' => 'Update'],
+            ['label' => 'Server Status'],
+            ['label' => 'Sitemap Generator'],
+            ['label' => 'Addon Manager'],
         ]],
     ];
 @endphp
@@ -63,23 +244,8 @@
         </div>
 
         <nav class="nav" aria-label="Admin">
-            @foreach ($menu as [$group, $items])
-                @php $visible = array_filter($items, fn ($i) => Route::has($i[1])); @endphp
-                @continue(empty($visible))
-                <div class="nav-group">
-                    @if ($group)<div class="nav-label">{{ $group }}</div>@endif
-                    @foreach ($visible as $item)
-                        @php [$label, $name, $patterns] = $item; $count = $item[3] ?? 0; @endphp
-                        <a href="{{ route($name) }}" @if (request()->routeIs(...$patterns)) aria-current="page" @endif>
-                            <span>{{ $label }}</span>
-                            @if ($count > 0)
-                                <span class="nav-count" title="{{ $count }} need attention">
-                                    <x-admin.spark />{{ $count }}
-                                </span>
-                            @endif
-                        </a>
-                    @endforeach
-                </div>
+            @foreach ($menu as $node)
+                <x-admin.nav-node :node="$node" />
             @endforeach
         </nav>
     </aside>

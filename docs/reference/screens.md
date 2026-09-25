@@ -1,8 +1,67 @@
 # Admin screens — captured contracts
 
-Read-only capture from the live panel, 18 Sep 2026. No writes, no button clicks,
-no customer records read. Order and customer rows were skipped deliberately;
-only column headers and filter contracts were taken from those screens.
+Read-only capture from the live panel, 18 Sep 2026 (updated 26 Sep 2026). No
+writes, no button clicks, no customer records read. Order and customer rows were
+skipped deliberately; only column headers and filter contracts were taken from
+those screens.
+
+## Sidebar structure (26 Sep 2026)
+
+Re-captured from the live DOM. The reference sidebar is a **MetisMenu
+accordion**: 17 top-level collapsible groups, nested sub-groups up to 4 levels
+(Setup & Configurations → Social Media Logins → Google → Analytics Tools).
+Groups auto-open only along the active route; everything else stays collapsed.
+Group order:
+
+Dashboard · POS System · Products · Sales · Customers · Sellers · Reports ·
+Blog System · Marketing · Support · Affiliate System · OTP System · Payment
+Gateways · Website Setup · Setup & Configurations · Staffs · System
+
+Sub-structure worth noting:
+
+- **Products** is a wide hub: Add New / All / In House / Seller (Physical,
+  Digital) / Bulk Import / Bulk Export / Category / Category Based Discount /
+  Brand (All, Bulk Import) / Attribute / Colors / Size Guide (Size Charts,
+  Measurement Points) / Warranty / Product Reviews / Notes (Add, List) /
+  Wholesale Products (Add, All, In House, Seller)
+- **Sales** mixes orders and delivery ops: All / Inhouse / Seller / Pickup Point
+  / Unpaid orders, then Delivery Boy (All, Add, Payment Histories, Collected
+  Histories, Cancel Request, Configuration) and Refunds (Requests, Approved,
+  Rejected, Configuration)
+- **Sellers** holds seller commerce: All, Rating & Followers, Payouts, Payout
+  Requests, Seller Commission, Seller Based Commission, Category Based
+  Commission, Seller Packages, Verification Form, Uploaded Files
+- **Reports**: Earning Report, In House Product Sale, Seller Products Sale,
+  Products Stock, Products Wishlist, User Searches, Commission History, Wallet
+  Recharge History
+- **Setup & Configurations**: Features Activation, Languages, Currency, Vat &
+  Tax, Pickup Point, SMTP Settings, Order Configuration, File System & Cache
+  Configuration, Social Media Logins (Facebook → WhatsApp Chat, Facebook
+  Comment; Google → Analytics, reCAPTCHA, Map, Firebase), Shipping
+  (Configuration, Countries, States, Cities, Zones, Carriers)
+- Entry hrefs use top-level paths (`/admin/brands`, `/admin/wish_report`), not
+  group-prefixed paths
+
+WowMart mirrors this 1:1 in
+`resources/views/admin/layouts/app.blade.php` (the `$menu` tree) rendered by
+`resources/views/components/admin/nav-node.blade.php` (`<details>` accordion,
+same auto-open rule). Routes that exist link; the rest render as muted
+"not built yet" placeholders so the structure matches without dead links.
+
+## Product Wish Report `/admin/wish_report` (26 Sep 2026)
+
+| Element | Contract |
+|---|---|
+| Card title | "Product Wish Report" |
+| Filters | two `Choose Category` selects + Filter button — first select filters rows, second appears redundant |
+| Columns | Product Name · Number of Wish **(no image column)** |
+| Rows | **every product**, products with zero wishes included |
+| Order | wishlist count desc, then product id |
+| Empty state | none observed — the list never empties |
+
+WowMart matches this (all products, zeros included, thumbnails added) since
+26 Sep 2026; our category filter is a single tree-ordered select and the report
+also batch-resolves thumbnails, unlike the reference.
 
 ## Panel shape
 

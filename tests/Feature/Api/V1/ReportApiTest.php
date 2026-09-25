@@ -81,21 +81,24 @@ class ReportApiTest extends TestCase
             ->assertJsonStructure(['data' => [['id', 'shop', 'seller', 'orders', 'units', 'revenue']], 'totals' => ['shops', 'orders', 'units', 'revenue'], 'filters' => ['date_from', 'date_to']]);
     }
 
-    public function test_wishlist_counts_and_category_filter(): void
+    public function test_wishlist_lists_every_product_of_the_category(): void
     {
         $product = Product::whereNotNull('category_id')->orderBy('id')->firstOrFail();
         foreach (User::where('email', 'like', '%@customers.wowmart.test')->get() as $c) {
             Wishlist::create(['user_id' => $c->id, 'product_id' => $product->id]);
         }
 
-        $this->getJson('/api/v1/reports/wishlist?category='.$product->category_id)
+        $response = $this->getJson('/api/v1/reports/wishlist?category='.$product->category_id)
             ->assertOk()
-            ->assertJsonPath('data', [[
+            ->assertJsonPath('data.0', [
                 'id' => $product->id, 'name' => $product->name, 'sku' => $product->sku,
-                'category' => $product->category->name, 'wishlists' => 3,
-            ]])
-            ->assertJsonPath('totals', ['products' => 1, 'wishlists' => 3])
+                'category' => $product->category->name, 'thumbnail' => $product->thumbnail_img, 'wishlists' => 3,
+            ])
             ->assertJsonPath('filters', ['category' => $product->category_id]);
+
+        $categoryProducts = $product->category()->withCount('products')->firstOrFail()->products_count;
+        $this->assertSame($categoryProducts, count($response->json('data')));
+        $this->assertSame(['products' => $categoryProducts, 'wishlists' => 3], $response->json('totals'));
     }
 
     public function test_reports_need_an_admin(): void

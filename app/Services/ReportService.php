@@ -70,7 +70,7 @@ class ReportService
             'filters' => $f,
             'query' => $base()
                 ->leftJoin('categories as c', 'c.id', '=', 'p.category_id')
-                ->select('p.id', 'p.name', 'p.sku', 'c.name as category', 'p.current_stock', 'p.low_stock_quantity', 'p.unit_price')
+                ->select('p.id', 'p.name', 'p.sku', 'c.name as category', 'p.thumbnail_img', 'p.current_stock', 'p.low_stock_quantity', 'p.unit_price')
                 ->selectRaw("p.unit_price * $onHand as stock_value")
                 ->orderBy('p.current_stock')
                 ->orderBy('p.id'),
@@ -79,6 +79,7 @@ class ReportService
                 'name' => $r->name,
                 'sku' => $r->sku,
                 'category' => $r->category,
+                'thumbnail' => $r->thumbnail_img === null ? null : (int) $r->thumbnail_img,
                 'current_stock' => (int) $r->current_stock,
                 'low_stock_quantity' => (int) $r->low_stock_quantity,
                 'state' => $state = match (true) {
@@ -111,8 +112,8 @@ class ReportService
             'filters' => $f,
             // Inner joins leave out products with no sales in the range.
             'query' => $base()
-                ->groupBy('p.id', 'p.name', 'p.sku')
-                ->select('p.id', 'p.name', 'p.sku')
+                ->groupBy('p.id', 'p.name', 'p.sku', 'p.thumbnail_img')
+                ->select('p.id', 'p.name', 'p.sku', 'p.thumbnail_img')
                 ->selectRaw('sum(d.quantity) as units, sum(d.price * d.quantity) as revenue')
                 ->orderByDesc('units')
                 ->orderBy('p.id'),
@@ -120,6 +121,7 @@ class ReportService
                 'id' => (int) $r->id,
                 'name' => $r->name,
                 'sku' => $r->sku,
+                'thumbnail' => $r->thumbnail_img === null ? null : (int) $r->thumbnail_img,
                 'units' => (int) $r->units,
                 'revenue' => round((float) $r->revenue, 2),
             ],
@@ -177,19 +179,27 @@ class ReportService
     public function wishlist(array $in): array
     {
         $f = ['category' => $this->category($in)];
-        $base = fn () => DB::table('wishlists as w')
-            ->join('products as p', 'p.id', '=', 'w.product_id')
+
+        // Every product gets a row, like the reference panel; products nobody
+        // saved appear with zero so the list never goes empty. Totals are
+        // counted separately: a product with three wishlists must not be
+        // counted three times.
+        $products = fn () => DB::table('products as p')
             ->when($f['category'], $this->inCategory(...));
 
-        $totals = $base()->selectRaw('count(distinct p.id) as products, count(*) as wishlists')->first();
+        $totals = DB::table('wishlists as w')
+            ->join('products as p', 'p.id', '=', 'w.product_id')
+            ->when($f['category'], $this->inCategory(...))
+            ->selectRaw('count(*) as wishlists')->first();
 
         return [
             'filters' => $f,
-            'query' => $base()
+            'query' => $products()
+                ->leftJoin('wishlists as w', 'w.product_id', '=', 'p.id')
                 ->leftJoin('categories as c', 'c.id', '=', 'p.category_id')
-                ->groupBy('p.id', 'p.name', 'p.sku', 'c.name')
-                ->select('p.id', 'p.name', 'p.sku', 'c.name as category')
-                ->selectRaw('count(*) as wishlists')
+                ->groupBy('p.id', 'p.name', 'p.sku', 'c.name', 'p.thumbnail_img')
+                ->select('p.id', 'p.name', 'p.sku', 'c.name as category', 'p.thumbnail_img')
+                ->selectRaw('count(w.id) as wishlists')
                 ->orderByDesc('wishlists')
                 ->orderBy('p.id'),
             'map' => fn (object $r) => [
@@ -197,10 +207,11 @@ class ReportService
                 'name' => $r->name,
                 'sku' => $r->sku,
                 'category' => $r->category,
+                'thumbnail' => $r->thumbnail_img === null ? null : (int) $r->thumbnail_img,
                 'wishlists' => (int) $r->wishlists,
             ],
             'totals' => [
-                'products' => (int) $totals->products,
+                'products' => $products()->count(),
                 'wishlists' => (int) $totals->wishlists,
             ],
         ];

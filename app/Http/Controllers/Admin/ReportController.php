@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Upload;
 use App\Services\ReportService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
@@ -56,12 +59,36 @@ class ReportController extends Controller
             : $result['query']->get()->map($result['map']);
 
         return view("admin.reports.{$report}", [
-            'rows' => $rows,
+            'rows' => $this->withThumbnails($report, $rows),
             'totals' => $result['totals'],
             'filters' => $result['filters'],
             'categories' => array_key_exists('category', $result['filters']) ? Category::inTreeOrder() : collect(),
             'csvUrl' => $request->fullUrlWithQuery(['format' => 'csv', 'page' => null]),
         ]);
+    }
+
+    /**
+     * Product rows carry their thumbnail's upload id; one extra query resolves
+     * every image on the page at once. Reports without products pass through.
+     */
+    private function withThumbnails(string $report, Collection|LengthAwarePaginator $rows): Collection|LengthAwarePaginator
+    {
+        if (! in_array($report, ['stock', 'in-house-sales', 'wishlist'], true)) {
+            return $rows;
+        }
+
+        $items = $rows instanceof LengthAwarePaginator ? $rows->getCollection() : $rows;
+        $thumbs = Upload::findMany($items->pluck('thumbnail')->filter()->unique())->keyBy('id');
+        $items->transform(function (array $row) use ($thumbs): array {
+            $row['thumb'] = isset($thumbs[$row['thumbnail']]) ? $thumbs[$row['thumbnail']]->url() : null;
+
+            return $row;
+        });
+        if ($rows instanceof LengthAwarePaginator) {
+            $rows->setCollection($items);
+        }
+
+        return $rows;
     }
 
     private function csv(string $report, array $result): StreamedResponse

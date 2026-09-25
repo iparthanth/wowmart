@@ -10,8 +10,9 @@ use App\Models\Product;
 use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wishlist;
-use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Tests\TestCase;
 
 class ReportTest extends TestCase
@@ -58,7 +59,7 @@ class ReportTest extends TestCase
     }
 
     /** Expected figures computed independently of ReportService, from Eloquent. */
-    private function soldLines(): \Illuminate\Support\Collection
+    private function soldLines(): Collection
     {
         return OrderDetail::with(['order', 'product'])->get()
             ->reject(fn (OrderDetail $d) => $d->order->delivery_status === DeliveryStatus::Cancelled);
@@ -240,7 +241,7 @@ class ReportTest extends TestCase
 
     // -------------------------------------------------------------- wishlist
 
-    public function test_wishlist_ranks_products_by_wishlists_and_leaves_out_the_rest(): void
+    public function test_wishlist_lists_every_product_with_zeros_included(): void
     {
         $customers = User::where('email', 'like', '%@customers.wowmart.test')->orderBy('id')->get();
         [$a, $b] = [$this->product(2), $this->product(8)];
@@ -250,16 +251,26 @@ class ReportTest extends TestCase
         Wishlist::create(['user_id' => $customers[0]->id, 'product_id' => $b->id]);
 
         $response = $this->report('wishlist');
+        $rows = $response->viewData('rows');
 
-        $this->assertSame([[$a->id, 3], [$b->id, 1]], $response->viewData('rows')->map(fn ($r) => [$r['id'], $r['wishlists']])->all());
-        $this->assertSame(['products' => 2, 'wishlists' => 4], $response->viewData('totals'));
+        // Every product gets a row, like the reference panel; most wished first.
+        $this->assertSame(42, $rows->count());
+        $this->assertSame([[$a->id, 3], [$b->id, 1]], $rows->take(2)->map(fn ($r) => [$r['id'], $r['wishlists']])->all());
+        $this->assertContains(0, $rows->pluck('wishlists')->unique()->all());
 
-        $other = Category::whereKeyNot($a->category_id)->whereKeyNot($b->category_id)->firstOrFail();
-        $this->assertCount(0, $this->report('wishlist', ['category' => $other->id])->viewData('rows'));
-        // $a and $b may share a category, so $b is listed exactly when they do.
-        $inA = $this->report('wishlist', ['category' => $a->category_id])->viewData('rows')->pluck('id')->all();
-        $this->assertContains($a->id, $inA);
-        $this->assertSame($a->category_id === $b->category_id, in_array($b->id, $inA, true));
+        $this->assertSame(['products' => 42, 'wishlists' => 4], $response->viewData('totals'));
+
+        // Thumbnails resolve to URLs in one batch; a product without an image stays null.
+        $imaged = $rows->firstWhere('id', $this->product(0)->id);
+        $this->assertStringContainsString('uploads/catalog/', $imaged['thumb']);
+        $this->assertNull($rows->firstWhere('id', $this->product(10)->id)['thumb']);
+
+        // Filtering by category keeps every product of that category, zeros included.
+        $inCategory = $this->report('wishlist', ['category' => $a->category_id]);
+        $categoryRows = $inCategory->viewData('rows');
+        $this->assertSame($a->id, $categoryRows->first()['id']);
+        $this->assertSame(Category::whereKey($a->category_id)->withCount('products')->firstOrFail()->products_count, $categoryRows->count());
+        $this->assertSame($categoryRows->sum('wishlists'), $inCategory->viewData('totals')['wishlists']);
     }
 
     // ------------------------------------------------------------------- CSV
@@ -310,7 +321,8 @@ class ReportTest extends TestCase
     {
         $this->report('in-house-sales')->assertSee('Cancelled orders are not counted')->assertSee('Download CSV');
         $this->report('seller-sales')->assertSee('Total, 5 shops');
-        $this->report('wishlist')->assertSee('No wishlists yet');
+        // The wishlist report always lists products, so the page shows rows.
+        $this->report('wishlist')->assertSee($this->product(0)->name)->assertSee('No image');
         $this->report('in-house-sales', ['date_from' => '2020-01-01', 'date_to' => '2020-01-02'])->assertSee('No in-house sales in this range');
     }
 }
