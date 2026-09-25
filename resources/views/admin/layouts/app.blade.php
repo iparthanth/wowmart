@@ -220,8 +220,8 @@
         ]],
 
         ['label' => 'Staffs', 'children' => [
-            ['label' => 'All Staffs'],
-            ['label' => 'Staff Permissions'],
+            ['label' => 'All Staffs', 'route' => 'admin.staff.index', 'patterns' => ['admin.staff.*']],
+            ['label' => 'Staff Permissions', 'route' => 'admin.roles.index', 'patterns' => ['admin.roles.*']],
         ]],
 
         ['label' => 'System', 'children' => [

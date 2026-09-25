@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -18,9 +19,10 @@ use Laravel\Sanctum\HasApiTokens;
 /**
  * Every person who signs in: customers, sellers, staff, delivery and admins.
  *
- * `user_type` and `banned` are deliberately NOT fillable. That omission is the
- * privilege-escalation defence: a crafted `user_type=admin` field in any
- * registration or profile request is silently discarded.
+ * `user_type`, `banned` and `role_id` are deliberately NOT fillable. That
+ * omission is the privilege-escalation defence: a crafted `user_type=admin` or
+ * `role_id=1` field in any registration or profile request is silently
+ * discarded. They are set explicitly (seeder, StaffService) - never from input.
  */
 #[Fillable(['name', 'email', 'phone', 'country_code', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -42,6 +44,23 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->user_type === UserType::Admin;
+    }
+
+    public function isStaff(): bool
+    {
+        return $this->user_type === UserType::Staff;
+    }
+
+    /** The role a staff member signs in with. Admins have none and pass every check by type. */
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /** Same account? Used to stop self-demotion and self-removal. */
+    public function is($other): bool
+    {
+        return $other instanceof self && $other->id === $this->id;
     }
 
     public function shop(): HasOne
