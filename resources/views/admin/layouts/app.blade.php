@@ -260,7 +260,7 @@
                 </div>
             </div>
             <div class="who">
-                <span>Signed in as <strong>{{ auth()->user()->name }}</strong></span>
+                <span class="who-text">Signed in as <strong>{{ auth()->user()->name }}</strong></span>
                 <form method="POST" action="{{ route('admin.logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-ghost btn-sm">Sign out</button>
@@ -279,6 +279,9 @@
             @yield('content')
         </main>
     </div>
+
+    {{-- Tapping the dark area closes the mobile menu: this label toggles #nav-open. --}}
+    <label for="nav-open" class="menu-scrim" aria-hidden="true"></label>
 </div>
 </body>
 </html>
