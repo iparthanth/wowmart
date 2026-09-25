@@ -1,0 +1,84 @@
+# WowMart Admin
+
+The admin panel for **WowMart**, a multi-vendor marketplace. Laravel 13 · PHP 8.4 · MySQL 8.4.
+
+A separate codebase from the storefront. The two applications share **one database**,
+and this app owns its schema: the storefront reads and writes rows but never changes
+table structure. One owner means the two can never disagree about what a table looks like.
+
+## Brand
+
+| | |
+|---|---|
+| Logo | `public/images/brand/wowmart-logo.svg` (light backgrounds) |
+| Logo, reversed | `public/images/brand/wowmart-logo-light.svg` (dark backgrounds) |
+| Mark / favicon | `public/images/brand/wowmart-mark.svg`, `public/favicon.svg` |
+| Tangerine | `#F2622E` — primary |
+| Ink navy | `#14213D` — text, dark surfaces |
+| Amber | `#FFB627` — the spark, accents only |
+
+The wordmark is drawn as strokes rather than set in a font, so it renders identically
+everywhere with nothing to install.
+
+## Environment
+
+Everything lives on `D:` — the `C:` drive on this machine is near capacity.
+
+| Component | Where | Notes |
+|---|---|---|
+| PHP 8.4.10 | on PATH | runs the app (`php artisan serve`) |
+| MySQL 8.4.3 | `D:\mysql` | the **only** database server |
+| XAMPP | `D:\xampp` | **Apache + phpMyAdmin only** |
+| Composer | on PATH | cache in `D:\.composer-cache` |
+
+**Never start XAMPP's MySQL module.** It is MariaDB 10.4 and would fight MySQL 8.4 for
+port 3306. XAMPP's PHP (8.2) is also too old to run this app, which needs 8.3+.
+
+### Run it
+
+```
+D:\mysql\bin\mysqld.exe --defaults-file=D:/mysql/my.ini --console
+php artisan migrate:fresh --seed
+php artisan serve --port=8124
+```
+
+Admin sign-in: `http://127.0.0.1:8124/login` — `admin@wowmart.test` / `password`.
+That account exists only in local seed data.
+
+### Viewing the data
+
+| Want to see | Where |
+|---|---|
+| Tables and rows | `http://localhost/phpmyadmin` (start XAMPP Apache first) |
+| The files on disk | `D:\mysql\data\wowmart\` — one `.ibd` file per table |
+| The data folder path | `SELECT @@datadir;` |
+
+Database `wowmart`, app user `wowmart`. Passwords are kept outside this repository.
+
+## Schema
+
+26 tables across nine migrations, grouped by domain. `products` columns match the
+input names of the captured seven-tab product form, in the same tab order — see
+`docs/reference/product-form.md`. All 50 captured form fields are accounted for.
+
+## Seed data
+
+Deterministic — no random numbers — so a fresh seed always gives the same result:
+
+- 42 products (32 in-house, 10 seller), 1 sold out, 2 low on stock
+- 11 categories, 4 brands, 5 sellers, 3 customers
+- 3 coupons, one of each type · 1 running flash deal
+- 8 orders covering all six delivery states
+
+### Before any public deployment
+
+The 41 product photos in `public/uploads/catalog/` were captured from the reference site
+for local development. **They are not WowMart's to publish.** Replace them with your own
+photography, or licensed images, before this is deployed anywhere public.
+
+## Reference
+
+`docs/reference/` records what was observed on picklymart.com, the system this panel's
+structure is modelled on. It keeps that name deliberately: it is a record of the
+reference, not of WowMart. It was captured read-only — no writes, no submits, no
+customer data recorded.

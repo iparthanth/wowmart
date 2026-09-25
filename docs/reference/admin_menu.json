@@ -1,0 +1,1400 @@
+{
+ "menu": [
+  {
+   "label": "Dashboard",
+   "href": "/admin",
+   "children": []
+  },
+  {
+   "label": "POS System",
+   "href": "#",
+   "children": [
+    {
+     "label": "POS Manager",
+     "href": "/admin/pos"
+    },
+    {
+     "label": "POS Configuration",
+     "href": "/admin/pos-activation"
+    }
+   ]
+  },
+  {
+   "label": "POS Manager",
+   "href": "/admin/pos",
+   "children": []
+  },
+  {
+   "label": "POS Configuration",
+   "href": "/admin/pos-activation",
+   "children": []
+  },
+  {
+   "label": "Products",
+   "href": "#",
+   "children": [
+    {
+     "label": "Add New Product",
+     "href": "/admin/products/create"
+    },
+    {
+     "label": "All products",
+     "href": "/admin/products/all"
+    },
+    {
+     "label": "In House Products",
+     "href": "/admin/products/admin"
+    },
+    {
+     "label": "Digital Products",
+     "href": "/admin/digitalproducts"
+    },
+    {
+     "label": "Seller Product",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Bulk Import",
+     "href": "/admin/product-bulk-upload/index"
+    },
+    {
+     "label": "Bulk Export",
+     "href": "/admin/product-bulk-export"
+    },
+    {
+     "label": "Category",
+     "href": "/admin/categories"
+    },
+    {
+     "label": "Category Based Discount",
+     "href": "/admin/categories-wise-product-discount"
+    },
+    {
+     "label": "Brand",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Attribute",
+     "href": "/admin/attributes"
+    },
+    {
+     "label": "Colors",
+     "href": "/admin/colors"
+    },
+    {
+     "label": "Size Guide",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Warranty",
+     "href": "/admin/warranties"
+    },
+    {
+     "label": "Product Reviews",
+     "href": "/reviews"
+    }
+   ]
+  },
+  {
+   "label": "Add New Product",
+   "href": "/admin/products/create",
+   "children": []
+  },
+  {
+   "label": "All products",
+   "href": "/admin/products/all",
+   "children": []
+  },
+  {
+   "label": "In House Products",
+   "href": "/admin/products/admin",
+   "children": []
+  },
+  {
+   "label": "Digital Products",
+   "href": "/admin/digitalproducts",
+   "children": []
+  },
+  {
+   "label": "Seller Product",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Physical Products",
+     "href": "/admin/products/seller/physical"
+    },
+    {
+     "label": "Digital Products",
+     "href": "/admin/products/seller/digital"
+    }
+   ]
+  },
+  {
+   "label": "Physical Products",
+   "href": "/admin/products/seller/physical",
+   "children": []
+  },
+  {
+   "label": "Digital Products",
+   "href": "/admin/products/seller/digital",
+   "children": []
+  },
+  {
+   "label": "Bulk Import",
+   "href": "/admin/product-bulk-upload/index",
+   "children": []
+  },
+  {
+   "label": "Bulk Export",
+   "href": "/admin/product-bulk-export",
+   "children": []
+  },
+  {
+   "label": "Category",
+   "href": "/admin/categories",
+   "children": []
+  },
+  {
+   "label": "Category Based Discount",
+   "href": "/admin/categories-wise-product-discount",
+   "children": []
+  },
+  {
+   "label": "Brand",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "All Brands",
+     "href": "/admin/brands"
+    },
+    {
+     "label": "Brand Bulk Import",
+     "href": "/admin/brand-bulk-upload"
+    }
+   ]
+  },
+  {
+   "label": "All Brands",
+   "href": "/admin/brands",
+   "children": []
+  },
+  {
+   "label": "Brand Bulk Import",
+   "href": "/admin/brand-bulk-upload",
+   "children": []
+  },
+  {
+   "label": "Attribute",
+   "href": "/admin/attributes",
+   "children": []
+  },
+  {
+   "label": "Colors",
+   "href": "/admin/colors",
+   "children": []
+  },
+  {
+   "label": "Size Guide",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Size Chart",
+     "href": "/admin/size-charts"
+    },
+    {
+     "label": "Measurement Points",
+     "href": "/admin/measurement-points"
+    }
+   ]
+  },
+  {
+   "label": "Size Chart",
+   "href": "/admin/size-charts",
+   "children": []
+  },
+  {
+   "label": "Measurement Points",
+   "href": "/admin/measurement-points",
+   "children": []
+  },
+  {
+   "label": "Warranty",
+   "href": "/admin/warranties",
+   "children": []
+  },
+  {
+   "label": "Product Reviews",
+   "href": "/reviews",
+   "children": []
+  },
+  {
+   "label": "Notes",
+   "href": "#",
+   "children": [
+    {
+     "label": "Add New Note",
+     "href": "/admin/note/create"
+    },
+    {
+     "label": "Note List",
+     "href": "/admin/note"
+    }
+   ]
+  },
+  {
+   "label": "Add New Note",
+   "href": "/admin/note/create",
+   "children": []
+  },
+  {
+   "label": "Note List",
+   "href": "/admin/note",
+   "children": []
+  },
+  {
+   "label": "Wholesale Products",
+   "href": "#",
+   "children": [
+    {
+     "label": "Add New Wholesale Product",
+     "href": "/admin/wholesale-product/create"
+    },
+    {
+     "label": "All Wholesale Products",
+     "href": "/admin/wholesale/all-products"
+    },
+    {
+     "label": "In House Wholesale Products",
+     "href": "/admin/wholesale/inhouse-products"
+    },
+    {
+     "label": "Seller Wholesale Products",
+     "href": "/admin/wholesale/seller-products"
+    }
+   ]
+  },
+  {
+   "label": "Add New Wholesale Product",
+   "href": "/admin/wholesale-product/create",
+   "children": []
+  },
+  {
+   "label": "All Wholesale Products",
+   "href": "/admin/wholesale/all-products",
+   "children": []
+  },
+  {
+   "label": "In House Wholesale Products",
+   "href": "/admin/wholesale/inhouse-products",
+   "children": []
+  },
+  {
+   "label": "Seller Wholesale Products",
+   "href": "/admin/wholesale/seller-products",
+   "children": []
+  },
+  {
+   "label": "Sales",
+   "href": "#",
+   "children": [
+    {
+     "label": "All Orders",
+     "href": "/admin/all_orders"
+    },
+    {
+     "label": "Inhouse orders",
+     "href": "/admin/inhouse-orders"
+    },
+    {
+     "label": "Seller Orders",
+     "href": "/admin/seller_orders"
+    },
+    {
+     "label": "Pickup Point Orders",
+     "href": "/admin/orders_by_pickup_point"
+    },
+    {
+     "label": "Unpaid Orders",
+     "href": "/admin/unpaid_orders"
+    }
+   ]
+  },
+  {
+   "label": "All Orders",
+   "href": "/admin/all_orders",
+   "children": []
+  },
+  {
+   "label": "Inhouse orders",
+   "href": "/admin/inhouse-orders",
+   "children": []
+  },
+  {
+   "label": "Seller Orders",
+   "href": "/admin/seller_orders",
+   "children": []
+  },
+  {
+   "label": "Pickup Point Orders",
+   "href": "/admin/orders_by_pickup_point",
+   "children": []
+  },
+  {
+   "label": "Unpaid Orders",
+   "href": "/admin/unpaid_orders",
+   "children": []
+  },
+  {
+   "label": "Delivery Boy",
+   "href": "#",
+   "children": [
+    {
+     "label": "All Delivery Boy",
+     "href": "/admin/delivery-boys"
+    },
+    {
+     "label": "Add Delivery Boy",
+     "href": "/admin/delivery-boys/create"
+    },
+    {
+     "label": "Payment Histories",
+     "href": "/admin/delivery-boys-payment-histories"
+    },
+    {
+     "label": "Collected Histories",
+     "href": "/admin/delivery-boys-collection-histories"
+    },
+    {
+     "label": "Cancel Request",
+     "href": "/admin/delivery-boy/cancel-request"
+    },
+    {
+     "label": "Configuration",
+     "href": "/admin/delivery-boy-configuration"
+    }
+   ]
+  },
+  {
+   "label": "All Delivery Boy",
+   "href": "/admin/delivery-boys",
+   "children": []
+  },
+  {
+   "label": "Add Delivery Boy",
+   "href": "/admin/delivery-boys/create",
+   "children": []
+  },
+  {
+   "label": "Payment Histories",
+   "href": "/admin/delivery-boys-payment-histories",
+   "children": []
+  },
+  {
+   "label": "Collected Histories",
+   "href": "/admin/delivery-boys-collection-histories",
+   "children": []
+  },
+  {
+   "label": "Cancel Request",
+   "href": "/admin/delivery-boy/cancel-request",
+   "children": []
+  },
+  {
+   "label": "Configuration",
+   "href": "/admin/delivery-boy-configuration",
+   "children": []
+  },
+  {
+   "label": "Refunds",
+   "href": "#",
+   "children": [
+    {
+     "label": "Refund Requests",
+     "href": "/admin/refund-request-all"
+    },
+    {
+     "label": "Approved Refunds",
+     "href": "/admin/paid-refund"
+    },
+    {
+     "label": "rejected Refunds",
+     "href": "/admin/rejected-refund"
+    },
+    {
+     "label": "Refund Configuration",
+     "href": "/admin/refund-request-config"
+    }
+   ]
+  },
+  {
+   "label": "Refund Requests",
+   "href": "/admin/refund-request-all",
+   "children": []
+  },
+  {
+   "label": "Approved Refunds",
+   "href": "/admin/paid-refund",
+   "children": []
+  },
+  {
+   "label": "rejected Refunds",
+   "href": "/admin/rejected-refund",
+   "children": []
+  },
+  {
+   "label": "Refund Configuration",
+   "href": "/admin/refund-request-config",
+   "children": []
+  },
+  {
+   "label": "Customers",
+   "href": "#",
+   "children": [
+    {
+     "label": "Customer list",
+     "href": "/admin/customers"
+    },
+    {
+     "label": "Classified Products",
+     "href": "/admin/classified_products"
+    },
+    {
+     "label": "Classified Packages",
+     "href": "/admin/customer_packages"
+    }
+   ]
+  },
+  {
+   "label": "Customer list",
+   "href": "/admin/customers",
+   "children": []
+  },
+  {
+   "label": "Classified Products",
+   "href": "/admin/classified_products",
+   "children": []
+  },
+  {
+   "label": "Classified Packages",
+   "href": "/admin/customer_packages",
+   "children": []
+  },
+  {
+   "label": "Sellers",
+   "href": "#",
+   "children": [
+    {
+     "label": "All Seller",
+     "href": "/admin/sellers"
+    },
+    {
+     "label": "Seller Rating & Followers",
+     "href": "/admin/seller/rating-followers"
+    },
+    {
+     "label": "Payouts",
+     "href": "/admin/seller/payments"
+    },
+    {
+     "label": "Payout Requests",
+     "href": "/admin/withdraw_requests_all"
+    },
+    {
+     "label": "Seller Commission",
+     "href": "/admin/vendor_commission"
+    },
+    {
+     "label": "Seller Based Commission",
+     "href": "/admin/seller-based-commission"
+    },
+    {
+     "label": "Category Based Commission",
+     "href": "/admin/categories-wise-commission"
+    },
+    {
+     "label": "Seller Packages",
+     "href": "/admin/seller_packages"
+    },
+    {
+     "label": "Seller Verification Form",
+     "href": "/admin/verification/form"
+    }
+   ]
+  },
+  {
+   "label": "All Seller",
+   "href": "/admin/sellers",
+   "children": []
+  },
+  {
+   "label": "Seller Rating & Followers",
+   "href": "/admin/seller/rating-followers",
+   "children": []
+  },
+  {
+   "label": "Payouts",
+   "href": "/admin/seller/payments",
+   "children": []
+  },
+  {
+   "label": "Payout Requests",
+   "href": "/admin/withdraw_requests_all",
+   "children": []
+  },
+  {
+   "label": "Seller Commission",
+   "href": "/admin/vendor_commission",
+   "children": []
+  },
+  {
+   "label": "Seller Based Commission",
+   "href": "/admin/seller-based-commission",
+   "children": []
+  },
+  {
+   "label": "Category Based Commission",
+   "href": "/admin/categories-wise-commission",
+   "children": []
+  },
+  {
+   "label": "Seller Packages",
+   "href": "/admin/seller_packages",
+   "children": []
+  },
+  {
+   "label": "Seller Verification Form",
+   "href": "/admin/verification/form",
+   "children": []
+  },
+  {
+   "label": "Uploaded Files",
+   "href": "/admin/uploaded-files",
+   "children": []
+  },
+  {
+   "label": "Reports",
+   "href": "#",
+   "children": [
+    {
+     "label": "Earning Report",
+     "href": "/admin/reports/earning-payout-report"
+    },
+    {
+     "label": "In House Product Sale",
+     "href": "/admin/in_house_sale_report"
+    },
+    {
+     "label": "Seller Products Sale",
+     "href": "/admin/seller_sale_report"
+    },
+    {
+     "label": "Products Stock",
+     "href": "/admin/stock_report"
+    },
+    {
+     "label": "Products wishlist",
+     "href": "/admin/wish_report"
+    },
+    {
+     "label": "User Searches",
+     "href": "/admin/user_search_report"
+    },
+    {
+     "label": "Commission History",
+     "href": "/admin/commission-log"
+    },
+    {
+     "label": "Wallet Recharge History",
+     "href": "/admin/wallet-history"
+    }
+   ]
+  },
+  {
+   "label": "Earning Report",
+   "href": "/admin/reports/earning-payout-report",
+   "children": []
+  },
+  {
+   "label": "In House Product Sale",
+   "href": "/admin/in_house_sale_report",
+   "children": []
+  },
+  {
+   "label": "Seller Products Sale",
+   "href": "/admin/seller_sale_report",
+   "children": []
+  },
+  {
+   "label": "Products Stock",
+   "href": "/admin/stock_report",
+   "children": []
+  },
+  {
+   "label": "Products wishlist",
+   "href": "/admin/wish_report",
+   "children": []
+  },
+  {
+   "label": "User Searches",
+   "href": "/admin/user_search_report",
+   "children": []
+  },
+  {
+   "label": "Commission History",
+   "href": "/admin/commission-log",
+   "children": []
+  },
+  {
+   "label": "Wallet Recharge History",
+   "href": "/admin/wallet-history",
+   "children": []
+  },
+  {
+   "label": "Blog System",
+   "href": "#",
+   "children": [
+    {
+     "label": "All Posts",
+     "href": "/admin/blog"
+    },
+    {
+     "label": "Categories",
+     "href": "/admin/blog-category"
+    }
+   ]
+  },
+  {
+   "label": "All Posts",
+   "href": "/admin/blog",
+   "children": []
+  },
+  {
+   "label": "Categories",
+   "href": "/admin/blog-category",
+   "children": []
+  },
+  {
+   "label": "Marketing",
+   "href": "#",
+   "children": [
+    {
+     "label": "Flash deals",
+     "href": "/admin/flash_deals"
+    },
+    {
+     "label": "Dynamic Pop-up",
+     "href": "/admin/dynamic-popups"
+    },
+    {
+     "label": "Custom Alert",
+     "href": "/admin/custom-alerts"
+    },
+    {
+     "label": "Email Templates",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Newsletters",
+     "href": "/admin/newsletter"
+    },
+    {
+     "label": "Notification",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Bulk SMS",
+     "href": "/admin/sms"
+    },
+    {
+     "label": "Subscribers",
+     "href": "/subscribers"
+    },
+    {
+     "label": "Coupon",
+     "href": "/admin/coupon"
+    }
+   ]
+  },
+  {
+   "label": "Flash deals",
+   "href": "/admin/flash_deals",
+   "children": []
+  },
+  {
+   "label": "Dynamic Pop-up",
+   "href": "/admin/dynamic-popups",
+   "children": []
+  },
+  {
+   "label": "Custom Alert",
+   "href": "/admin/custom-alerts",
+   "children": []
+  },
+  {
+   "label": "Email Templates",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Admin Templates",
+     "href": "/admin/email-template/admin"
+    },
+    {
+     "label": "Seller Templates",
+     "href": "/admin/email-template/seller"
+    },
+    {
+     "label": "Customer Templates",
+     "href": "/admin/email-template/customer"
+    },
+    {
+     "label": "Common Templates",
+     "href": "/admin/email-template/all"
+    }
+   ]
+  },
+  {
+   "label": "Admin Templates",
+   "href": "/admin/email-template/admin",
+   "children": []
+  },
+  {
+   "label": "Seller Templates",
+   "href": "/admin/email-template/seller",
+   "children": []
+  },
+  {
+   "label": "Customer Templates",
+   "href": "/admin/email-template/customer",
+   "children": []
+  },
+  {
+   "label": "Common Templates",
+   "href": "/admin/email-template/all",
+   "children": []
+  },
+  {
+   "label": "Newsletters",
+   "href": "/admin/newsletter",
+   "children": []
+  },
+  {
+   "label": "Notification",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Settings",
+     "href": "/admin/notification-settings"
+    },
+    {
+     "label": "Notification Types",
+     "href": "/admin/notification-type"
+    },
+    {
+     "label": "Custom Notification",
+     "href": "/admin/custom-notification"
+    },
+    {
+     "label": "Custom Notification History",
+     "href": "/admin/custom-notification/history"
+    }
+   ]
+  },
+  {
+   "label": "Settings",
+   "href": "/admin/notification-settings",
+   "children": []
+  },
+  {
+   "label": "Notification Types",
+   "href": "/admin/notification-type",
+   "children": []
+  },
+  {
+   "label": "Custom Notification",
+   "href": "/admin/custom-notification",
+   "children": []
+  },
+  {
+   "label": "Custom Notification History",
+   "href": "/admin/custom-notification/history",
+   "children": []
+  },
+  {
+   "label": "Bulk SMS",
+   "href": "/admin/sms",
+   "children": []
+  },
+  {
+   "label": "Subscribers",
+   "href": "/subscribers",
+   "children": []
+  },
+  {
+   "label": "Coupon",
+   "href": "/admin/coupon",
+   "children": []
+  },
+  {
+   "label": "Support",
+   "href": "#",
+   "children": [
+    {
+     "label": "Ticket",
+     "href": "/admin/support_ticket"
+    },
+    {
+     "label": "Product Conversations 2",
+     "href": "/admin/conversations"
+    },
+    {
+     "label": "Product Queries",
+     "href": "/admin/product-queries"
+    },
+    {
+     "label": "Contacts",
+     "href": "/admin/contacts"
+    }
+   ]
+  },
+  {
+   "label": "Ticket",
+   "href": "/admin/support_ticket",
+   "children": []
+  },
+  {
+   "label": "Product Conversations",
+   "href": "/admin/conversations",
+   "children": []
+  },
+  {
+   "label": "Product Queries",
+   "href": "/admin/product-queries",
+   "children": []
+  },
+  {
+   "label": "Contacts",
+   "href": "/admin/contacts",
+   "children": []
+  },
+  {
+   "label": "Affiliate System",
+   "href": "#",
+   "children": [
+    {
+     "label": "Affiliate Registration Form",
+     "href": "/admin/affiliate/configs"
+    },
+    {
+     "label": "Affiliate Configurations",
+     "href": "/admin/affiliate"
+    },
+    {
+     "label": "Affiliate Users",
+     "href": "/admin/affiliate/users"
+    },
+    {
+     "label": "Referral Users",
+     "href": "/admin/refferal/users"
+    },
+    {
+     "label": "Affiliate Withdraw Requests",
+     "href": "/admin/affiliate/withdraw_requests"
+    },
+    {
+     "label": "Affiliate Logs",
+     "href": "/admin/affiliate/logs"
+    }
+   ]
+  },
+  {
+   "label": "Affiliate Registration Form",
+   "href": "/admin/affiliate/configs",
+   "children": []
+  },
+  {
+   "label": "Affiliate Configurations",
+   "href": "/admin/affiliate",
+   "children": []
+  },
+  {
+   "label": "Affiliate Users",
+   "href": "/admin/affiliate/users",
+   "children": []
+  },
+  {
+   "label": "Referral Users",
+   "href": "/admin/refferal/users",
+   "children": []
+  },
+  {
+   "label": "Affiliate Withdraw Requests",
+   "href": "/admin/affiliate/withdraw_requests",
+   "children": []
+  },
+  {
+   "label": "Affiliate Logs",
+   "href": "/admin/affiliate/logs",
+   "children": []
+  },
+  {
+   "label": "OTP System",
+   "href": "#",
+   "children": [
+    {
+     "label": "OTP Login Configuration",
+     "href": "/admin/otp-login-configuration"
+    },
+    {
+     "label": "OTP Configurations",
+     "href": "/admin/otp-configuration"
+    },
+    {
+     "label": "SMS Templates",
+     "href": "/admin/sms-templates"
+    }
+   ]
+  },
+  {
+   "label": "OTP Login Configuration",
+   "href": "/admin/otp-login-configuration",
+   "children": []
+  },
+  {
+   "label": "OTP Configurations",
+   "href": "/admin/otp-configuration",
+   "children": []
+  },
+  {
+   "label": "SMS Templates",
+   "href": "/admin/sms-templates",
+   "children": []
+  },
+  {
+   "label": "Payment Gateways",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Payment Methods",
+     "href": "/admin/payment-method"
+    },
+    {
+     "label": "Offline Payment System",
+     "href": "#"
+    }
+   ]
+  },
+  {
+   "label": "Payment Methods",
+   "href": "/admin/payment-method",
+   "children": []
+  },
+  {
+   "label": "Offline Payment System",
+   "href": "#",
+   "children": [
+    {
+     "label": "Manual Payment Methods",
+     "href": "/admin/manual_payment_methods"
+    },
+    {
+     "label": "Offline Payment Orders",
+     "href": "/admin/offline-payment-orders"
+    },
+    {
+     "label": "Offline Wallet Recharge",
+     "href": "/admin/offline-wallet-recharge-requests"
+    },
+    {
+     "label": "Offline Customer Package Payments",
+     "href": "/admin/offline-customer-package-payment-requests"
+    },
+    {
+     "label": "Offline Seller Package Payments",
+     "href": "/admin/offline-seller-package-payment-requests"
+    }
+   ]
+  },
+  {
+   "label": "Manual Payment Methods",
+   "href": "/admin/manual_payment_methods",
+   "children": []
+  },
+  {
+   "label": "Offline Payment Orders",
+   "href": "/admin/offline-payment-orders",
+   "children": []
+  },
+  {
+   "label": "Offline Wallet Recharge",
+   "href": "/admin/offline-wallet-recharge-requests",
+   "children": []
+  },
+  {
+   "label": "Offline Customer Package Payments",
+   "href": "/admin/offline-customer-package-payment-requests",
+   "children": []
+  },
+  {
+   "label": "Offline Seller Package Payments",
+   "href": "/admin/offline-seller-package-payment-requests",
+   "children": []
+  },
+  {
+   "label": "Website Setup",
+   "href": "#",
+   "children": [
+    {
+     "label": "Select Homepage",
+     "href": "/admin/website/select-homepage"
+    },
+    {
+     "label": "Homepage Settings",
+     "href": "/admin/website/custom-pages/edit/home?lang=en&page=home"
+    },
+    {
+     "label": "Authentication Layout & Settings",
+     "href": "/admin/website/authentication-layout-settings"
+    },
+    {
+     "label": "Header",
+     "href": "/admin/website/header"
+    },
+    {
+     "label": "Footer",
+     "href": "/admin/website/footer?lang=en"
+    },
+    {
+     "label": "Pages",
+     "href": "/admin/website/pages"
+    },
+    {
+     "label": "Appearance",
+     "href": "/admin/website/appearance"
+    }
+   ]
+  },
+  {
+   "label": "Select Homepage",
+   "href": "/admin/website/select-homepage",
+   "children": []
+  },
+  {
+   "label": "Homepage Settings",
+   "href": "/admin/website/custom-pages/edit/home?lang=en&page=home",
+   "children": []
+  },
+  {
+   "label": "Authentication Layout & Settings",
+   "href": "/admin/website/authentication-layout-settings",
+   "children": []
+  },
+  {
+   "label": "Header",
+   "href": "/admin/website/header",
+   "children": []
+  },
+  {
+   "label": "Footer",
+   "href": "/admin/website/footer?lang=en",
+   "children": []
+  },
+  {
+   "label": "Pages",
+   "href": "/admin/website/pages",
+   "children": []
+  },
+  {
+   "label": "Appearance",
+   "href": "/admin/website/appearance",
+   "children": []
+  },
+  {
+   "label": "Setup & Configurations",
+   "href": "#",
+   "children": [
+    {
+     "label": "Features activation",
+     "href": "/admin/activation"
+    },
+    {
+     "label": "Languages",
+     "href": "/admin/languages"
+    },
+    {
+     "label": "Currency",
+     "href": "/admin/currency"
+    },
+    {
+     "label": "Vat & TAX",
+     "href": "/admin/tax"
+    },
+    {
+     "label": "Pickup point",
+     "href": "/admin/pick_up_points"
+    },
+    {
+     "label": "SMTP Settings",
+     "href": "/admin/smtp-settings"
+    },
+    {
+     "label": "Order Configuration",
+     "href": "/admin/order-configuration"
+    },
+    {
+     "label": "File System & Cache Configuration",
+     "href": "/admin/file_system"
+    },
+    {
+     "label": "Social media Logins",
+     "href": "/admin/social-login"
+    },
+    {
+     "label": "Facebook",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Google",
+     "href": "javascript:void(0);"
+    },
+    {
+     "label": "Shipping",
+     "href": "javascript:void(0);"
+    }
+   ]
+  },
+  {
+   "label": "Features activation",
+   "href": "/admin/activation",
+   "children": []
+  },
+  {
+   "label": "Languages",
+   "href": "/admin/languages",
+   "children": []
+  },
+  {
+   "label": "Currency",
+   "href": "/admin/currency",
+   "children": []
+  },
+  {
+   "label": "Vat & TAX",
+   "href": "/admin/tax",
+   "children": []
+  },
+  {
+   "label": "Pickup point",
+   "href": "/admin/pick_up_points",
+   "children": []
+  },
+  {
+   "label": "SMTP Settings",
+   "href": "/admin/smtp-settings",
+   "children": []
+  },
+  {
+   "label": "Order Configuration",
+   "href": "/admin/order-configuration",
+   "children": []
+  },
+  {
+   "label": "File System & Cache Configuration",
+   "href": "/admin/file_system",
+   "children": []
+  },
+  {
+   "label": "Social media Logins",
+   "href": "/admin/social-login",
+   "children": []
+  },
+  {
+   "label": "Facebook",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "WhatsApp Chat",
+     "href": "/admin/whatsapp-chat"
+    },
+    {
+     "label": "Facebook Comment",
+     "href": "/admin/facebook-comment"
+    }
+   ]
+  },
+  {
+   "label": "WhatsApp Chat",
+   "href": "/admin/whatsapp-chat",
+   "children": []
+  },
+  {
+   "label": "Facebook Comment",
+   "href": "/admin/facebook-comment",
+   "children": []
+  },
+  {
+   "label": "Google",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Analytics Tools",
+     "href": "/admin/google-analytics"
+    },
+    {
+     "label": "Google reCAPTCHA",
+     "href": "/admin/google-recaptcha"
+    },
+    {
+     "label": "Google Map",
+     "href": "/admin/google-map"
+    },
+    {
+     "label": "Google Firebase",
+     "href": "/admin/google-firebase"
+    }
+   ]
+  },
+  {
+   "label": "Analytics Tools",
+   "href": "/admin/google-analytics",
+   "children": []
+  },
+  {
+   "label": "Google reCAPTCHA",
+   "href": "/admin/google-recaptcha",
+   "children": []
+  },
+  {
+   "label": "Google Map",
+   "href": "/admin/google-map",
+   "children": []
+  },
+  {
+   "label": "Google Firebase",
+   "href": "/admin/google-firebase",
+   "children": []
+  },
+  {
+   "label": "Shipping",
+   "href": "javascript:void(0);",
+   "children": [
+    {
+     "label": "Shipping Configuration",
+     "href": "/admin/shipping_configuration"
+    },
+    {
+     "label": "Shipping Countries",
+     "href": "/admin/countries"
+    },
+    {
+     "label": "Shipping States",
+     "href": "/admin/states"
+    },
+    {
+     "label": "Shipping Cities",
+     "href": "/admin/cities"
+    },
+    {
+     "label": "Shipping Zones",
+     "href": "/admin/zones"
+    },
+    {
+     "label": "Shipping Carrier",
+     "href": "/admin/carriers"
+    }
+   ]
+  },
+  {
+   "label": "Shipping Configuration",
+   "href": "/admin/shipping_configuration",
+   "children": []
+  },
+  {
+   "label": "Shipping Countries",
+   "href": "/admin/countries",
+   "children": []
+  },
+  {
+   "label": "Shipping States",
+   "href": "/admin/states",
+   "children": []
+  },
+  {
+   "label": "Shipping Cities",
+   "href": "/admin/cities",
+   "children": []
+  },
+  {
+   "label": "Shipping Zones",
+   "href": "/admin/zones",
+   "children": []
+  },
+  {
+   "label": "Shipping Carrier",
+   "href": "/admin/carriers",
+   "children": []
+  },
+  {
+   "label": "Staffs",
+   "href": "#",
+   "children": [
+    {
+     "label": "All staffs",
+     "href": "/admin/staffs"
+    },
+    {
+     "label": "Staff permissions",
+     "href": "/admin/roles"
+    }
+   ]
+  },
+  {
+   "label": "All staffs",
+   "href": "/admin/staffs",
+   "children": []
+  },
+  {
+   "label": "Staff permissions",
+   "href": "/admin/roles",
+   "children": []
+  },
+  {
+   "label": "System",
+   "href": "#",
+   "children": [
+    {
+     "label": "Update",
+     "href": "/admin/system/update"
+    },
+    {
+     "label": "Server status",
+     "href": "/admin/system/server-status"
+    },
+    {
+     "label": "Sitemap Generator",
+     "href": "/admin/system/sitemap-generator"
+    }
+   ]
+  },
+  {
+   "label": "Update",
+   "href": "/admin/system/update",
+   "children": []
+  },
+  {
+   "label": "Server status",
+   "href": "/admin/system/server-status",
+   "children": []
+  },
+  {
+   "label": "Sitemap Generator",
+   "href": "/admin/system/sitemap-generator",
+   "children": []
+  },
+  {
+   "label": "Addon Manager",
+   "href": "/admin/addons",
+   "children": []
+  }
+ ],
+ "topnav": []
+}

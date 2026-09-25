@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 432 100" role="img" aria-label="WowMart">
+  <title>WowMart</title>
+  <rect width="100" height="100" rx="24" fill="#F2622E"/><polyline points="22,42 36,76 50,50 64,76 78,42" fill="none" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M50,15 Q50,27 59,27 Q50,27 50,39 Q50,27 41,27 Q50,27 50,15 Z" fill="#FFB627"/>
+  <g transform="translate(124,0) scale(1.1)" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <g stroke="#F2622E"><polyline points="0,30 10,60 20,38 30,60 40,30"/><circle cx="63" cy="45" r="15"/><polyline points="86,30 96,60 106,38 116,60 126,30"/></g>
+    <g stroke="#FFFFFF"><path d="M134,60 V41 A11,11 0 0 1 156,41 V60 M156,41 A11,11 0 0 1 178,41 V60"/><circle cx="201" cy="45" r="15"/><path d="M216,30 V60"/><path d="M224,60 V42 A12,12 0 0 1 236,30 H242"/><path d="M258,18 V52 A8,8 0 0 0 266,60 H272 M250,32 H270"/></g>
+  </g>
+</svg>
