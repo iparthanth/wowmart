@@ -62,9 +62,7 @@ class Product extends Model
         [$column, $direction] = self::ADMIN_SORTS[$f['sort']];
 
         return $query
-            ->when($f['search'], fn (Builder $q, string $s) => $q->where(
-                fn (Builder $q) => $q->where('name', 'like', "%{$s}%")->orWhere('sku', 'like', "%{$s}%")
-            ))
+            ->when($f['search'], fn (Builder $q, string $s) => $q->whereContains(['name', 'sku'], $s))
             ->when($f['added_by'], fn (Builder $q, string $v) => $q->where('added_by', $v))
             ->when($f['category'], fn (Builder $q, int $id) => $q->whereHas('categories', fn (Builder $c) => $c->whereKey($id)))
             ->when($f['stock'] === 'out', fn (Builder $q) => $q->where('current_stock', '<=', 0))

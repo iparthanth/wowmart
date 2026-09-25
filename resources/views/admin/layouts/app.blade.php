@@ -24,8 +24,26 @@
             ['Add new product', 'admin.products.create', ['admin.products.create']],
             ['Categories', 'admin.categories.index', ['admin.categories.*']],
             ['Brands', 'admin.brands.index', ['admin.brands.*']],
+            ['Attributes', 'admin.attributes.index', ['admin.attributes.*']],
+            ['Colours', 'admin.colors.index', ['admin.colors.*']],
+            ['Warranties', 'admin.warranties.index', ['admin.warranties.*']],
+            ['Notes', 'admin.notes.index', ['admin.notes.*']],
+            ['Product reviews', 'admin.reviews.index', ['admin.reviews.*']],
         ]],
-        ['Sales', [['All orders', 'admin.orders.index', ['admin.orders.*'], $pendingOrders ?? 0]]],
+        ['Sales', [
+            ['All orders', 'admin.orders.index', ['admin.orders.*'], $pendingOrders ?? 0],
+            ['Refund requests', 'admin.refunds.index', ['admin.refunds.*'], $pendingRefunds ?? 0],
+        ]],
+        ['People', [
+            ['Customers', 'admin.customers.index', ['admin.customers.*']],
+            ['Sellers', 'admin.sellers.index', ['admin.sellers.*'], $pendingSellers ?? 0],
+        ]],
+        ['Reports', [
+            ['Stock', 'admin.reports.stock', ['admin.reports.stock']],
+            ['In-house sales', 'admin.reports.in-house-sales', ['admin.reports.in-house-sales']],
+            ['Seller sales', 'admin.reports.seller-sales', ['admin.reports.seller-sales']],
+            ['Wishlists', 'admin.reports.wishlist', ['admin.reports.wishlist']],
+        ]],
         ['Media', [['Uploaded files', 'admin.uploads.index', ['admin.uploads.*']]]],
         ['Marketing', [
             ['Flash deals', 'admin.flash-deals.index', ['admin.flash-deals.*']],

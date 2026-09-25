@@ -123,15 +123,8 @@ class Order extends Model
     {
         [$column, $direction] = self::SORTS[$f['sort']];
 
-        // Typed % and _ must match themselves (emails often contain _), and SQLite has
-        // no default LIKE escape, so every search column spells out its ESCAPE clause.
-        $pattern = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $f['search']).'%';
-        // Grouped so the ORs cannot swallow a whereHas() relation constraint.
-        $like = fn (Builder $q, array $columns) => $q->where(function (Builder $q) use ($columns, $pattern) {
-            foreach ($columns as $column) {
-                $q->orWhereRaw($q->getGrammar()->wrap($column)." like ? escape '!'", [$pattern]);
-            }
-        });
+        // whereContains matches typed % and _ literally (emails often contain _).
+        $like = fn (Builder $q, array $columns) => $q->whereContains($columns, $f['search']);
 
         // Dates are whole days in the app timezone (Asia/Dhaka), which is also the
         // timezone created_at is stored in, so no conversion is needed; date_to is inclusive.

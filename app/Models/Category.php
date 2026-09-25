@@ -67,13 +67,10 @@ class Category extends Model
         return $query->whereNull('parent_id')->orderBy('order_level');
     }
 
-    /**
-     * Name contains the term literally: % and _ are escaped so they do not act as wildcards.
-     * '!' is the escape character because a backslash is read differently by MySQL and SQLite.
-     */
+    /** Name contains the term literally (see the whereContains macro in AppServiceProvider). */
     public function scopeNameContains(Builder $query, string $term): Builder
     {
-        return $query->whereRaw("name like ? escape '!'", ['%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $term).'%']);
+        return $query->whereContains('name', $term);
     }
 
     /**

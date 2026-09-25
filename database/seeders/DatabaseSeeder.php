@@ -12,8 +12,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdminSeeder::class,
             CatalogSeeder::class,
+            ProductOptionSeeder::class,
             MarketingSeeder::class,
             OrderSeeder::class,
+            ReviewSeeder::class,
+            RefundSeeder::class,
         ]);
     }
 }

@@ -22,7 +22,7 @@ class BrandController extends Controller
         $brands = Brand::query()
             ->with('logoFile')
             ->withCount('products')
-            ->when($search, fn ($q, string $s) => $q->where('name', 'like', "%{$s}%"))
+            ->when($search, fn ($q, string $s) => $q->whereContains('name', $s))
             ->orderBy('name')
             ->paginate(min(max($request->integer('per_page', 15), 1), 100))
             ->withQueryString();

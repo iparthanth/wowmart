@@ -54,7 +54,7 @@ class UploadController extends Controller
         [$column, $direction] = self::SORTS[$f['sort']];
 
         return Upload::query()
-            ->when($f['search'], fn (Builder $q, string $s) => $q->where('file_original_name', 'like', "%{$s}%"))
+            ->when($f['search'], fn (Builder $q, string $s) => $q->whereContains('file_original_name', $s))
             ->when($f['type'], fn (Builder $q, string $t) => $q->where('type', $t))
             ->orderBy($column, $direction)
             ->orderByDesc('id');
