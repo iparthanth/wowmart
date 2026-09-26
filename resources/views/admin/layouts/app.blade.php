@@ -193,7 +193,7 @@
             ['label' => 'Languages'],
             ['label' => 'Currency', 'route' => 'admin.currencies.index', 'patterns' => ['admin.currencies.*']],
             ['label' => 'Vat & Tax', 'route' => 'admin.taxes.index', 'patterns' => ['admin.taxes.*']],
-            ['label' => 'Pickup Points'],
+            ['label' => 'Pickup Points', 'route' => 'admin.pickup-points.index', 'patterns' => ['admin.pickup-points.*']],
             ['label' => 'SMTP Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'smtp'], 'patterns' => ['admin.settings.*']],
             ['label' => 'Order Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'orders'], 'patterns' => ['admin.settings.*']],
             ['label' => 'File System & Cache Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'file-system'], 'patterns' => ['admin.settings.*']],

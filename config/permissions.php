@@ -68,10 +68,10 @@ return [
             'patterns' => ['admin.roles.*', 'api.v1.roles.*', 'api.v1.permissions.*'],
         ],
         'settings' => [
-            'label' => 'Panel configuration (settings, currency, tax)',
+            'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
-                'admin.settings.*', 'admin.currencies.*', 'admin.taxes.*',
-                'api.v1.settings.*', 'api.v1.currencies.*', 'api.v1.taxes.*',
+                'admin.settings.*', 'admin.currencies.*', 'admin.taxes.*', 'admin.pickup-points.*',
+                'api.v1.settings.*', 'api.v1.currencies.*', 'api.v1.taxes.*', 'api.v1.pickup-points.*',
             ],
         ],
     ],
