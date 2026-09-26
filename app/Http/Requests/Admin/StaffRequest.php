@@ -3,10 +3,10 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\User;
-use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\Validator;
 
 /**
  * The staff form (inline on the list, and the edit page) and the API's
@@ -68,7 +68,7 @@ class StaffRequest extends FormRequest
         return array_filter($data + ['role_id' => $this->validated('role_id')], fn ($v) => $v !== null);
     }
 
-    public function withValidator(Closure $validator): void
+    public function withValidator(Validator $validator): void
     {
         // Only meaningful on the web form; harmless for API clients.
         $validator->after(function ($validator): void {

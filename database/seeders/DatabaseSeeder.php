@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             OrderSeeder::class,
             ReviewSeeder::class,
             RefundSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }

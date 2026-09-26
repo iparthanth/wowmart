@@ -14,9 +14,7 @@ use Illuminate\Validation\ValidationException;
 
 class StaffController extends Controller
 {
-    public function __construct(private readonly StaffService $staff)
-    {
-    }
+    public function __construct(private readonly StaffService $staff) {}
 
     public function index(Request $request)
     {
@@ -56,7 +54,11 @@ class StaffController extends Controller
     {
         $data = $this->validated($request, $member);
 
-        $this->staff->update($member, $data);
+        try {
+            $this->staff->update($member, $data);
+        } catch (\DomainException $e) {
+            return redirect()->route('admin.staff.index')->with('error', $e->getMessage());
+        }
 
         return redirect()
             ->route('admin.staff.index')
@@ -74,7 +76,7 @@ class StaffController extends Controller
         try {
             $this->staff->delete($actor, $member);
         } catch (\DomainException $e) {
-            return redirect()->route('admin.staff.index')->withErrors($e->getMessage());
+            return redirect()->route('admin.staff.index')->with('error', $e->getMessage());
         }
 
         return redirect()->route('admin.staff.index')->with('status', 'Staff member removed.');

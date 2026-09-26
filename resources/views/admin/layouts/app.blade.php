@@ -189,24 +189,24 @@
         ]],
 
         ['label' => 'Setup & Configurations', 'children' => [
-            ['label' => 'Features Activation'],
+            ['label' => 'Features Activation', 'route' => 'admin.settings.show', 'params' => ['screen' => 'features'], 'patterns' => ['admin.settings.*']],
             ['label' => 'Languages'],
-            ['label' => 'Currency'],
-            ['label' => 'Vat & Tax'],
+            ['label' => 'Currency', 'route' => 'admin.currencies.index', 'patterns' => ['admin.currencies.*']],
+            ['label' => 'Vat & Tax', 'route' => 'admin.taxes.index', 'patterns' => ['admin.taxes.*']],
             ['label' => 'Pickup Points'],
-            ['label' => 'SMTP Settings'],
-            ['label' => 'Order Configuration'],
-            ['label' => 'File System & Cache Configuration'],
-            ['label' => 'Social Media Logins', 'children' => [
-                ['label' => 'Facebook', 'children' => [
-                    ['label' => 'WhatsApp Chat'],
-                    ['label' => 'Facebook Comment'],
+            ['label' => 'SMTP Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'smtp'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Order Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'orders'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'File System & Cache Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'file-system'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Social Media Logins', 'route' => 'admin.settings.show', 'params' => ['screen' => 'social-login'], 'patterns' => ['admin.settings.*'], 'children' => [
+                ['label' => 'Facebook', 'route' => 'admin.settings.show', 'params' => ['screen' => 'facebook'], 'patterns' => ['admin.settings.*'], 'children' => [
+                    ['label' => 'WhatsApp Chat', 'route' => 'admin.settings.show', 'params' => ['screen' => 'whatsapp'], 'patterns' => ['admin.settings.*']],
+                    ['label' => 'Facebook Comment', 'route' => 'admin.settings.show', 'params' => ['screen' => 'facebook'], 'patterns' => ['admin.settings.*']],
                 ]],
-                ['label' => 'Google', 'children' => [
-                    ['label' => 'Analytics Tools'],
-                    ['label' => 'Google reCAPTCHA'],
-                    ['label' => 'Google Map'],
-                    ['label' => 'Google Firebase'],
+                ['label' => 'Google', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*'], 'children' => [
+                    ['label' => 'Analytics Tools', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
+                    ['label' => 'Google reCAPTCHA', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
+                    ['label' => 'Google Map', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
+                    ['label' => 'Google Firebase', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
                 ]],
             ]],
             ['label' => 'Shipping', 'children' => [

@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StaffRequest;
 use App\Http\Resources\V1\StaffResource;
-use App\Enums\UserType;
 use App\Models\User;
 use App\Services\StaffService;
-use DomainException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -40,14 +39,14 @@ class StaffController extends Controller
 
     public function update(StaffRequest $request, User $staff): StaffResource
     {
-        return new StaffResource(
-            $this->staff->update($staff, $request->payload())->loadMissing('role:id,name'),
-        );
+        $this->staff->update($staff, $request->payload()); // 409 on demoting the last admin
+
+        return new StaffResource($staff->loadMissing('role:id,name'));
     }
 
     public function destroy(Request $request, User $staff): Response
     {
-        $this->staff->delete($staff, $request->user()); // 409 on self-delete or the last admin
+        $this->staff->delete($request->user(), $staff); // 409 on self-delete or the last admin
 
         return response()->noContent();
     }

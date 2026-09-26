@@ -16,7 +16,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 class StaffService
 {
     /**
-     * @param array{name: string, email: string, password: string|null, is_admin: bool, role_id: int|null} $data
+     * @param  array{name: string, email: string, password: string|null, is_admin: bool, role_id: int|null}  $data
      */
     public function create(array $data): User
     {
@@ -34,10 +34,18 @@ class StaffService
     }
 
     /**
-     * @param array{name: string, email: string, password: string|null, is_admin: bool, role_id: int|null} $data
+     * @param  array{name: string, email: string, password: string|null, is_admin: bool, role_id: int|null}  $data
+     *
+     * @throws \DomainException when demoting the last administrator
      */
     public function update(User $member, array $data): void
     {
+        if ($member->user_type === UserType::Admin
+            && ! $data['is_admin']
+            && self::adminCount() === 1) {
+            throw new \DomainException('The last administrator cannot be demoted.');
+        }
+
         $member->fill([
             'name' => $data['name'],
             'email' => $data['email'],
@@ -54,7 +62,7 @@ class StaffService
     }
 
     /**
-     * @throws \DomainException
+     * @throws \DomainException when removing yourself or the last administrator
      */
     public function delete(Authenticatable $actor, User $member): void
     {
@@ -62,6 +70,15 @@ class StaffService
             throw new \DomainException('You cannot remove your own account.');
         }
 
+        if ($member->user_type === UserType::Admin && self::adminCount() === 1) {
+            throw new \DomainException('The last administrator cannot be removed.');
+        }
+
         $member->delete();
+    }
+
+    private static function adminCount(): int
+    {
+        return User::where('user_type', UserType::Admin)->count();
     }
 }
