@@ -73,10 +73,9 @@
             ['label' => 'Pickup Point Orders', 'route' => 'admin.orders.pickup', 'patterns' => ['admin.orders.*']],
             ['label' => 'Unpaid Orders', 'route' => 'admin.orders.unpaid', 'patterns' => ['admin.orders.*']],
             ['label' => 'Delivery Boy', 'children' => [
-                ['label' => 'All Delivery Boys'],
-                ['label' => 'Add Delivery Boy'],
-                ['label' => 'Payment Histories'],
-                ['label' => 'Collected Histories'],
+                ['label' => 'All Delivery Boys', 'route' => 'admin.delivery-boys.index', 'patterns' => ['admin.delivery-boys*']],
+                ['label' => 'Payment Histories', 'route' => 'admin.delivery-boys.payments', 'patterns' => ['admin.delivery-boys.payments*']],
+                ['label' => 'Collected Histories', 'route' => 'admin.delivery-boys.collections', 'patterns' => ['admin.delivery-boys.collections*']],
                 ['label' => 'Cancel Requests'],
                 ['label' => 'Configuration'],
             ]],

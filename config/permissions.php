@@ -74,5 +74,12 @@ return [
                 'api.v1.settings.*', 'api.v1.currencies.*', 'api.v1.taxes.*', 'api.v1.pickup-points.*',
             ],
         ],
+        'delivery-boys' => [
+            'label' => 'Delivery boys and their money trail',
+            'patterns' => [
+                'admin.delivery-boys.*',
+                'api.v1.delivery-boys.*',
+            ],
+        ],
     ],
 ];
