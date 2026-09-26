@@ -1,9 +1,14 @@
 @extends('admin.layouts.app')
 @use('App\Enums\DeliveryStatus')
 @use('App\Enums\PaymentStatus')
-@section('title', 'All orders')
+@php
+    // Sales lists pass their own label and base route; "All orders" is the default.
+    $listLabel ??= 'All orders';
+    $listRoute ??= 'admin.orders.index';
+@endphp
+@section('title', $listLabel)
 @section('crumbs')
-    Sales
+    Sales / {{ $listLabel }}
 @endsection
 
 @section('content')
@@ -18,7 +23,7 @@
     </p>
 </div>
 
-<form method="GET" action="{{ route('admin.orders.index') }}" class="card filters" role="search">
+<form method="GET" action="{{ route($listRoute) }}" class="card filters" role="search">
     <label class="sr-only" for="q">Search</label>
     <input id="q" type="search" name="search" value="{{ $filters['search'] }}" class="input filter-search" placeholder="Order code, customer name, email or phone">
 
@@ -56,7 +61,7 @@
 
     <button type="submit" class="btn btn-ghost">Apply</button>
     @if ($filtered)
-        <a href="{{ route('admin.orders.index') }}" class="btn btn-link">Clear filters</a>
+        <a href="{{ route($listRoute) }}" class="btn btn-link">Clear filters</a>
     @endif
 </form>
 
@@ -65,7 +70,7 @@
         <div class="empty">
             @if ($filtered)
                 <strong>Nothing matches</strong>
-                Try fewer filters, or <a href="{{ route('admin.orders.index') }}" style="color:var(--tangerine)">see every order</a>.
+                Try fewer filters, or <a href="{{ route($listRoute) }}" style="color:var(--tangerine)">clear the filters</a>.
             @else
                 <strong>No orders yet</strong>
                 New orders appear here as customers check out.

@@ -24,3 +24,15 @@ Route::controller(OrderController::class)
         Route::post('{order:code}/delivery-status', 'deliveryStatus')->name('delivery-status');
         Route::post('{order:code}/payment-status', 'paymentStatus')->name('payment-status');
     });
+
+// The reference panel's Sales lists: fixed-filter views over the same orders.
+// Static paths come before "{order:code}" only in their own prefix groups, so
+// they never collide with the all_orders show route.
+Route::controller(OrderController::class)
+    ->name('orders.')
+    ->group(function () {
+        Route::get('inhouse-orders', 'inhouse')->name('inhouse');
+        Route::get('seller_orders', 'sellerOrders')->name('seller');
+        Route::get('orders_by_pickup_point', 'byPickupPoint')->name('pickup');
+        Route::get('unpaid_orders', 'unpaid')->name('unpaid');
+    });

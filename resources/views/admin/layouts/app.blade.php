@@ -68,10 +68,10 @@
 
         ['label' => 'Sales', 'children' => [
             ['label' => 'All Orders', 'route' => 'admin.orders.index', 'patterns' => ['admin.orders.*'], 'count' => $pendingOrders ?? 0],
-            ['label' => 'Inhouse Orders'],
-            ['label' => 'Seller Orders'],
-            ['label' => 'Pickup Point Orders'],
-            ['label' => 'Unpaid Orders'],
+            ['label' => 'Inhouse Orders', 'route' => 'admin.orders.inhouse', 'patterns' => ['admin.orders.*']],
+            ['label' => 'Seller Orders', 'route' => 'admin.orders.seller', 'patterns' => ['admin.orders.*']],
+            ['label' => 'Pickup Point Orders', 'route' => 'admin.orders.pickup', 'patterns' => ['admin.orders.*']],
+            ['label' => 'Unpaid Orders', 'route' => 'admin.orders.unpaid', 'patterns' => ['admin.orders.*']],
             ['label' => 'Delivery Boy', 'children' => [
                 ['label' => 'All Delivery Boys'],
                 ['label' => 'Add Delivery Boy'],

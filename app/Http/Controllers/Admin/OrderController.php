@@ -19,17 +19,65 @@ class OrderController extends Controller
 
     public function index(Request $request): View
     {
+        return $this->renderList($request, 'all', 'All orders');
+    }
+
+    public function inhouse(Request $request): View
+    {
+        return $this->renderList($request, 'inhouse', 'Inhouse orders');
+    }
+
+    public function sellerOrders(Request $request): View
+    {
+        return $this->renderList($request, 'seller', 'Seller orders');
+    }
+
+    public function byPickupPoint(Request $request): View
+    {
+        return $this->renderList($request, 'pickup', 'Pickup point orders');
+    }
+
+    public function unpaid(Request $request): View
+    {
+        return $this->renderList($request, 'unpaid', 'Unpaid orders');
+    }
+
+    /**
+     * The Sales lists are fixed-filter views over the same order table, named
+     * after the reference panel's sidebar. Each applies one base constraint the
+     * visitor cannot remove; the shared filters (search, status, dates, sort)
+     * then narrow further. A mixed cart has both in-house and seller lines, so
+     * it shows in both of those lists - that matches how lines are picked and
+     * packed.
+     */
+    private function renderList(Request $request, string $list, string $label): View
+    {
         $f = Order::filtersFrom($request->query());
 
+        $query = Order::query()
+            ->with(['customer', 'seller.shop'])
+            ->withCount('details');
+
+        match ($list) {
+            'inhouse' => $query->whereHas('details', fn ($d) => $d->whereNull('seller_id')),
+            'seller' => $query->whereHas('details', fn ($d) => $d->whereNotNull('seller_id')),
+            'pickup' => $query->whereHas('details', fn ($d) => $d->where('shipping_type', 'pickup_point')),
+            'unpaid' => $query->where('payment_status', PaymentStatus::Unpaid->value),
+            'all' => null,
+        };
+
         return view('admin.orders.index', [
-            'orders' => Order::query()
-                ->with(['customer', 'seller.shop'])
-                ->withCount('details')
-                ->filtered($f)
-                ->paginate(20)
-                ->withQueryString(),
+            'orders' => $query->filtered($f)->paginate(20)->withQueryString(),
             'filters' => $f,
             'filtered' => $f['search'] !== '' || $f['delivery_status'] || $f['payment_status'] || $f['date_from'] || $f['date_to'],
+            'listLabel' => $label,
+            'listRoute' => match ($list) {
+                'inhouse' => 'admin.orders.inhouse',
+                'seller' => 'admin.orders.seller',
+                'pickup' => 'admin.orders.pickup',
+                'unpaid' => 'admin.orders.unpaid',
+                default => 'admin.orders.index',
+            },
         ]);
     }
 
