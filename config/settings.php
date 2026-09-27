@@ -216,6 +216,96 @@ return [
             ],
         ],
 
+        'homepage-select' => [
+            'label' => 'Select Homepage',
+            'fields' => [
+                'homepage_layout' => [
+                    'type' => 'select',
+                    'label' => 'Homepage layout',
+                    'options' => [
+                        'classic' => 'Classic (sliders, featured categories, best sellers)',
+                        'minimal' => 'Minimal (hero banner and curated picks)',
+                        'boutique' => 'Boutique (brand-first, story blocks)',
+                        'marketplace' => 'Marketplace (top sellers and deals up front)',
+                        'campaign' => 'Campaign (flash deals and seasonal banners)',
+                    ],
+                    'validation' => ['nullable', 'in:classic,minimal,boutique,marketplace,campaign'],
+                ],
+            ],
+        ],
+
+        'homepage' => [
+            'label' => 'Homepage Settings',
+            'fields' => [
+                'home_slider' => ['type' => 'boolean', 'label' => 'Show the hero slider', 'validation' => ['boolean']],
+                'home_banner_1' => ['type' => 'text', 'label' => 'Banner 1 image (upload URL)', 'validation' => ['nullable', 'string', 'max:255']],
+                'home_banner_1_link' => ['type' => 'text', 'label' => 'Banner 1 link', 'validation' => ['nullable', 'string', 'max:255']],
+                'home_banner_2' => ['type' => 'text', 'label' => 'Banner 2 image (upload URL)', 'validation' => ['nullable', 'string', 'max:255']],
+                'home_banner_2_link' => ['type' => 'text', 'label' => 'Banner 2 link', 'validation' => ['nullable', 'string', 'max:255']],
+                'home_featured_section' => [
+                    'type' => 'select',
+                    'label' => 'Featured section under the banners',
+                    'options' => [
+                        'best_sellers' => 'Best sellers',
+                        'new_arrivals' => 'New arrivals',
+                        'on_sale' => 'On sale',
+                        'none' => 'None',
+                    ],
+                    'validation' => ['nullable', 'in:best_sellers,new_arrivals,on_sale,none'],
+                ],
+            ],
+        ],
+
+        'header' => [
+            'label' => 'Header',
+            'fields' => [
+                'header_top_bar' => ['type' => 'boolean', 'label' => 'Top bar (contact and links)', 'validation' => ['boolean']],
+                'header_announcement' => ['type' => 'textarea', 'label' => 'Announcement line', 'validation' => ['nullable', 'string', 'max:200']],
+                'header_sticky' => ['type' => 'boolean', 'label' => 'Sticky header on scroll', 'validation' => ['boolean']],
+            ],
+        ],
+
+        'footer' => [
+            'label' => 'Footer',
+            'fields' => [
+                'footer_about' => ['type' => 'textarea', 'label' => 'About text', 'validation' => ['nullable', 'string', 'max:500']],
+                'footer_links_note' => ['type' => 'text', 'label' => 'Links column heading', 'validation' => ['nullable', 'string', 'max:60']],
+                'footer_payment_logos' => ['type' => 'boolean', 'label' => 'Show payment logos', 'validation' => ['boolean']],
+                'footer_copyright' => ['type' => 'text', 'label' => 'Copyright line', 'validation' => ['nullable', 'string', 'max:200']],
+            ],
+        ],
+
+        'appearance' => [
+            'label' => 'Appearance',
+            'fields' => [
+                'theme_color' => ['type' => 'text', 'label' => 'Theme colour (hex)', 'hint' => 'Like #F4772E.', 'validation' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/']],
+                'accent_color' => ['type' => 'text', 'label' => 'Accent colour (hex)', 'validation' => ['nullable', 'regex:/^#[0-9a-fA-F]{6}$/']],
+                'site_logo' => ['type' => 'text', 'label' => 'Logo image (upload URL)', 'validation' => ['nullable', 'string', 'max:255']],
+                'site_favicon' => ['type' => 'text', 'label' => 'Favicon (upload URL)', 'validation' => ['nullable', 'string', 'max:255']],
+                'site_meta_title' => ['type' => 'text', 'label' => 'Meta title', 'validation' => ['nullable', 'string', 'max:120']],
+                'site_meta_description' => ['type' => 'textarea', 'label' => 'Meta description', 'validation' => ['nullable', 'string', 'max:300']],
+            ],
+        ],
+
+        'authentication' => [
+            'label' => 'Authentication Layout & Settings',
+            'fields' => [
+                'auth_layout' => [
+                    'type' => 'select',
+                    'label' => 'Layout',
+                    'options' => [
+                        'split' => 'Split (image beside the form)',
+                        'centered' => 'Centred card',
+                        'banner' => 'Full-width banner',
+                    ],
+                    'validation' => ['nullable', 'in:split,centered,banner'],
+                ],
+                'auth_image' => ['type' => 'text', 'label' => 'Side image (upload URL)', 'validation' => ['nullable', 'string', 'max:255']],
+                'auth_allow_registration' => ['type' => 'boolean', 'label' => 'Allow customer registration', 'validation' => ['boolean']],
+                'auth_email_verification' => ['type' => 'boolean', 'label' => 'Verify email after registration', 'validation' => ['boolean']],
+            ],
+        ],
+
         'file-system' => [
             'label' => 'File System & Cache',
             'fields' => [

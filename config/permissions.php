@@ -88,5 +88,20 @@ return [
                 'api.v1.countries.*', 'api.v1.states.*', 'api.v1.cities.*', 'api.v1.zones.*', 'api.v1.carriers.*',
             ],
         ],
+        'pages' => [
+            'label' => 'Static pages',
+            'patterns' => [
+                'admin.pages.*',
+                'api.v1.pages.*',
+            ],
+        ],
+        'blog' => [
+            'label' => 'Blog (posts and categories)',
+            'patterns' => [
+                'admin.blog.*',
+                'api.v1.blogs.*',
+                'api.v1.blog-categories.*',
+            ],
+        ],
     ],
 ];

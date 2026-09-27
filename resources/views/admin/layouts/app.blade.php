@@ -118,21 +118,21 @@
         ]],
 
         ['label' => 'Blog System', 'children' => [
-            ['label' => 'All Posts'],
-            ['label' => 'Categories'],
+            ['label' => 'All Posts', 'route' => 'admin.blog.index', 'patterns' => ['admin.blog.index', 'admin.blog.edit', 'admin.blog.update', 'admin.blog.destroy', 'admin.blog.store']],
+            ['label' => 'Categories', 'route' => 'admin.blog-categories.index', 'patterns' => ['admin.blog-categories.*']],
         ]],
 
         ['label' => 'Marketing', 'children' => [
             ['label' => 'Flash Deals', 'route' => 'admin.flash-deals.index', 'patterns' => ['admin.flash-deals.*']],
-            ['label' => 'Dynamic Pop-up'],
-            ['label' => 'Custom Alert'],
+            ['label' => 'Dynamic Pop-up', 'route' => 'admin.marketing.popups', 'patterns' => ['admin.marketing.popups*']],
+            ['label' => 'Custom Alert', 'route' => 'admin.marketing.alerts', 'patterns' => ['admin.marketing.alerts*']],
             ['label' => 'Email Templates', 'children' => [
-                ['label' => 'Admin Templates'],
-                ['label' => 'Seller Templates'],
-                ['label' => 'Customer Templates'],
-                ['label' => 'Common Templates'],
+                ['label' => 'Admin Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'admin'], 'patterns' => ['admin.marketing.templates*']],
+                ['label' => 'Seller Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'seller'], 'patterns' => ['admin.marketing.templates*']],
+                ['label' => 'Customer Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'customer'], 'patterns' => ['admin.marketing.templates*']],
+                ['label' => 'Common Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'common'], 'patterns' => ['admin.marketing.templates*']],
             ]],
-            ['label' => 'Newsletters'],
+            ['label' => 'Newsletters', 'route' => 'admin.marketing.newsletters', 'patterns' => ['admin.marketing.newsletters*']],
             ['label' => 'Notification', 'children' => [
                 ['label' => 'Settings'],
                 ['label' => 'Notification Types'],
@@ -140,7 +140,7 @@
                 ['label' => 'Custom Notification History'],
             ]],
             ['label' => 'Bulk SMS'],
-            ['label' => 'Subscribers'],
+            ['label' => 'Subscribers', 'route' => 'admin.marketing.subscribers', 'patterns' => ['admin.marketing.subscribers*']],
             ['label' => 'Coupons', 'route' => 'admin.coupons.index', 'patterns' => ['admin.coupons.*']],
         ]],
 
@@ -178,13 +178,13 @@
         ]],
 
         ['label' => 'Website Setup', 'children' => [
-            ['label' => 'Select Homepage'],
-            ['label' => 'Homepage Settings'],
-            ['label' => 'Authentication Layout & Settings'],
-            ['label' => 'Header'],
-            ['label' => 'Footer'],
-            ['label' => 'Pages'],
-            ['label' => 'Appearance'],
+            ['label' => 'Select Homepage', 'route' => 'admin.settings.show', 'params' => ['screen' => 'homepage-select'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Homepage Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'homepage'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Authentication Layout & Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'authentication'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Header', 'route' => 'admin.settings.show', 'params' => ['screen' => 'header'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Footer', 'route' => 'admin.settings.show', 'params' => ['screen' => 'footer'], 'patterns' => ['admin.settings.*']],
+            ['label' => 'Pages', 'route' => 'admin.pages.index', 'patterns' => ['admin.pages.*']],
+            ['label' => 'Appearance', 'route' => 'admin.settings.show', 'params' => ['screen' => 'appearance'], 'patterns' => ['admin.settings.*']],
         ]],
 
         ['label' => 'Setup & Configurations', 'children' => [

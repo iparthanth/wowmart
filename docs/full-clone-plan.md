@@ -15,8 +15,8 @@ copied from its source.
 |---|---|---|
 | 1 | Dashboard, products, categories, brands, orders, media, flash deals, coupons, API v1 | done |
 | 2 | Attributes, colours, warranties, notes, reviews, refunds, customers, sellers, 4 reports | done |
-| 3 | Staff and permissions, settings framework, sales lists, pickup points, delivery boys, shipping | staff/permissions done; settings next |
-| 4 | Website setup, pages, blog, marketing, support | planned |
+| 3 | Staff and permissions, settings framework, sales lists, pickup points, delivery boys, shipping | done |
+| 4 | Website setup, pages, blog, marketing, support | building |
 | 5 | Seller economy, wallet and offline payments, classified, affiliate, OTP/SMS, remaining reports | planned |
 | 6 | POS, bulk import/export, digital and wholesale screens, category discount, size guide, languages, system | planned |
 
