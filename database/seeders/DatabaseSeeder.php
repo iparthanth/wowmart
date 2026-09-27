@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             RefundSeeder::class,
             SettingsSeeder::class,
             ShippingSeeder::class,
+            PageSeeder::class,
+            BlogSeeder::class,
             DeliveryBoySeeder::class,
         ]);
     }
