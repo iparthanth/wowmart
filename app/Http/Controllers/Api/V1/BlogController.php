@@ -23,18 +23,18 @@ class BlogController extends Controller
     public function index(Request $request): AnonymousResourceCollection
     {
         return BlogResource::collection(
-            Blog::with('category')->orderBy('title')->paginate(min(max($request->integer('per_page', 15), 1), 100))->withQueryString()
+            Blog::with('category', 'bannerFile')->orderBy('title')->paginate(min(max($request->integer('per_page', 15), 1), 100))->withQueryString()
         );
     }
 
     public function store(BlogRequest $request): BlogResource
     {
-        return new BlogResource($this->blogs->createPost($request->validated())->load('category')); // 201
+        return new BlogResource($this->blogs->createPost($request->validated())->load('category', 'bannerFile')); // 201
     }
 
     public function show(Blog $blog): BlogResource
     {
-        return new BlogResource($blog->load('category'));
+        return new BlogResource($blog->load('category', 'bannerFile'));
     }
 
     public function update(BlogRequest $request, Blog $blog): BlogResource

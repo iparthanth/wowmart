@@ -6,6 +6,7 @@ use App\Models\Blog;
 use Closure;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 /** The blog post form (inline on the list, and the edit page) and the API's create/replace body. */
 class BlogRequest extends FormRequest
@@ -32,7 +33,7 @@ class BlogRequest extends FormRequest
             'slug' => ['bail', 'required', 'string', 'max:180', $this->uniqueSlug(...)],
             'short_description' => ['nullable', 'string', 'max:300'],
             'description' => ['nullable', 'string', 'max:60000'],
-            'banner' => ['nullable', 'string', 'max:255'],
+            'banner' => ['nullable', 'integer', Rule::exists('uploads', 'id')->where('type', 'image')],
             'meta_title' => ['nullable', 'string', 'max:180'],
             'meta_description' => ['nullable', 'string', 'max:300'],
             'status' => ['sometimes', 'boolean'],

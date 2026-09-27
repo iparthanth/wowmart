@@ -31,23 +31,23 @@ class MarketingController extends Controller
     public function popupIndex(Request $request): AnonymousResourceCollection
     {
         return DynamicPopupResource::collection(
-            DynamicPopup::orderBy('title')->paginate(min(max($request->integer('per_page', 15), 1), 100))->withQueryString()
+            DynamicPopup::with('bannerFile')->orderBy('title')->paginate(min(max($request->integer('per_page', 15), 1), 100))->withQueryString()
         );
     }
 
     public function popupStore(DynamicPopupRequest $request): DynamicPopupResource
     {
-        return new DynamicPopupResource($this->marketing->createPopup($request->validated())); // 201
+        return new DynamicPopupResource($this->marketing->createPopup($request->validated())->load('bannerFile')); // 201
     }
 
     public function popupShow(DynamicPopup $dynamic_popup): DynamicPopupResource
     {
-        return new DynamicPopupResource($dynamic_popup);
+        return new DynamicPopupResource($dynamic_popup->load('bannerFile'));
     }
 
     public function popupUpdate(DynamicPopupRequest $request, DynamicPopup $dynamic_popup): DynamicPopupResource
     {
-        return new DynamicPopupResource($this->marketing->updatePopup($dynamic_popup, $request->validated()));
+        return new DynamicPopupResource($this->marketing->updatePopup($dynamic_popup, $request->validated())->load('bannerFile'));
     }
 
     public function popupDestroy(DynamicPopup $dynamic_popup): Response

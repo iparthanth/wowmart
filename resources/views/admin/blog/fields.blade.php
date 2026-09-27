@@ -32,7 +32,12 @@
                hint="The post lives at /blog/... - leave blank to derive it from the title." />
 <x-admin.field name="short_description" label="Short description" :value="$v('short_description', $post->short_description)" maxlength="300"
                hint="Shown on blog lists." />
-<x-admin.field name="banner" label="Banner image (upload URL)" :value="$v('banner', $post->banner)" maxlength="255" />
+<div class="field">
+    <span class="field-label">Banner image</span>
+    <x-admin.media-picker name="banner" :images="$images" :selected="$v('banner', $post->banner)" />
+    <span class="hint">Shown at the top of the post. Upload new pictures on Uploaded Files first.</span>
+    @error('banner')<span class="error">{{ $message }}</span>@enderror
+</div>
 
 <div class="field">
     <label for="f-description">Body</label>

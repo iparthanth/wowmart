@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\Upload;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -34,6 +35,37 @@ class BlogTest extends TestCase
             ->assertSee('Buying Guides');
         $this->assertSame(2, BlogCategory::count());
         $this->assertSame(3, Blog::count());
+    }
+
+    public function test_a_post_banner_is_chosen_from_the_media_library(): void
+    {
+        $guides = BlogCategory::where('slug', 'guides')->firstOrFail();
+        $upload = Upload::create([
+            'file_original_name' => 'cover', 'file_name' => 'uploads/all/cover.png',
+            'user_id' => $this->admin->id, 'file_size' => 1024, 'extension' => 'png', 'type' => 'image',
+        ]);
+
+        $this->actingAs($this->admin)->post('/admin/blog', [
+            'blog_category_id' => $guides->id, 'title' => 'Banner post', 'banner' => $upload->id, 'status' => '1',
+        ])->assertSessionHasNoErrors();
+        $this->assertSame($upload->id, Blog::where('title', 'Banner post')->firstOrFail()->banner);
+
+        // A bogus banner id and a non-image file are both refused.
+        $this->actingAs($this->admin)->post('/admin/blog', [
+            'blog_category_id' => $guides->id, 'title' => 'Bad banner', 'banner' => 99999, 'status' => '1',
+        ])->assertSessionHasErrors('banner');
+
+        $pdf = Upload::create([
+            'file_original_name' => 'doc', 'file_name' => 'uploads/all/doc.pdf',
+            'user_id' => $this->admin->id, 'file_size' => 2048, 'extension' => 'pdf', 'type' => 'document',
+        ]);
+        $this->actingAs($this->admin)->post('/admin/blog', [
+            'blog_category_id' => $guides->id, 'title' => 'Pdf banner', 'banner' => $pdf->id, 'status' => '1',
+        ])->assertSessionHasErrors('banner');
+        $this->assertSame(4, Blog::count()); // the three seeded posts plus "Banner post"
+
+        $this->actingAs($this->admin)->get('/admin/blog')
+            ->assertOk()->assertSee('Choose from library');
     }
 
     public function test_a_post_is_created_with_a_derived_slug_edited_and_deleted(): void

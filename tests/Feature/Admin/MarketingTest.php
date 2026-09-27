@@ -59,6 +59,19 @@ class MarketingTest extends TestCase
         $this->assertSame(0, DynamicPopup::count());
     }
 
+    public function test_a_popup_banner_must_be_a_picture_from_the_library(): void
+    {
+        $this->actingAs($this->admin)->post('/admin/dynamic-popups', [
+            'title' => 'Banner popup', 'page' => 'all', 'banner' => 99999,
+        ])->assertSessionHasErrors('banner');
+
+        $this->actingAs($this->admin)->post('/admin/dynamic-popups', [
+            'title' => 'Banner popup', 'page' => 'all', 'banner' => 'not-an-id',
+        ])->assertSessionHasErrors('banner');
+
+        $this->assertSame(0, DynamicPopup::count());
+    }
+
     public function test_an_alert_is_created_edited_and_deleted(): void
     {
         $this->actingAs($this->admin)->get('/admin/custom-alerts')

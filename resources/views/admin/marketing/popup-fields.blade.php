@@ -11,7 +11,12 @@
     <label for="f-description">Description</label>
     <textarea id="f-description" name="description" rows="4" class="input">{{ $v('description', $popup->description) }}</textarea>
 </div>
-<x-admin.field name="banner" label="Banner image (upload URL)" :value="$v('banner', $popup->banner)" maxlength="255" />
+<div class="field">
+    <span class="field-label">Banner image</span>
+    <x-admin.media-picker name="banner" :images="$images" :selected="$v('banner', $popup->banner)" />
+    <span class="hint">The picture at the top of the pop-up. Upload new ones on Uploaded Files first.</span>
+    @error('banner')<span class="error">{{ $message }}</span>@enderror
+</div>
 <x-admin.field name="link" label="Link" :value="$v('link', $popup->link)" maxlength="255" hint="Where the pop-up sends the visitor." />
 
 <div class="split" style="gap:12px">

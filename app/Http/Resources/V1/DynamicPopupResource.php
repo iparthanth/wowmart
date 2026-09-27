@@ -15,7 +15,9 @@ class DynamicPopupResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'banner' => $this->banner,
+            'banner' => $this->whenLoaded('bannerFile', fn () => $this->bannerFile
+                ? ['id' => $this->bannerFile->id, 'url' => $this->bannerFile->url()]
+                : null),
             'link' => $this->link,
             'page' => $this->page,
             'once_per_session' => (bool) $this->once_per_session,

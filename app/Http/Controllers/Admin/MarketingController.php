@@ -12,6 +12,7 @@ use App\Models\DynamicPopup;
 use App\Models\EmailTemplate;
 use App\Models\Newsletter;
 use App\Models\Subscriber;
+use App\Models\Upload;
 use App\Services\MarketingService;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
@@ -28,9 +29,10 @@ class MarketingController extends Controller
     public function popups(): View
     {
         return view('admin.marketing.popups', [
-            'popups' => DynamicPopup::orderBy('title')->paginate(20),
+            'popups' => DynamicPopup::with('bannerFile')->orderBy('title')->paginate(20),
             'newPopup' => new DynamicPopup,
             'pages' => DynamicPopup::PAGES,
+            'images' => Upload::where('type', 'image')->latest('id')->get(),
         ]);
     }
 
@@ -46,6 +48,7 @@ class MarketingController extends Controller
         return view('admin.marketing.popup-edit', [
             'popup' => $dynamic_popup,
             'pages' => DynamicPopup::PAGES,
+            'images' => Upload::where('type', 'image')->latest('id')->get(),
         ]);
     }
 

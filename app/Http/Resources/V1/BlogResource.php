@@ -17,7 +17,9 @@ class BlogResource extends JsonResource
             'slug' => $this->slug,
             'short_description' => $this->short_description,
             'description' => $this->description,
-            'banner' => $this->banner,
+            'banner' => $this->whenLoaded('bannerFile', fn () => $this->bannerFile
+                ? ['id' => $this->bannerFile->id, 'url' => $this->bannerFile->url()]
+                : null),
             'meta_title' => $this->meta_title,
             'meta_description' => $this->meta_description,
             'status' => (bool) $this->status,

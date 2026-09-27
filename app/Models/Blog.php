@@ -23,6 +23,11 @@ class Blog extends Model
         return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
 
+    public function bannerFile(): BelongsTo
+    {
+        return $this->belongsTo(Upload::class, 'banner');
+    }
+
     /** @return Builder<self> only posts the storefront shows */
     public function scopeActive(Builder $query): Builder
     {

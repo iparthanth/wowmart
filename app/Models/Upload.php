@@ -31,6 +31,8 @@ class Upload extends Model
         'category icon' => ['categories', 'icon'],
         'category cover' => ['categories', 'cover_image'],
         'flash deal banner' => ['flash_deals', 'banner'],
+        'blog post banner' => ['blogs', 'banner'],
+        'pop-up banner' => ['dynamic_popups', 'banner'],
         'shop logo' => ['shops', 'logo'],
     ];
 

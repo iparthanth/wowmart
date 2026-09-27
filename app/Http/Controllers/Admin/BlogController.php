@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\BlogCategoryRequest;
 use App\Http\Requests\Admin\BlogRequest;
 use App\Models\Blog;
 use App\Models\BlogCategory;
+use App\Models\Upload;
 use App\Services\BlogService;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
@@ -23,6 +24,7 @@ class BlogController extends Controller
             'posts' => Blog::with('category')->orderBy('title')->paginate(20),
             'newPost' => new Blog,
             'categories' => BlogCategory::orderBy('name')->get(),
+            'images' => Upload::where('type', 'image')->latest('id')->get(),
         ]);
     }
 
@@ -38,6 +40,7 @@ class BlogController extends Controller
         return view('admin.blog.edit', [
             'post' => $blog,
             'categories' => BlogCategory::orderBy('name')->get(),
+            'images' => Upload::where('type', 'image')->latest('id')->get(),
         ]);
     }
 
