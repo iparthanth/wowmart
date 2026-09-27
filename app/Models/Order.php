@@ -34,6 +34,7 @@ class Order extends Model
             'payment_status' => PaymentStatus::class,
             'grand_total' => 'decimal:2',
             'coupon_discount' => 'decimal:2',
+            'cancel_requested_at' => 'datetime',
         ];
     }
 
@@ -45,6 +46,11 @@ class Order extends Model
     public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'seller_id');
+    }
+
+    public function deliveryBoy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'delivery_boy_id');
     }
 
     public function details(): HasMany

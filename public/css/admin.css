@@ -293,6 +293,8 @@ h1, h2, h3 { font-family: var(--display); margin: 0; line-height: 1.25; text-wra
 .field .error { font-size: 12px; color: var(--bad); }
 .check { display: inline-flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; }
 .check input { accent-color: var(--tangerine); width: 16px; height: 16px; }
+.input-sm, .select-sm { width: auto; height: 32px; padding: 0 8px; font-size: 13px; }
+.inline-form { display: inline; margin: 0; }
 
 /* -------------------------------------------------------------- flash */
 

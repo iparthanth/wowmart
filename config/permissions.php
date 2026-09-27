@@ -81,5 +81,12 @@ return [
                 'api.v1.delivery-boys.*',
             ],
         ],
+        'shipping' => [
+            'label' => 'Shipping (countries, states, cities, zones, carriers)',
+            'patterns' => [
+                'admin.countries.*', 'admin.states.*', 'admin.cities.*', 'admin.zones.*', 'admin.carriers.*',
+                'api.v1.countries.*', 'api.v1.states.*', 'api.v1.cities.*', 'api.v1.zones.*', 'api.v1.carriers.*',
+            ],
+        ],
     ],
 ];

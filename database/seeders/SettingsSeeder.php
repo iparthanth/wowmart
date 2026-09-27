@@ -51,6 +51,8 @@ class SettingsSeeder extends Seeder
             'mail_mailer' => 'log',
             'cash_on_delivery' => '1',
             'bank_transfer' => '1',
+            'shipping_method' => 'flat',
+            'flat_shipping_cost' => '60',
         ] as $key => $value) {
             BusinessSetting::put($key, $value);
         }

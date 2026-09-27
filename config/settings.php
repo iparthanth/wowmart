@@ -168,6 +168,54 @@ return [
             ],
         ],
 
+        'shipping' => [
+            'label' => 'Shipping Configuration',
+            'fields' => [
+                'shipping_method' => [
+                    'type' => 'select',
+                    'label' => 'Shipping method',
+                    'options' => [
+                        'product_wise' => 'Product-wise (each product carries its shipping cost)',
+                        'flat' => 'Flat (one cost for every order)',
+                        'seller_wise' => 'Seller-wise (each seller sets shipping for their lines)',
+                        'area_wise' => 'Area-wise (per-city costs from the shipping cities)',
+                        'carrier' => 'Carrier (billing ranges priced per zone)',
+                    ],
+                    'validation' => ['nullable', 'in:product_wise,flat,seller_wise,area_wise,carrier'],
+                ],
+                'flat_shipping_cost' => [
+                    'type' => 'number',
+                    'label' => 'Flat shipping cost',
+                    'hint' => 'Used when the shipping method is flat.',
+                    'validation' => ['nullable', 'numeric', 'min:0', 'max:999999'],
+                ],
+            ],
+        ],
+
+        'delivery-boy' => [
+            'label' => 'Delivery Boy Configuration',
+            'fields' => [
+                'delivery_boy_pickup_time' => [
+                    'type' => 'number',
+                    'label' => 'Pickup time limit (minutes)',
+                    'hint' => 'How long a delivery boy has to pick up an assigned order.',
+                    'validation' => ['nullable', 'integer', 'min:1', 'max:10080'],
+                ],
+                'delivery_boy_delivery_time' => [
+                    'type' => 'number',
+                    'label' => 'Delivery time limit (minutes)',
+                    'hint' => 'How long a delivery boy has to complete a picked-up order.',
+                    'validation' => ['nullable', 'integer', 'min:1', 'max:10080'],
+                ],
+                'delivery_boy_cancel_order_time' => [
+                    'type' => 'number',
+                    'label' => 'Cancel request window (minutes)',
+                    'hint' => 'How long after assignment a delivery boy may request to cancel.',
+                    'validation' => ['nullable', 'integer', 'min:1', 'max:10080'],
+                ],
+            ],
+        ],
+
         'file-system' => [
             'label' => 'File System & Cache',
             'fields' => [

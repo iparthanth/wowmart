@@ -8,8 +8,10 @@ use App\Http\Requests\Admin\DeliveryBoyHistoryRequest;
 use App\Http\Requests\Admin\DeliveryBoyRequest;
 use App\Models\DeliveryBoyCollection;
 use App\Models\DeliveryBoyPayment;
+use App\Models\Order;
 use App\Models\User;
 use App\Services\DeliveryBoyService;
+use App\Services\OrderService;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -94,5 +96,40 @@ class DeliveryBoyController extends Controller
         $this->boys->collect($request->payload());
 
         return redirect()->route('admin.delivery-boys.collections')->with('status', 'Collection recorded.');
+    }
+
+    /** Orders whose delivery boy asked to cancel, newest request first. */
+    public function cancelRequests(): View
+    {
+        return view('admin.delivery-boys.cancel-requests', [
+            'orders' => Order::with(['deliveryBoy:id,name', 'customer:id,name'])
+                ->whereNotNull('cancel_requested_at')
+                ->orderByDesc('cancel_requested_at')
+                ->paginate(20),
+        ]);
+    }
+
+    public function approveCancel(OrderService $orders, Order $order): RedirectResponse
+    {
+        try {
+            $this->boys->approveCancel($order, $orders);
+        } catch (DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.delivery-boys.cancel-requests')
+            ->with('status', "Order {$order->code} cancelled; its items are back in stock.");
+    }
+
+    public function declineCancel(Order $order): RedirectResponse
+    {
+        try {
+            $this->boys->declineCancel($order);
+        } catch (DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.delivery-boys.cancel-requests')
+            ->with('status', "The cancel request for order {$order->code} was declined.");
     }
 }

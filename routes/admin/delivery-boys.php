@@ -14,6 +14,10 @@ Route::controller(DeliveryBoyController::class)
         Route::post('delivery-boys-payment-histories', 'storePayment')->name('payments.store');
         Route::post('delivery-boys-collection-histories', 'storeCollection')->name('collections.store');
 
+        Route::get('delivery-boys-cancel-requests', 'cancelRequests')->name('cancel-requests');
+        Route::post('delivery-boys-cancel-requests/{order}/approve', 'approveCancel')->name('cancel-requests.approve');
+        Route::post('delivery-boys-cancel-requests/{order}/decline', 'declineCancel')->name('cancel-requests.decline');
+
         Route::get('delivery-boys', 'index')->name('index');
         Route::post('delivery-boys', 'store')->name('store');
         Route::get('delivery-boys/{delivery_boy}/edit', 'edit')->name('edit');

@@ -127,6 +127,56 @@
         </section>
 
         <section class="card">
+            <div class="card-head"><h2>Delivery boy</h2></div>
+            @php
+                $boy = $order->deliveryBoy;
+                $boys = App\Models\User::where('user_type', App\Enums\UserType::DeliveryBoy)->orderBy('name')->get(['id', 'name']);
+            @endphp
+            @if ($order->cancel_requested_at)
+                <div class="card-body" style="padding-bottom:0">
+                    <div class="flash flash-bad" style="margin:0">
+                        {{ $boy?->name ?? 'The delivery boy' }} asked to cancel this order
+                        on {{ $order->cancel_requested_at->format('j M Y, g:i a') }}.
+                        Decide it from
+                        <a href="{{ route('admin.delivery-boys.cancel-requests') }}">the cancel-requests list</a>.
+                    </div>
+                </div>
+            @endif
+            <dl class="facts" style="border-top:0">
+                <div><dt>Assigned</dt><dd>{{ $boy ? $boy->name : 'Nobody yet' }}</dd></div>
+            </dl>
+            @if (! $order->delivery_status->isFinal())
+                <div class="card-body aside-actions">
+                    <form method="POST" action="{{ route('admin.orders.assign-delivery-boy', $order) }}">
+                        @csrf
+                        <div class="field">
+                            <label for="f-delivery_boy_id">Delivery boy</label>
+                            <select id="f-delivery_boy_id" name="delivery_boy_id" class="select" required>
+                                <option value="">Choose a delivery boy</option>
+                                @foreach ($boys as $b)
+                                    <option value="{{ $b->id }}" @selected($boy?->id === $b->id)>{{ $b->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="row-actions">
+                            <button type="submit" class="btn btn-primary btn-sm">{{ $boy ? 'Reassign' : 'Assign' }}</button>
+                        </div>
+                    </form>
+                    @if ($boy)
+                        <form method="POST" action="{{ route('admin.orders.unassign-delivery-boy', $order) }}">
+                            @csrf
+                            <button type="submit" class="btn btn-ghost btn-block">Take the order back</button>
+                        </form>
+                    @endif
+                </div>
+            @else
+                <div class="card-body">
+                    <p class="muted" style="margin:0">{{ $order->delivery_status->label() }} is final; no delivery boy can be assigned.</p>
+                </div>
+            @endif
+        </section>
+
+        <section class="card">
             <div class="card-head"><h2>Customer</h2></div>
             <dl class="facts" style="border-top:0">
                 @if ($customer)
