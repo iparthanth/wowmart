@@ -20,6 +20,10 @@ class ReportController extends Controller
         'in-house-sales' => ['Product' => 'name', 'SKU' => 'sku', 'Units sold' => 'units', 'Revenue' => 'revenue'],
         'seller-sales' => ['Shop' => 'shop', 'Seller' => 'seller', 'Orders' => 'orders', 'Units sold' => 'units', 'Revenue' => 'revenue'],
         'wishlist' => ['Product' => 'name', 'SKU' => 'sku', 'Category' => 'category', 'Wishlists' => 'wishlists'],
+        'user-searches' => ['Search term' => 'query', 'Searches' => 'searches', 'Last searched' => 'last_searched'],
+        'commission-history' => ['Order' => 'order_code', 'Shop' => 'shop', 'Admin commission' => 'admin_commission', 'Seller earning' => 'seller_earning', 'Date' => 'created_at'],
+        'wallet-recharges' => ['Customer' => 'customer', 'Email' => 'email', 'Amount' => 'amount', 'Payment method' => 'payment_method', 'Approval' => 'approval', 'Date' => 'created_at'],
+        'earning' => ['Shop' => 'shop', 'Seller' => 'seller', 'Orders' => 'orders', 'Admin commission' => 'admin_commission', 'Seller earning' => 'seller_earning'],
     ];
 
     public function __construct(private readonly ReportService $reports) {}
@@ -42,6 +46,26 @@ class ReportController extends Controller
     public function wishlist(Request $request): View|StreamedResponse
     {
         return $this->show('wishlist', $request);
+    }
+
+    public function userSearches(Request $request): View|StreamedResponse
+    {
+        return $this->show('user-searches', $request);
+    }
+
+    public function commissionHistory(Request $request): View|StreamedResponse
+    {
+        return $this->show('commission-history', $request);
+    }
+
+    public function walletRecharges(Request $request): View|StreamedResponse
+    {
+        return $this->show('wallet-recharges', $request);
+    }
+
+    public function earning(Request $request): View|StreamedResponse
+    {
+        return $this->show('earning', $request);
     }
 
     private function show(string $report, Request $request): View|StreamedResponse

@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api\V1;
 
 use App\Enums\DeliveryStatus;
+use App\Models\CommissionLog;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\User;
@@ -99,6 +100,44 @@ class ReportApiTest extends TestCase
         $categoryProducts = $product->category()->withCount('products')->firstOrFail()->products_count;
         $this->assertSame($categoryProducts, count($response->json('data')));
         $this->assertSame(['products' => $categoryProducts, 'wishlists' => 3], $response->json('totals'));
+    }
+
+    public function test_new_reports_serve_rows_totals_and_filters(): void
+    {
+        $this->getJson('/api/v1/reports/user-searches')
+            ->assertOk()
+            ->assertJsonPath('totals', ['terms' => 12, 'searches' => 72])
+            ->assertJsonPath('data.0.query', 'drone kit')
+            ->assertJsonPath('data.0.searches', 14)
+            ->assertJsonPath('filters', ['search' => '']);
+
+        $pairs = OrderDetail::query()
+            ->join('orders as o', 'o.id', '=', 'order_details.order_id')
+            ->where('o.payment_status', 'paid')
+            ->whereNotNull('order_details.seller_id')
+            ->get(['order_details.order_id', 'order_details.seller_id'])
+            ->groupBy(fn ($d) => $d->order_id.'-'.$d->seller_id);
+
+        $this->getJson('/api/v1/reports/commission-history')
+            ->assertOk()
+            ->assertJsonCount($pairs->count(), 'data')
+            ->assertJsonPath('totals.orders', $pairs->count())
+            ->assertJsonStructure(['data' => [['order_code', 'shop', 'admin_commission', 'seller_earning', 'created_at']], 'totals' => ['orders', 'admin_commission', 'seller_earning'], 'filters' => ['date_from', 'date_to']]);
+
+        $wallet = $this->getJson('/api/v1/reports/wallet-recharges?approval=pending')
+            ->assertOk()
+            ->assertJsonCount(2, 'data')
+            ->assertJsonPath('totals.amount', '275.00')
+            ->assertJsonPath('filters', ['approval' => 'pending'])
+            ->assertJsonStructure(['data' => [['id', 'customer', 'email', 'amount', 'payment_method', 'approval', 'created_at']], 'totals' => ['requests', 'amount'], 'filters']);
+
+        $this->assertMatchesRegularExpression('/^\d+\.\d{2}$/', (string) $wallet->json('data.0.amount'));
+
+        $this->getJson('/api/v1/reports/earning')
+            ->assertOk()
+            ->assertJsonCount(5, 'data')
+            ->assertJsonPath('totals.sellers', CommissionLog::distinct()->count('seller_id'))
+            ->assertJsonStructure(['data' => [['id', 'shop', 'seller', 'orders', 'admin_commission', 'seller_earning']], 'totals' => ['sellers', 'orders', 'admin_commission', 'seller_earning'], 'filters']);
     }
 
     public function test_reports_need_an_admin(): void

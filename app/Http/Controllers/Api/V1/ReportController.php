@@ -43,6 +43,26 @@ class ReportController extends Controller
         return $this->all('wishlist', $request);
     }
 
+    public function userSearches(Request $request): JsonResponse
+    {
+        return $this->all('user-searches', $request);
+    }
+
+    public function commissionHistory(Request $request): JsonResponse
+    {
+        return $this->all('commission-history', $request);
+    }
+
+    public function walletRecharges(Request $request): JsonResponse
+    {
+        return $this->all('wallet-recharges', $request);
+    }
+
+    public function earning(Request $request): JsonResponse
+    {
+        return $this->all('earning', $request);
+    }
+
     private function all(string $report, Request $request): JsonResponse
     {
         $result = $this->reports->run($report, $request->query());

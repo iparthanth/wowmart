@@ -3,10 +3,13 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\DeliveryStatus;
+use App\Models\BusinessSetting;
 use App\Models\Category;
+use App\Models\CommissionLog;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Product;
+use App\Models\SearchLog;
 use App\Models\Shop;
 use App\Models\User;
 use App\Models\Wishlist;
@@ -271,6 +274,112 @@ class ReportTest extends TestCase
         $this->assertSame($a->id, $categoryRows->first()['id']);
         $this->assertSame(Category::whereKey($a->category_id)->withCount('products')->firstOrFail()->products_count, $categoryRows->count());
         $this->assertSame($categoryRows->sum('wishlists'), $inCategory->viewData('totals')['wishlists']);
+    }
+
+    // ---------------------------------------------------------- user searches
+
+    public function test_user_searches_aggregate_terms_most_searched_first(): void
+    {
+        $response = $this->report('user-searches');
+        $rows = $response->viewData('rows');
+        $totals = $response->viewData('totals');
+
+        // The seeder logs each term a known number of times.
+        $this->assertSame(12, $totals['terms']);
+        $this->assertSame(SearchLog::count(), $totals['searches']);
+        $this->assertSame(72, $totals['searches']);
+
+        $this->assertSame('drone kit', $rows[0]['query']);
+        $this->assertSame(14, $rows[0]['searches']);
+        $this->assertSame($rows->pluck('searches')->sortDesc()->values()->all(), $rows->pluck('searches')->all());
+
+        $filtered = $this->report('user-searches', ['search' => 'servo']);
+        $this->assertSame([['servo motor', 9]], $filtered->viewData('rows')->map(fn ($r) => [$r['query'], $r['searches']])->all());
+    }
+
+    // ----------------------------------------------------- commission history
+
+    public function test_commission_history_rows_match_paid_seller_orders(): void
+    {
+        $rate = (float) BusinessSetting::get('seller_commission', 5);
+        // Sellers ride on the order lines, so the commission unit is one seller
+        // inside one paid order.
+        $pairs = OrderDetail::query()
+            ->join('orders as o', 'o.id', '=', 'order_details.order_id')
+            ->where('o.payment_status', 'paid')
+            ->whereNotNull('order_details.seller_id')
+            ->get(['order_details.order_id', 'order_details.seller_id', 'order_details.price', 'order_details.quantity'])
+            ->groupBy(fn ($d) => $d->order_id.'-'.$d->seller_id);
+        $this->assertGreaterThan(0, $pairs->count());
+
+        $response = $this->report('commission-history');
+        $rows = $response->viewData('rows');
+        $totals = $response->viewData('totals');
+
+        $this->assertSame($pairs->count(), $rows->count());
+        $this->assertSame($pairs->count(), $totals['orders']);
+
+        $expectedCommission = round($pairs->sum(fn ($lines) => $lines->sum(fn ($d) => $d->price * $d->quantity)) * $rate / 100, 2);
+        $expectedEarning = round($pairs->sum(fn ($lines) => $lines->sum(fn ($d) => $d->price * $d->quantity)) * (100 - $rate) / 100, 2);
+        $this->assertEqualsWithDelta($expectedCommission, $totals['admin_commission'], 0.01);
+        $this->assertEqualsWithDelta($expectedEarning, $totals['seller_earning'], 0.01);
+
+        // Every stored commission row appears with its own figures (one order
+        // can hold two sellers, so compare as multisets, not per order code).
+        $this->assertEqualsCanonicalizing(
+            CommissionLog::pluck('admin_commission')->map(fn ($v) => round((float) $v, 2))->all(),
+            $rows->pluck('admin_commission')->all(),
+        );
+        $this->assertEqualsCanonicalizing(
+            CommissionLog::pluck('seller_earning')->map(fn ($v) => round((float) $v, 2))->all(),
+            $rows->pluck('seller_earning')->all(),
+        );
+
+        // Newest first.
+        $dates = $rows->pluck('created_at')->all();
+        $this->assertSame($dates, array_values(collect($dates)->sortDesc()->values()->all()));
+    }
+
+    // ------------------------------------------------------- wallet recharges
+
+    public function test_wallet_recharges_list_with_an_approval_filter(): void
+    {
+        $response = $this->report('wallet-recharges');
+        $rows = $response->viewData('rows');
+
+        $this->assertSame(5, $rows->count());
+        $this->assertSame(455.0, $response->viewData('totals')['amount']);
+
+        // Pending first, then newest first.
+        $this->assertSame('pending', $rows[0]['approval']);
+
+        $pending = $this->report('wallet-recharges', ['approval' => 'pending'])->viewData('rows');
+        $this->assertCount(2, $pending);
+        $this->assertSame(275.0, $pending->sum('amount'));
+
+        // An unknown state shows everything rather than nothing.
+        $this->assertSame(5, $this->report('wallet-recharges', ['approval' => 'maybe'])->viewData('rows')->count());
+    }
+
+    // ---------------------------------------------------------------- earning
+
+    public function test_earning_report_has_one_row_per_shop_with_zeros(): void
+    {
+        $response = $this->report('earning');
+        $rows = $response->viewData('rows');
+        $totals = $response->viewData('totals');
+
+        // Every shop gets a row; only shops with paid orders move the totals.
+        $this->assertSame(5, $rows->count());
+        $this->assertSame(CommissionLog::distinct()->count('seller_id'), $totals['sellers']);
+
+        $history = $this->report('commission-history')->viewData('totals');
+        $this->assertEqualsWithDelta($history['admin_commission'], $totals['admin_commission'], 0.001);
+        $this->assertEqualsWithDelta($history['seller_earning'], $totals['seller_earning'], 0.001);
+
+        // Sorted by what the shop earned, most first; zeros at the bottom.
+        $earnings = $rows->pluck('seller_earning')->all();
+        $this->assertSame(collect($earnings)->sortDesc()->values()->all(), $earnings);
     }
 
     // ------------------------------------------------------------------- CSV

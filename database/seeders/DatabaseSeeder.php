@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             PageSeeder::class,
             BlogSeeder::class,
             DeliveryBoySeeder::class,
+            ReportSeeder::class,
         ]);
     }
 }

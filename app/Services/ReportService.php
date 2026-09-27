@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Enums\DeliveryStatus;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\WalletRecharge;
 use Closure;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
@@ -24,10 +25,10 @@ use Illuminate\Support\Facades\DB;
  */
 class ReportService
 {
-    public const REPORTS = ['stock', 'in-house-sales', 'seller-sales', 'wishlist'];
+    public const REPORTS = ['stock', 'in-house-sales', 'seller-sales', 'wishlist', 'user-searches', 'commission-history', 'wallet-recharges', 'earning'];
 
     /** Keys holding money, in rows and totals; the API renders them as 2-decimal strings. */
-    public const MONEY = ['unit_price', 'stock_value', 'revenue'];
+    public const MONEY = ['unit_price', 'stock_value', 'revenue', 'admin_commission', 'seller_earning', 'amount'];
 
     public const STATES = ['out' => 'Sold out', 'low' => 'Low', 'ok' => 'In stock'];
 
@@ -39,6 +40,10 @@ class ReportService
             'in-house-sales' => $this->inHouseSales($in),
             'seller-sales' => $this->sellerSales($in),
             'wishlist' => $this->wishlist($in),
+            'user-searches' => $this->userSearches($in),
+            'commission-history' => $this->commissionHistory($in),
+            'wallet-recharges' => $this->walletRecharges($in),
+            'earning' => $this->earning($in),
         };
     }
 
@@ -213,6 +218,152 @@ class ReportService
             'totals' => [
                 'products' => $products()->count(),
                 'wishlists' => (int) $totals->wishlists,
+            ],
+        ];
+    }
+
+    /** What visitors searched for, most searched first. */
+    public function userSearches(array $in): array
+    {
+        $f = [
+            'search' => is_string($in['search'] ?? null) ? trim($in['search']) : '',
+        ];
+
+        $base = fn () => DB::table('search_logs')
+            ->when($f['search'] !== '', fn (Builder $q) => $q->where('query', 'like', "%{$f['search']}%"));
+
+        $totals = $base()->selectRaw('count(distinct query) as terms, count(*) as searches')->first();
+
+        return [
+            'filters' => $f,
+            'query' => $base()
+                ->groupBy('query')
+                ->select('query')
+                ->selectRaw('count(*) as searches, max(created_at) as last_searched')
+                ->orderByDesc('searches')
+                ->orderBy('query'),
+            'map' => fn (object $r) => [
+                'query' => $r->query,
+                'searches' => (int) $r->searches,
+                'last_searched' => $r->last_searched,
+            ],
+            'totals' => [
+                'terms' => (int) $totals->terms,
+                'searches' => (int) $totals->searches,
+            ],
+        ];
+    }
+
+    /** The marketplace's cut, one row per paid seller order. */
+    public function commissionHistory(array $in): array
+    {
+        $f = $this->dateRange($in);
+
+        $base = fn () => DB::table('commission_logs as cl')
+            ->join('orders as o', 'o.id', '=', 'cl.order_id')
+            ->leftJoin('shops as s', 's.user_id', '=', 'cl.seller_id')
+            ->where('o.created_at', '>=', Carbon::parse($f['date_from'])->startOfDay())
+            ->where('o.created_at', '<', Carbon::parse($f['date_to'])->addDay()->startOfDay());
+
+        $totals = $base()->selectRaw('count(*) as orders, coalesce(sum(cl.admin_commission), 0) as admin_commission, coalesce(sum(cl.seller_earning), 0) as seller_earning')->first();
+
+        return [
+            'filters' => $f,
+            'query' => $base()
+                ->select('cl.order_code', 'o.created_at', 's.name as shop')
+                ->selectRaw('cl.admin_commission, cl.seller_earning')
+                ->orderByDesc('o.created_at')
+                ->orderBy('cl.id'),
+            'map' => fn (object $r) => [
+                'order_code' => $r->order_code,
+                'shop' => $r->shop,
+                'admin_commission' => round((float) $r->admin_commission, 2),
+                'seller_earning' => round((float) $r->seller_earning, 2),
+                'created_at' => $r->created_at,
+            ],
+            'totals' => [
+                'orders' => (int) $totals->orders,
+                'admin_commission' => round((float) $totals->admin_commission, 2),
+                'seller_earning' => round((float) $totals->seller_earning, 2),
+            ],
+        ];
+    }
+
+    /** Customers' offline wallet top-ups; approval filter defaults to every state. */
+    public function walletRecharges(array $in): array
+    {
+        $f = [
+            'approval' => is_string($in['approval'] ?? null) && in_array($in['approval'], WalletRecharge::APPROVALS, true)
+                ? $in['approval']
+                : null,
+        ];
+
+        $base = fn () => DB::table('wallet_recharges as wr')
+            ->join('users as u', 'u.id', '=', 'wr.user_id')
+            ->when($f['approval'], fn (Builder $q) => $q->where('wr.approval', $f['approval']));
+
+        $totals = $base()->selectRaw('count(*) as requests, coalesce(sum(wr.amount), 0) as amount')->first();
+
+        return [
+            'filters' => $f,
+            'query' => $base()
+                ->select('wr.id', 'u.name as customer', 'u.email', 'wr.amount', 'wr.payment_method', 'wr.approval', 'wr.created_at')
+                ->orderByRaw("case wr.approval when 'pending' then 0 else 1 end, wr.id desc"),
+            'map' => fn (object $r) => [
+                'id' => (int) $r->id,
+                'customer' => $r->customer,
+                'email' => $r->email,
+                'amount' => round((float) $r->amount, 2),
+                'payment_method' => $r->payment_method,
+                'approval' => $r->approval,
+                'created_at' => $r->created_at,
+            ],
+            'totals' => [
+                'requests' => (int) $totals->requests,
+                'amount' => round((float) $totals->amount, 2),
+            ],
+        ];
+    }
+
+    /** Per-seller earning summary over the paid seller orders in the range. */
+    public function earning(array $in): array
+    {
+        $f = $this->dateRange($in);
+
+        $base = fn () => DB::table('commission_logs as cl')
+            ->join('orders as o', 'o.id', '=', 'cl.order_id')
+            ->leftJoin('shops as s', 's.user_id', '=', 'cl.seller_id')
+            ->where('o.created_at', '>=', Carbon::parse($f['date_from'])->startOfDay())
+            ->where('o.created_at', '<', Carbon::parse($f['date_to'])->addDay()->startOfDay());
+
+        $perShop = $base()->groupBy('cl.seller_id')->select('cl.seller_id')
+            ->selectRaw('count(*) as orders, coalesce(sum(cl.admin_commission), 0) as admin_commission, coalesce(sum(cl.seller_earning), 0) as seller_earning');
+
+        $totals = $base()->selectRaw('count(distinct cl.seller_id) as sellers, count(*) as orders, coalesce(sum(cl.admin_commission), 0) as admin_commission, coalesce(sum(cl.seller_earning), 0) as seller_earning')->first();
+
+        return [
+            'filters' => $f,
+            'query' => DB::table('shops as s')
+                ->join('users as u', 'u.id', '=', 's.user_id')
+                ->leftJoinSub($perShop, 'x', 'x.seller_id', '=', 's.user_id')
+                ->select('s.id', 's.name as shop', 'u.name as seller')
+                ->selectRaw('coalesce(x.orders, 0) as orders, coalesce(x.admin_commission, 0) as admin_commission, coalesce(x.seller_earning, 0) as seller_earning')
+                ->orderByDesc('seller_earning')
+                ->orderBy('s.name')
+                ->orderBy('s.id'),
+            'map' => fn (object $r) => [
+                'id' => (int) $r->id,
+                'shop' => $r->shop,
+                'seller' => $r->seller,
+                'orders' => (int) $r->orders,
+                'admin_commission' => round((float) $r->admin_commission, 2),
+                'seller_earning' => round((float) $r->seller_earning, 2),
+            ],
+            'totals' => [
+                'sellers' => (int) $totals->sellers,
+                'orders' => (int) $totals->orders,
+                'admin_commission' => round((float) $totals->admin_commission, 2),
+                'seller_earning' => round((float) $totals->seller_earning, 2),
             ],
         ];
     }

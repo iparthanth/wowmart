@@ -107,14 +107,14 @@
         ]],
 
         ['label' => 'Reports', 'children' => [
-            ['label' => 'Earning Report'],
+            ['label' => 'Earning Report', 'route' => 'admin.reports.earning', 'patterns' => ['admin.reports.earning']],
             ['label' => 'In House Product Sale', 'route' => 'admin.reports.in-house-sales', 'patterns' => ['admin.reports.in-house-sales']],
             ['label' => 'Seller Products Sale', 'route' => 'admin.reports.seller-sales', 'patterns' => ['admin.reports.seller-sales']],
             ['label' => 'Products Stock', 'route' => 'admin.reports.stock', 'patterns' => ['admin.reports.stock']],
             ['label' => 'Products Wishlist', 'route' => 'admin.reports.wishlist', 'patterns' => ['admin.reports.wishlist']],
-            ['label' => 'User Searches'],
-            ['label' => 'Commission History'],
-            ['label' => 'Wallet Recharge History'],
+            ['label' => 'User Searches', 'route' => 'admin.reports.user-searches', 'patterns' => ['admin.reports.user-searches']],
+            ['label' => 'Commission History', 'route' => 'admin.reports.commission-history', 'patterns' => ['admin.reports.commission-history']],
+            ['label' => 'Wallet Recharge History', 'route' => 'admin.reports.wallet-recharges', 'patterns' => ['admin.reports.wallet-recharges']],
         ]],
 
         ['label' => 'Blog System', 'children' => [

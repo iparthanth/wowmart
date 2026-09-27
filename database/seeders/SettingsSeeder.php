@@ -53,6 +53,7 @@ class SettingsSeeder extends Seeder
             'bank_transfer' => '1',
             'shipping_method' => 'flat',
             'flat_shipping_cost' => '60',
+            'seller_commission' => '5',
         ] as $key => $value) {
             BusinessSetting::put($key, $value);
         }
