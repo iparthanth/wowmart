@@ -1,0 +1,4334 @@
+{
+    "info": {
+        "name": "Picklymart Admin API",
+        "_postman_id": "87fe2076-4d62-4ea8-a5cb-cf8bf9189fc4",
+        "description": "Versioned REST API for the Picklymart admin panel, generated from the live route list.\n\n1. Run **Authentication > Sign in** \u2014 the bearer token is saved to the collection automatically.\n2. Everything else is then authorized; just Send.\n3. Sample ids are baked into the URLs \u2014 run a List request first and paste a real id.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Authentication",
+            "description": "Requests under /api/v1/auth",
+            "item": [
+                {
+                    "name": "Sign in (captures the token automatically)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/login",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"admin@wowmart.test\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": [],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test(\"Sign in succeeded\", () => pm.response.to.have.status(200));",
+                                    "const body = pm.response.json();",
+                                    "pm.collectionVariables.set(\"token\", body.token);",
+                                    "console.log(\"Token saved to the collection automatically.\");"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Revoke the current token",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/logout",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show the signed-in admin",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/auth/me",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Attribute Values",
+            "description": "Requests under /api/v1/attribute-values",
+            "item": [
+                {
+                    "name": "Update attribute-values",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/attribute-values/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"value\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete attribute-values",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/attribute-values/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Attributes",
+            "description": "Requests under /api/v1/attributes",
+            "item": [
+                {
+                    "name": "List attributes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create attributes",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show attributes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete attributes",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update attributes",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "List attributes values",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes/1/values",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create attributes values",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/attributes/1/values",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Blog",
+            "description": "Requests under /api/v1/blogs",
+            "item": [
+                {
+                    "name": "List blogs",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blogs",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create blogs",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/blogs",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"blog_category_id\": 1,\n    \"title\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"short_description\": \"Sample\",\n    \"description\": \"Sample\",\n    \"banner\": 1,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show blogs",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blogs/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete blogs",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blogs/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update blogs",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/blogs/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"blog_category_id\": 1,\n    \"title\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"short_description\": \"Sample\",\n    \"description\": \"Sample\",\n    \"banner\": 1,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Blog Categories",
+            "description": "Requests under /api/v1/blog-categories",
+            "item": [
+                {
+                    "name": "List blog-categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blog-categories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create blog-categories",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/blog-categories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show blog-categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blog-categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update blog-categories",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/blog-categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete blog-categories",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/blog-categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Brands",
+            "description": "Requests under /api/v1/brands",
+            "item": [
+                {
+                    "name": "List brands",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create brands",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"logo\": 1,\n    \"top\": true,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show brands",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete brands",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update brands",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"logo\": 1,\n    \"top\": true,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle brands flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/brands/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"logo\": 1,\n    \"top\": true,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Carrier Range Prices",
+            "description": "Requests under /api/v1/carrier-range-prices",
+            "item": [
+                {
+                    "name": "Delete carriers ranges prices",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/carrier-range-prices/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Carrier Ranges",
+            "description": "Requests under /api/v1/carrier-ranges",
+            "item": [
+                {
+                    "name": "Delete carriers ranges",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/carrier-ranges/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create carriers ranges prices",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/carrier-ranges/1/prices",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"zone_id\": 1,\n    \"price\": 10.5,\n    \"billing_type\": \"weight\",\n    \"lower\": 10.5,\n    \"upper\": 10.5\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Carriers",
+            "description": "Requests under /api/v1/carriers",
+            "item": [
+                {
+                    "name": "List carriers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create carriers",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"transit_time\": \"Sample\",\n    \"free_shipping\": true,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show carriers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete carriers",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update carriers",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"transit_time\": \"Sample\",\n    \"free_shipping\": true,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create carriers ranges",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/carriers/1/ranges",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"transit_time\": \"Sample\",\n    \"free_shipping\": true,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Categories",
+            "description": "Requests under /api/v1/categories",
+            "item": [
+                {
+                    "name": "List categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create categories",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"parent_id\": 1,\n    \"order_level\": 1,\n    \"featured\": true,\n    \"digital\": true,\n    \"icon\": 1,\n    \"banner\": 1,\n    \"cover_image\": 1,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete categories",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update categories",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"parent_id\": 1,\n    \"order_level\": 1,\n    \"featured\": true,\n    \"digital\": true,\n    \"icon\": 1,\n    \"banner\": 1,\n    \"cover_image\": 1,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle categories flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/categories/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"parent_id\": 1,\n    \"order_level\": 1,\n    \"featured\": true,\n    \"digital\": true,\n    \"icon\": 1,\n    \"banner\": 1,\n    \"cover_image\": 1,\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Cities",
+            "description": "Requests under /api/v1/cities",
+            "item": [
+                {
+                    "name": "List cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/cities",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create cities",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/cities",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"state_id\": 1,\n    \"name\": \"Sample\",\n    \"cost\": 10.5,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show cities",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/cities/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete cities",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/cities/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update cities",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/cities/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"state_id\": 1,\n    \"name\": \"Sample\",\n    \"cost\": 10.5,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Colors",
+            "description": "Requests under /api/v1/colors",
+            "item": [
+                {
+                    "name": "List colors",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/colors",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create colors",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/colors",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"code\": \"20260926-21150011\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show colors",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/colors/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete colors",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/colors/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update colors",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/colors/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"code\": \"20260926-21150011\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Countries",
+            "description": "Requests under /api/v1/countries",
+            "item": [
+                {
+                    "name": "List countries",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/countries",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create countries",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/countries",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show countries",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/countries/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete countries",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/countries/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update countries",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/countries/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Coupons",
+            "description": "Requests under /api/v1/coupons",
+            "item": [
+                {
+                    "name": "List coupons",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create coupons",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": \"2026-09-27\",\n    \"status\": true,\n    \"product_ids\": [\n        1\n    ],\n    \"min_buy\": 10.5,\n    \"max_discount\": 10.5,\n    \"validation_days\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show coupons",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete coupons",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update coupons",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": \"2026-09-27\",\n    \"status\": true,\n    \"product_ids\": [\n        1\n    ],\n    \"min_buy\": 10.5,\n    \"max_discount\": 10.5,\n    \"validation_days\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle coupons flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/coupons/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": \"2026-09-27\",\n    \"status\": true,\n    \"product_ids\": [\n        1\n    ],\n    \"min_buy\": 10.5,\n    \"max_discount\": 10.5,\n    \"validation_days\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Currencies",
+            "description": "Requests under /api/v1/currencies",
+            "item": [
+                {
+                    "name": "List currencies",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/currencies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create currencies",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/currencies",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"symbol\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"exchange_rate\": 10.5,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show currencies",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/currencies/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete currencies",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/currencies/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update currencies",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/currencies/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"symbol\": \"Sample\",\n    \"code\": \"20260926-21150011\",\n    \"exchange_rate\": 10.5,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Custom Alerts",
+            "description": "Requests under /api/v1/custom-alerts",
+            "item": [
+                {
+                    "name": "List custom-alerts",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/custom-alerts",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create custom-alerts",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/custom-alerts",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"description\": \"Sample\",\n    \"style\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show custom-alerts",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/custom-alerts/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update custom-alerts",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/custom-alerts/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"description\": \"Sample\",\n    \"style\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete custom-alerts",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/custom-alerts/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Customers",
+            "description": "Requests under /api/v1/customers",
+            "item": [
+                {
+                    "name": "List customers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create customers",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"phone\": \"Sample\",\n    \"country_code\": \"Sample\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show customers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete customers",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update customers",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"phone\": \"Sample\",\n    \"country_code\": \"Sample\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle customers flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/customers/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"phone\": \"Sample\",\n    \"country_code\": \"Sample\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Delivery Boy Collections",
+            "description": "Requests under /api/v1/delivery-boys-collection-histories",
+            "item": [
+                {
+                    "name": "List collection histories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys-collection-histories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create delivery-boys collections",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys-collection-histories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"delivery_boy_id\": 1,\n    \"amount\": 10.5,\n    \"note\": \"Sample\",\n    \"paid_at\": \"2026-09-27\",\n    \"collected_at\": \"2026-09-27\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Delivery Boy Payments",
+            "description": "Requests under /api/v1/delivery-boys-payment-histories",
+            "item": [
+                {
+                    "name": "List payment histories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys-payment-histories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create delivery-boys payments",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys-payment-histories",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"delivery_boy_id\": 1,\n    \"amount\": 10.5,\n    \"note\": \"Sample\",\n    \"paid_at\": \"2026-09-27\",\n    \"collected_at\": \"2026-09-27\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Delivery Boys",
+            "description": "Requests under /api/v1/delivery-boys",
+            "item": [
+                {
+                    "name": "List delivery-boys",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create delivery-boys",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"phone\": \"Sample\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show delivery-boys",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update delivery-boys",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"phone\": \"Sample\",\n    \"password\": \"password\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete delivery-boys",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/delivery-boys/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Dynamic Pop-ups",
+            "description": "Requests under /api/v1/dynamic-popups",
+            "item": [
+                {
+                    "name": "List dynamic-popups",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/dynamic-popups",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create dynamic-popups",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/dynamic-popups",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"description\": \"Sample\",\n    \"banner\": 1,\n    \"link\": \"Sample\",\n    \"page\": \"home\",\n    \"once_per_session\": true,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show dynamic-popups",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/dynamic-popups/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update dynamic-popups",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/dynamic-popups/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"description\": \"Sample\",\n    \"banner\": 1,\n    \"link\": \"Sample\",\n    \"page\": \"home\",\n    \"once_per_session\": true,\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete dynamic-popups",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/dynamic-popups/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Email Templates",
+            "description": "Requests under /api/v1/email-templates",
+            "item": [
+                {
+                    "name": "List email-templates",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/email-templates",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create email-templates",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/email-templates",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"receiver\": \"customer\",\n    \"identifier\": \"Sample\",\n    \"subject\": \"Sample\",\n    \"body\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show email-templates",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/email-templates/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update email-templates",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/email-templates/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"receiver\": \"customer\",\n    \"identifier\": \"Sample\",\n    \"subject\": \"Sample\",\n    \"body\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete email-templates",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/email-templates/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Flash Deals",
+            "description": "Requests under /api/v1/flash-deals",
+            "item": [
+                {
+                    "name": "List flash-deals",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create flash-deals",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": [\n        1\n    ],\n    \"banner\": 1,\n    \"background_color\": \"Sample\",\n    \"text_color\": \"Sample\",\n    \"status\": true,\n    \"featured\": true,\n    \"products\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show flash-deals",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete flash-deals",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update flash-deals",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": [\n        1\n    ],\n    \"banner\": 1,\n    \"background_color\": \"Sample\",\n    \"text_color\": \"Sample\",\n    \"status\": true,\n    \"featured\": true,\n    \"products\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle flash-deals flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/flash-deals/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"Sample\",\n    \"start_date\": \"2026-09-27\",\n    \"end_date\": [\n        1\n    ],\n    \"banner\": 1,\n    \"background_color\": \"Sample\",\n    \"text_color\": \"Sample\",\n    \"status\": true,\n    \"featured\": true,\n    \"products\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Media Uploads",
+            "description": "Requests under /api/v1/uploads",
+            "item": [
+                {
+                    "name": "List uploads",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/uploads",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create uploads",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/uploads",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"files\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show uploads",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/uploads/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete uploads",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/uploads/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Newsletters",
+            "description": "Requests under /api/v1/newsletters",
+            "item": [
+                {
+                    "name": "List newsletters",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/newsletters",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create newsletters",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/newsletters",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"subject\": \"Sample\",\n    \"body\": \"Sample\",\n    \"segment\": \"subscribers\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete newsletters",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/newsletters/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Send the newsletter",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/newsletters/1/send",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"subject\": \"Sample\",\n    \"body\": \"Sample\",\n    \"segment\": \"subscribers\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Notes",
+            "description": "Requests under /api/v1/notes",
+            "item": [
+                {
+                    "name": "List notes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/notes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create notes",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/notes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": [\n        1\n    ],\n    \"description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show notes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/notes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete notes",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/notes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update notes",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/notes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": [\n        1\n    ],\n    \"description\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Orders",
+            "description": "Requests under /api/v1/orders",
+            "item": [
+                {
+                    "name": "List orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/orders",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/orders/20260926-21150011",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update delivery status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/orders/20260926-21150011/delivery-status",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update payment status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/orders/20260926-21150011/payment-status",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Pages",
+            "description": "Requests under /api/v1/pages",
+            "item": [
+                {
+                    "name": "List pages",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pages",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create pages",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pages",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"Sample\",\n    \"title\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"content\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show pages",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pages/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete pages",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pages/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update pages",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pages/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"Sample\",\n    \"title\": \"Sample\",\n    \"slug\": \"sample-slug\",\n    \"content\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Pickup Points",
+            "description": "Requests under /api/v1/pickup-points",
+            "item": [
+                {
+                    "name": "List pickup-points",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pickup-points",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create pickup-points",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pickup-points",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"phone\": \"Sample\",\n    \"address\": [\n        1\n    ],\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show pickup-points",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pickup-points/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete pickup-points",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/pickup-points/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update pickup-points",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/pickup-points/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"phone\": \"Sample\",\n    \"address\": [\n        1\n    ],\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Products",
+            "description": "Requests under /api/v1/products",
+            "item": [
+                {
+                    "name": "List products",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create products",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"category_id\": 1,\n    \"category_ids\": [\n        1\n    ],\n    \"brand_id\": 1,\n    \"unit\": \"Sample\",\n    \"weight\": 10.5,\n    \"min_qty\": 1,\n    \"tags\": \"Sample\",\n    \"barcode\": \"Sample\",\n    \"quick_overview\": \"Sample\",\n    \"description\": \"Sample\",\n    \"refundable\": true,\n    \"refund_note_id\": 1,\n    \"featured\": true,\n    \"todays_deal\": true,\n    \"flash_deal_id\": 1,\n    \"flash_discount\": 10.5,\n    \"flash_discount_type\": \"Sample\",\n    \"photos\": [\n        1\n    ],\n    \"thumbnail_img\": 1,\n    \"video_provider\": \"youtube\",\n    \"video_link\": \"Sample\",\n    \"pdf\": 1,\n    \"unit_price\": 10.5,\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"discount_start_date\": \"2026-09-27\",\n    \"discount_end_date\": [\n        1\n    ],\n    \"current_stock\": 1,\n    \"sku\": \"Sample\",\n    \"low_stock_quantity\": 1,\n    \"stock_visibility_state\": \"in_stock\",\n    \"external_link\": \"Sample\",\n    \"external_link_btn\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"meta_img\": 1,\n    \"cash_on_delivery\": true,\n    \"shipping_type\": \"flat\",\n    \"shipping_cost\": 10.5,\n    \"is_quantity_multiplied\": true,\n    \"est_shipping_days\": 1,\n    \"has_warranty\": true,\n    \"warranty_id\": 1,\n    \"warranty_note_id\": 1,\n    \"frequently_bought_selection_type\": \"category\",\n    \"fq_bought_product_category_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show products",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete products",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update products",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"category_id\": 1,\n    \"category_ids\": [\n        1\n    ],\n    \"brand_id\": 1,\n    \"unit\": \"Sample\",\n    \"weight\": 10.5,\n    \"min_qty\": 1,\n    \"tags\": \"Sample\",\n    \"barcode\": \"Sample\",\n    \"quick_overview\": \"Sample\",\n    \"description\": \"Sample\",\n    \"refundable\": true,\n    \"refund_note_id\": 1,\n    \"featured\": true,\n    \"todays_deal\": true,\n    \"flash_deal_id\": 1,\n    \"flash_discount\": 10.5,\n    \"flash_discount_type\": \"Sample\",\n    \"photos\": [\n        1\n    ],\n    \"thumbnail_img\": 1,\n    \"video_provider\": \"youtube\",\n    \"video_link\": \"Sample\",\n    \"pdf\": 1,\n    \"unit_price\": 10.5,\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"discount_start_date\": \"2026-09-27\",\n    \"discount_end_date\": [\n        1\n    ],\n    \"current_stock\": 1,\n    \"sku\": \"Sample\",\n    \"low_stock_quantity\": 1,\n    \"stock_visibility_state\": \"in_stock\",\n    \"external_link\": \"Sample\",\n    \"external_link_btn\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"meta_img\": 1,\n    \"cash_on_delivery\": true,\n    \"shipping_type\": \"flat\",\n    \"shipping_cost\": 10.5,\n    \"is_quantity_multiplied\": true,\n    \"est_shipping_days\": 1,\n    \"has_warranty\": true,\n    \"warranty_id\": 1,\n    \"warranty_note_id\": 1,\n    \"frequently_bought_selection_type\": \"category\",\n    \"fq_bought_product_category_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Duplicate products",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1/duplicate",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"category_id\": 1,\n    \"category_ids\": [\n        1\n    ],\n    \"brand_id\": 1,\n    \"unit\": \"Sample\",\n    \"weight\": 10.5,\n    \"min_qty\": 1,\n    \"tags\": \"Sample\",\n    \"barcode\": \"Sample\",\n    \"quick_overview\": \"Sample\",\n    \"description\": \"Sample\",\n    \"refundable\": true,\n    \"refund_note_id\": 1,\n    \"featured\": true,\n    \"todays_deal\": true,\n    \"flash_deal_id\": 1,\n    \"flash_discount\": 10.5,\n    \"flash_discount_type\": \"Sample\",\n    \"photos\": [\n        1\n    ],\n    \"thumbnail_img\": 1,\n    \"video_provider\": \"youtube\",\n    \"video_link\": \"Sample\",\n    \"pdf\": 1,\n    \"unit_price\": 10.5,\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"discount_start_date\": \"2026-09-27\",\n    \"discount_end_date\": [\n        1\n    ],\n    \"current_stock\": 1,\n    \"sku\": \"Sample\",\n    \"low_stock_quantity\": 1,\n    \"stock_visibility_state\": \"in_stock\",\n    \"external_link\": \"Sample\",\n    \"external_link_btn\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"meta_img\": 1,\n    \"cash_on_delivery\": true,\n    \"shipping_type\": \"flat\",\n    \"shipping_cost\": 10.5,\n    \"is_quantity_multiplied\": true,\n    \"est_shipping_days\": 1,\n    \"has_warranty\": true,\n    \"warranty_id\": 1,\n    \"warranty_note_id\": 1,\n    \"frequently_bought_selection_type\": \"category\",\n    \"fq_bought_product_category_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle products flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/products/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"category_id\": 1,\n    \"category_ids\": [\n        1\n    ],\n    \"brand_id\": 1,\n    \"unit\": \"Sample\",\n    \"weight\": 10.5,\n    \"min_qty\": 1,\n    \"tags\": \"Sample\",\n    \"barcode\": \"Sample\",\n    \"quick_overview\": \"Sample\",\n    \"description\": \"Sample\",\n    \"refundable\": true,\n    \"refund_note_id\": 1,\n    \"featured\": true,\n    \"todays_deal\": true,\n    \"flash_deal_id\": 1,\n    \"flash_discount\": 10.5,\n    \"flash_discount_type\": \"Sample\",\n    \"photos\": [\n        1\n    ],\n    \"thumbnail_img\": 1,\n    \"video_provider\": \"youtube\",\n    \"video_link\": \"Sample\",\n    \"pdf\": 1,\n    \"unit_price\": 10.5,\n    \"discount_type\": \"amount\",\n    \"discount\": 10.5,\n    \"discount_start_date\": \"2026-09-27\",\n    \"discount_end_date\": [\n        1\n    ],\n    \"current_stock\": 1,\n    \"sku\": \"Sample\",\n    \"low_stock_quantity\": 1,\n    \"stock_visibility_state\": \"in_stock\",\n    \"external_link\": \"Sample\",\n    \"external_link_btn\": \"Sample\",\n    \"meta_title\": \"Sample\",\n    \"meta_description\": \"Sample\",\n    \"meta_img\": 1,\n    \"cash_on_delivery\": true,\n    \"shipping_type\": \"flat\",\n    \"shipping_cost\": 10.5,\n    \"is_quantity_multiplied\": true,\n    \"est_shipping_days\": 1,\n    \"has_warranty\": true,\n    \"warranty_id\": 1,\n    \"warranty_note_id\": 1,\n    \"frequently_bought_selection_type\": \"category\",\n    \"fq_bought_product_category_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Refund Requests",
+            "description": "Requests under /api/v1/refund-requests",
+            "item": [
+                {
+                    "name": "List refund-requests",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/refund-requests",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show refund-requests",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/refund-requests/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update refund status",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/refund-requests/1/status",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Refund Settings",
+            "description": "Requests under /api/v1/refund-settings",
+            "item": [
+                {
+                    "name": "Show refund-settings",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/refund-settings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update refund-settings",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/refund-settings",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"refund_request_time\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Reports",
+            "description": "Requests under /api/v1/reports",
+            "item": [
+                {
+                    "name": "Commission History",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/commission-history",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Earning",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/earning",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "In House Sales",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/in-house-sales",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Seller Sales",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/seller-sales",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Stock",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/stock",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "User Searches",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/user-searches",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Wallet Recharges",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/wallet-recharges",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Wishlist",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reports/wishlist",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Reviews",
+            "description": "Requests under /api/v1/reviews",
+            "item": [
+                {
+                    "name": "List reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reviews",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show reviews",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reviews/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete reviews",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/reviews/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle reviews flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/reviews/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Roles & Permissions",
+            "description": "Requests under /api/v1/permissions",
+            "item": [
+                {
+                    "name": "List permissions",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/permissions",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Roles & Permissions",
+            "description": "Requests under /api/v1/roles",
+            "item": [
+                {
+                    "name": "List roles",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/roles",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create roles",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/roles",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"permissions\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show roles",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/roles/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete roles",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/roles/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update roles",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/roles/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"permissions\": [\n        1\n    ]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Sellers",
+            "description": "Requests under /api/v1/sellers",
+            "item": [
+                {
+                    "name": "List sellers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/sellers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show sellers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/sellers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete sellers",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/sellers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Toggle sellers flags",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/sellers/1/flags",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update seller verification",
+                    "request": {
+                        "method": "PATCH",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/sellers/1/verification",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Settings",
+            "description": "Requests under /api/v1/settings",
+            "item": [
+                {
+                    "name": "Send a test e-mail",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/settings/test-mail",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "PUT saves only the keys this screen owns (see config/settings.php); the example body fits the shipping screen.",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"shipping_method\": \"flat\",\n    \"flat_shipping_cost\": 60\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show settings",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/settings/shipping",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "PUT saves only the keys this screen owns (see config/settings.php); the example body fits the shipping screen."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update settings",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/settings/shipping",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "PUT saves only the keys this screen owns (see config/settings.php); the example body fits the shipping screen.",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"shipping_method\": \"flat\",\n    \"flat_shipping_cost\": 60\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Staff",
+            "description": "Requests under /api/v1/staff",
+            "item": [
+                {
+                    "name": "List staff",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/staff",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create staff",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/staff",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"password\": \"password\",\n    \"is_admin\": true,\n    \"role_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show staff",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/staff/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete staff",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/staff/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update staff",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/staff/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"email\": \"sample@wowmart.test\",\n    \"password\": \"password\",\n    \"is_admin\": true,\n    \"role_id\": 1\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "States",
+            "description": "Requests under /api/v1/states",
+            "item": [
+                {
+                    "name": "List states",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/states",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create states",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/states",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"country_id\": 1,\n    \"name\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show states",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/states/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete states",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/states/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update states",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/states/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"country_id\": 1,\n    \"name\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Subscribers",
+            "description": "Requests under /api/v1/subscribers",
+            "item": [
+                {
+                    "name": "List subscribers",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/subscribers",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete subscribers",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/subscribers/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Taxes",
+            "description": "Requests under /api/v1/taxes",
+            "item": [
+                {
+                    "name": "List taxes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/taxes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create taxes",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/taxes",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show taxes",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/taxes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete taxes",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/taxes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update taxes",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/taxes/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Warranties",
+            "description": "Requests under /api/v1/warranties",
+            "item": [
+                {
+                    "name": "List warranties",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/warranties",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create warranties",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/warranties",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"text\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show warranties",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/warranties/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete warranties",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/warranties/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update warranties",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/warranties/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"text\": \"Sample\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Zones",
+            "description": "Requests under /api/v1/zones",
+            "item": [
+                {
+                    "name": "List zones",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/zones",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create zones",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/zones",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"countries\": [\n        1\n    ],\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Show zones",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/zones/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete zones",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/zones/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first)."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update zones",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/zones/1",
+                            "host": [
+                                "{{baseUrl}}"
+                            ]
+                        },
+                        "description": "Replace the sample id in the URL with a real one (run the List request first).",
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Sample\",\n    \"countries\": [\n        1\n    ],\n    \"status\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://127.0.0.1:8124/api/v1"
+        },
+        {
+            "key": "token",
+            "value": ""
+        }
+    ]
+}
