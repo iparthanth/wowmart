@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SupportSeeder::class,
             AffiliateSeeder::class,
             OtpSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }

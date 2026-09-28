@@ -167,13 +167,13 @@
         ]],
 
         ['label' => 'Payment Gateways', 'children' => [
-            ['label' => 'Payment Methods'],
+            ['label' => 'Payment Methods', 'route' => 'admin.payment-methods.index', 'patterns' => ['admin.payment-methods*']],
             ['label' => 'Offline Payment System', 'children' => [
-                ['label' => 'Manual Payment Methods'],
-                ['label' => 'Offline Payment Orders'],
-                ['label' => 'Offline Wallet Recharge'],
-                ['label' => 'Offline Customer Package Payments'],
-                ['label' => 'Offline Seller Package Payments'],
+                ['label' => 'Manual Payment Methods', 'route' => 'admin.manual-methods.index', 'patterns' => ['admin.manual-methods*']],
+                ['label' => 'Offline Payment Orders', 'route' => 'admin.offline.orders', 'patterns' => ['admin.offline.orders*']],
+                ['label' => 'Offline Wallet Recharge', 'route' => 'admin.offline.wallet', 'patterns' => ['admin.offline.wallet*']],
+                ['label' => 'Offline Customer Package Payments', 'route' => 'admin.offline.packages.customer', 'patterns' => ['admin.offline.packages.customer']],
+                ['label' => 'Offline Seller Package Payments', 'route' => 'admin.offline.packages.seller', 'patterns' => ['admin.offline.packages.seller']],
             ]],
         ]],
 

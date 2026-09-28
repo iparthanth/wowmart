@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /** A customer's offline wallet top-up, approved or rejected from the panel. */
-#[Fillable(['user_id', 'amount', 'payment_method', 'transaction_id', 'approval'])]
+#[Fillable(['user_id', 'amount', 'payment_method', 'transaction_id', 'upload_id', 'approval'])]
 class WalletRecharge extends Model
 {
     public const APPROVALS = ['pending', 'approved', 'rejected'];
@@ -15,5 +15,10 @@ class WalletRecharge extends Model
     public function customer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function receipt(): BelongsTo
+    {
+        return $this->belongsTo(Upload::class, 'upload_id');
     }
 }

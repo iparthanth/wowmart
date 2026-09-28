@@ -83,6 +83,10 @@ return [
             'label' => 'OTP system (login toggles, OTP parameters, SMS templates)',
             'patterns' => ['admin.otp.*', 'api.v1.otp.*'],
         ],
+        'payment-gateways' => [
+            'label' => 'Payment gateways (methods, manual methods, offline verifications)',
+            'patterns' => ['admin.payment-methods.*', 'admin.manual-methods.*', 'admin.offline.*', 'api.v1.payment-methods.*', 'api.v1.manual-payment-methods.*', 'api.v1.offline.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
