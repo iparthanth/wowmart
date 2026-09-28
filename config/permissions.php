@@ -91,6 +91,10 @@ return [
             'label' => 'System (update, server status, sitemaps)',
             'patterns' => ['admin.system.*'],
         ],
+        'notifications' => [
+            'label' => 'Notifications (settings, types, custom sends, bulk SMS)',
+            'patterns' => ['admin.notifications.*', 'admin.bulk-sms.*', 'api.v1.notifications.*', 'api.v1.bulk-sms.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [

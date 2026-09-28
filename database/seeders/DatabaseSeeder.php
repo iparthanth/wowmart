@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             AffiliateSeeder::class,
             OtpSeeder::class,
             PaymentSeeder::class,
+            NotificationSeeder::class,
         ]);
     }
 }
