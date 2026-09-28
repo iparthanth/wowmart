@@ -63,8 +63,8 @@ class OrderTest extends TestCase
         $this->assertSame(2, $this->listed(['delivery_status' => 'pending'])); // the dashboard's link
         $this->assertSame(6, $this->listed(['delivery_status' => 'delivered']));
         $this->assertSame(1, $this->listed(['delivery_status' => 'cancelled']));
-        $this->assertSame(5, $this->listed(['payment_status' => 'unpaid']));
-        $this->assertSame(8, $this->listed(['payment_status' => 'paid']));
+        $this->assertSame(6, $this->listed(['payment_status' => 'unpaid'])); // the manual-payment seed flips one paid order back
+        $this->assertSame(7, $this->listed(['payment_status' => 'paid']));
         $this->assertSame(0, $this->listed(['delivery_status' => 'pending', 'payment_status' => 'paid']));
     }
 

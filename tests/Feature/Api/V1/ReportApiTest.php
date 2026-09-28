@@ -85,7 +85,8 @@ class ReportApiTest extends TestCase
     public function test_wishlist_lists_every_product_of_the_category(): void
     {
         $product = Product::whereNotNull('category_id')->orderBy('id')->firstOrFail();
-        foreach (User::where('email', 'like', '%@customers.wowmart.test')->get() as $c) {
+        $customers = User::where('email', 'like', '%@customers.wowmart.test')->orderBy('id')->get();
+        foreach ($customers as $c) {
             Wishlist::create(['user_id' => $c->id, 'product_id' => $product->id]);
         }
 
@@ -93,13 +94,13 @@ class ReportApiTest extends TestCase
             ->assertOk()
             ->assertJsonPath('data.0', [
                 'id' => $product->id, 'name' => $product->name, 'sku' => $product->sku,
-                'category' => $product->category->name, 'thumbnail' => $product->thumbnail_img, 'wishlists' => 3,
+                'category' => $product->category->name, 'thumbnail' => $product->thumbnail_img, 'wishlists' => $customers->count(),
             ])
             ->assertJsonPath('filters', ['category' => $product->category_id]);
 
         $categoryProducts = $product->category()->withCount('products')->firstOrFail()->products_count;
         $this->assertSame($categoryProducts, count($response->json('data')));
-        $this->assertSame(['products' => $categoryProducts, 'wishlists' => 3], $response->json('totals'));
+        $this->assertSame(['products' => $categoryProducts, 'wishlists' => $customers->count()], $response->json('totals'));
     }
 
     public function test_new_reports_serve_rows_totals_and_filters(): void
@@ -126,8 +127,8 @@ class ReportApiTest extends TestCase
 
         $wallet = $this->getJson('/api/v1/reports/wallet-recharges?approval=pending')
             ->assertOk()
-            ->assertJsonCount(2, 'data')
-            ->assertJsonPath('totals.amount', '275.00')
+            ->assertJsonCount(3, 'data') // ReportSeeder's two + PaymentSeeder's 500 pending
+            ->assertJsonPath('totals.amount', '775.00')
             ->assertJsonPath('filters', ['approval' => 'pending'])
             ->assertJsonStructure(['data' => [['id', 'customer', 'email', 'amount', 'payment_method', 'approval', 'created_at']], 'totals' => ['requests', 'amount'], 'filters']);
 

@@ -37,14 +37,14 @@ class CustomerApiTest extends TestCase
         $response = $this->getJson('/api/v1/customers?per_page=2')
             ->assertOk()
             ->assertJsonCount(2, 'data')
-            ->assertJsonPath('meta.total', 4)
+            ->assertJsonPath('meta.total', 7)
             ->assertJsonStructure(['data' => [['id', 'name', 'email', 'country_code', 'phone', 'email_verified', 'email_verified_at', 'banned', 'joined_at', 'order_count', 'total_spent']], 'links', 'meta']);
         $this->assertStringNotContainsString('password', $response->getContent());
         $this->assertStringNotContainsString('remember_token', $response->getContent());
 
         $this->getJson('/api/v1/customers?status=banned')->assertJsonPath('meta.total', 1)->assertJsonPath('data.0.banned', true);
         $this->getJson('/api/v1/customers?verification=verified')->assertJsonPath('meta.total', 1);
-        $this->getJson('/api/v1/customers?verification=unverified')->assertJsonPath('meta.total', 3);
+        $this->getJson('/api/v1/customers?verification=unverified')->assertJsonPath('meta.total', 6);
         $this->getJson('/api/v1/customers?search=nusrat')
             ->assertJsonPath('meta.total', 1)
             ->assertJsonPath('data.0.order_count', 5)

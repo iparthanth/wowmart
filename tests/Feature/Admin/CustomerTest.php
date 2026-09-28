@@ -71,14 +71,14 @@ class CustomerTest extends TestCase
         $total = fn (string $query) => $this->actingAs($this->admin)->get('/admin/customers'.$query)
             ->assertOk()->viewData('customers')->total();
 
-        $this->assertSame(5, $total(''));                          // 3 seeded + 2 here; no admin, no sellers
+        $this->assertSame(8, $total(''));                          // 3 seeded + 3 referred + 2 here; no admin, no sellers
         $this->assertSame(1, $total('?verification=verified'));
-        $this->assertSame(4, $total('?verification=unverified'));
+        $this->assertSame(7, $total('?verification=unverified'));
         $this->assertSame(1, $total('?status=banned'));
-        $this->assertSame(4, $total('?status=active'));
+        $this->assertSame(7, $total('?status=active'));
         $this->assertSame(0, $total('?status=banned&verification=verified'));
         $this->assertSame(1, $total('?search=NUSRAT'));
-        $this->assertSame(5, $total('?status=nonsense&verification[]=x&search[]=y')); // ignored, not a 500
+        $this->assertSame(8, $total('?status=nonsense&verification[]=x&search[]=y')); // ignored, not a 500
 
         $this->actingAs($this->admin)->get('/admin/customers?status=banned')
             ->assertSee('Banned Bashir')->assertDontSee('Verified Vera');
@@ -113,7 +113,8 @@ class CustomerTest extends TestCase
         $names = $this->actingAs($this->admin)->get('/admin/customers?sort=spent')
             ->viewData('customers')->pluck('name')->all();
 
-        $this->assertSame(['Tanvir Hasan', 'Nusrat Jahan', 'Rafi Ahmed'], $names);
+        $this->assertSame(['Tanvir Hasan', 'Nusrat Jahan', 'Rafi Ahmed'], array_slice($names, 0, 3));
+        $this->assertCount(6, $names); // the three referred customers trail with zero spent
     }
 
     public function test_the_list_does_not_query_per_row(): void

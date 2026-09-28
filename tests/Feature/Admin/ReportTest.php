@@ -258,10 +258,10 @@ class ReportTest extends TestCase
 
         // Every product gets a row, like the reference panel; most wished first.
         $this->assertSame(42, $rows->count());
-        $this->assertSame([[$a->id, 3], [$b->id, 1]], $rows->take(2)->map(fn ($r) => [$r['id'], $r['wishlists']])->all());
+        $this->assertSame([[$a->id, $customers->count()], [$b->id, 1]], $rows->take(2)->map(fn ($r) => [$r['id'], $r['wishlists']])->all());
         $this->assertContains(0, $rows->pluck('wishlists')->unique()->all());
 
-        $this->assertSame(['products' => 42, 'wishlists' => 4], $response->viewData('totals'));
+        $this->assertSame(['products' => 42, 'wishlists' => $customers->count() + 1], $response->viewData('totals'));
 
         // Thumbnails resolve to URLs in one batch; a product without an image stays null.
         $imaged = $rows->firstWhere('id', $this->product(0)->id);
@@ -347,18 +347,18 @@ class ReportTest extends TestCase
         $response = $this->report('wallet-recharges');
         $rows = $response->viewData('rows');
 
-        $this->assertSame(5, $rows->count());
-        $this->assertSame(455.0, $response->viewData('totals')['amount']);
+        $this->assertSame(8, $rows->count()); // 5 from ReportSeeder + 3 from PaymentSeeder
+        $this->assertSame(2455.0, $response->viewData('totals')['amount']);
 
         // Pending first, then newest first.
         $this->assertSame('pending', $rows[0]['approval']);
 
         $pending = $this->report('wallet-recharges', ['approval' => 'pending'])->viewData('rows');
-        $this->assertCount(2, $pending);
-        $this->assertSame(275.0, $pending->sum('amount'));
+        $this->assertCount(3, $pending);
+        $this->assertSame(775.0, $pending->sum('amount'));
 
         // An unknown state shows everything rather than nothing.
-        $this->assertSame(5, $this->report('wallet-recharges', ['approval' => 'maybe'])->viewData('rows')->count());
+        $this->assertSame(8, $this->report('wallet-recharges', ['approval' => 'maybe'])->viewData('rows')->count());
     }
 
     // ---------------------------------------------------------------- earning

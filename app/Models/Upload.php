@@ -37,6 +37,7 @@ class Upload extends Model
         'manual payment method logo' => ['manual_payment_methods', 'logo'],
         'offline package payment receipt' => ['offline_package_payments', 'upload_id'],
         'wallet recharge receipt' => ['wallet_recharges', 'upload_id'],
+        'notification type image' => ['notification_types', 'image'],
     ];
 
     protected function casts(): array
