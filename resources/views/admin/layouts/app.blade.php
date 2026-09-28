@@ -145,10 +145,10 @@
         ]],
 
         ['label' => 'Support', 'children' => [
-            ['label' => 'Tickets'],
-            ['label' => 'Product Conversations'],
-            ['label' => 'Product Queries'],
-            ['label' => 'Contacts'],
+            ['label' => 'Tickets', 'route' => 'admin.support.tickets', 'patterns' => ['admin.support.tickets*']],
+            ['label' => 'Product Conversations', 'route' => 'admin.support.conversations', 'patterns' => ['admin.support.conversations*']],
+            ['label' => 'Product Queries', 'route' => 'admin.support.queries', 'patterns' => ['admin.support.queries*']],
+            ['label' => 'Contacts', 'route' => 'admin.support.contacts', 'patterns' => ['admin.support.contacts*']],
         ]],
 
         ['label' => 'Affiliate System', 'children' => [

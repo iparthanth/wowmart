@@ -71,6 +71,10 @@ return [
             'label' => 'Languages',
             'patterns' => ['admin.languages.*', 'api.v1.languages.*'],
         ],
+        'support' => [
+            'label' => 'Support desk (tickets, queries, conversations, contacts)',
+            'patterns' => ['admin.support.*', 'api.v1.support.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
