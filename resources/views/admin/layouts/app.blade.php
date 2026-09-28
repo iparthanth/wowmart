@@ -81,9 +81,9 @@
             ]],
             ['label' => 'Refunds', 'children' => [
                 ['label' => 'Refund Requests', 'route' => 'admin.refunds.index', 'patterns' => ['admin.refunds.*'], 'count' => $pendingRefunds ?? 0],
-                ['label' => 'Approved Refunds'],
-                ['label' => 'Rejected Refunds'],
-                ['label' => 'Refund Configuration'],
+                ['label' => 'Approved Refunds', 'route' => 'admin.refunds.index', 'params' => ['status' => 'approved'], 'patterns' => ['admin.refunds.*']],
+                ['label' => 'Rejected Refunds', 'route' => 'admin.refunds.index', 'params' => ['status' => 'rejected'], 'patterns' => ['admin.refunds.*']],
+                ['label' => 'Refund Configuration', 'route' => 'admin.refunds.settings', 'patterns' => ['admin.refunds.settings*']],
             ]],
         ]],
 
@@ -189,7 +189,7 @@
 
         ['label' => 'Setup & Configurations', 'children' => [
             ['label' => 'Features Activation', 'route' => 'admin.settings.show', 'params' => ['screen' => 'features'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Languages'],
+            ['label' => 'Languages', 'route' => 'admin.languages.index', 'patterns' => ['admin.languages.*']],
             ['label' => 'Currency', 'route' => 'admin.currencies.index', 'patterns' => ['admin.currencies.*']],
             ['label' => 'Vat & Tax', 'route' => 'admin.taxes.index', 'patterns' => ['admin.taxes.*']],
             ['label' => 'Pickup Points', 'route' => 'admin.pickup-points.index', 'patterns' => ['admin.pickup-points.*']],

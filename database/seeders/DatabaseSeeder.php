@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             BlogSeeder::class,
             DeliveryBoySeeder::class,
             ReportSeeder::class,
+            LanguageSeeder::class,
         ]);
     }
 }

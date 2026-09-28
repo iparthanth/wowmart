@@ -67,6 +67,10 @@ return [
             'label' => 'Roles & permissions',
             'patterns' => ['admin.roles.*', 'api.v1.roles.*', 'api.v1.permissions.*'],
         ],
+        'languages' => [
+            'label' => 'Languages',
+            'patterns' => ['admin.languages.*', 'api.v1.languages.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
