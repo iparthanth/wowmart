@@ -152,12 +152,12 @@
         ]],
 
         ['label' => 'Affiliate System', 'children' => [
-            ['label' => 'Affiliate Registration Form'],
-            ['label' => 'Affiliate Configurations'],
-            ['label' => 'Affiliate Users'],
-            ['label' => 'Referral Users'],
-            ['label' => 'Affiliate Withdraw Requests'],
-            ['label' => 'Affiliate Logs'],
+            ['label' => 'Affiliate Registration Form', 'route' => 'admin.affiliate.registration', 'patterns' => ['admin.affiliate.registration*']],
+            ['label' => 'Affiliate Configurations', 'route' => 'admin.affiliate.index', 'patterns' => ['admin.affiliate.index', 'admin.affiliate.configurations']],
+            ['label' => 'Affiliate Users', 'route' => 'admin.affiliate.users', 'patterns' => ['admin.affiliate.users*']],
+            ['label' => 'Referral Users', 'route' => 'admin.affiliate.referrals', 'patterns' => ['admin.affiliate.referrals*']],
+            ['label' => 'Affiliate Withdraw Requests', 'route' => 'admin.affiliate.withdrawals', 'patterns' => ['admin.affiliate.withdrawals*']],
+            ['label' => 'Affiliate Logs', 'route' => 'admin.affiliate.logs', 'patterns' => ['admin.affiliate.logs*']],
         ]],
 
         ['label' => 'OTP System', 'children' => [

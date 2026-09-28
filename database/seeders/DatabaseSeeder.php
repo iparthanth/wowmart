@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             ReportSeeder::class,
             LanguageSeeder::class,
             SupportSeeder::class,
+            AffiliateSeeder::class,
         ]);
     }
 }

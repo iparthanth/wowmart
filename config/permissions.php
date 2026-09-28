@@ -75,6 +75,10 @@ return [
             'label' => 'Support desk (tickets, queries, conversations, contacts)',
             'patterns' => ['admin.support.*', 'api.v1.support.*'],
         ],
+        'affiliate' => [
+            'label' => 'Affiliate system (configs, users, referrals, withdrawals, logs)',
+            'patterns' => ['admin.affiliate.*', 'api.v1.affiliate.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
