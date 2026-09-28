@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             SupportSeeder::class,
             AffiliateSeeder::class,
+            OtpSeeder::class,
         ]);
     }
 }

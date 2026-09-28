@@ -79,6 +79,10 @@ return [
             'label' => 'Affiliate system (configs, users, referrals, withdrawals, logs)',
             'patterns' => ['admin.affiliate.*', 'api.v1.affiliate.*'],
         ],
+        'otp' => [
+            'label' => 'OTP system (login toggles, OTP parameters, SMS templates)',
+            'patterns' => ['admin.otp.*', 'api.v1.otp.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [

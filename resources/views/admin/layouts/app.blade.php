@@ -161,9 +161,9 @@
         ]],
 
         ['label' => 'OTP System', 'children' => [
-            ['label' => 'OTP Login Configuration'],
-            ['label' => 'OTP Configurations'],
-            ['label' => 'SMS Templates'],
+            ['label' => 'OTP Login Configuration', 'route' => 'admin.otp.login', 'patterns' => ['admin.otp.login*']],
+            ['label' => 'OTP Configurations', 'route' => 'admin.otp.configuration', 'patterns' => ['admin.otp.configuration*']],
+            ['label' => 'SMS Templates', 'route' => 'admin.otp.templates', 'patterns' => ['admin.otp.templates*']],
         ]],
 
         ['label' => 'Payment Gateways', 'children' => [
