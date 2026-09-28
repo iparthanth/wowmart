@@ -57,9 +57,9 @@ Database `wowmart`, app user `wowmart`. Passwords are kept outside this reposito
 
 ## Schema
 
-26 tables across nine migrations, grouped by domain. `products` columns match the
-input names of the captured seven-tab product form, in the same tab order — see
-`docs/reference/product-form.md`. All 50 captured form fields are accounted for.
+82 tables across 31 additive migrations, grouped by domain: catalog, sales, people, shipping,
+configuration and communication. Every migration is numbered `2026_MM_DD_...` so the schema can
+be rebuilt from an empty database with one command (`php artisan migrate`).
 
 ## Seed data
 
@@ -72,13 +72,13 @@ Deterministic — no random numbers — so a fresh seed always gives the same re
 
 ### Before any public deployment
 
-The 41 product photos in `public/uploads/catalog/` were captured from the reference site
+The 41 product photos in `public/uploads/catalog/` were captured from a public storefront
 for local development. **They are not WowMart's to publish.** Replace them with your own
 photography, or licensed images, before this is deployed anywhere public.
 
-## Reference
+## API documentation
 
-`docs/reference/` records what was observed on picklymart.com, the system this panel's
-structure is modelled on. It keeps that name deliberately: it is a record of the
-reference, not of WowMart. It was captured read-only — no writes, no submits, no
-customer data recorded.
+`docs/openapi.json` is an OpenAPI 3.1 spec generated from the live route list
+(`php scripts/generate-openapi.php`) — import it into Postman or any OpenAPI viewer for a
+clickable catalog of all `/api/v1` endpoints. `docs/postman_collection.json` is the same
+catalog as a ready-to-run Postman collection.
