@@ -224,10 +224,9 @@
         ]],
 
         ['label' => 'System', 'children' => [
-            ['label' => 'Update'],
-            ['label' => 'Server Status'],
-            ['label' => 'Sitemap Generator'],
-            ['label' => 'Addon Manager'],
+            ['label' => 'Update', 'route' => 'admin.system.update', 'patterns' => ['admin.system.update*']],
+            ['label' => 'Server Status', 'route' => 'admin.system.server-status', 'patterns' => ['admin.system.server-status']],
+            ['label' => 'Sitemap Generator', 'route' => 'admin.system.sitemaps', 'patterns' => ['admin.system.sitemaps*']],
         ]],
     ];
 @endphp

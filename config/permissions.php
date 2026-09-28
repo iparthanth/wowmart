@@ -87,6 +87,10 @@ return [
             'label' => 'Payment gateways (methods, manual methods, offline verifications)',
             'patterns' => ['admin.payment-methods.*', 'admin.manual-methods.*', 'admin.offline.*', 'api.v1.payment-methods.*', 'api.v1.manual-payment-methods.*', 'api.v1.offline.*'],
         ],
+        'system' => [
+            'label' => 'System (update, server status, sitemaps)',
+            'patterns' => ['admin.system.*'],
+        ],
         'settings' => [
             'label' => 'Panel configuration (settings, currency, tax, pickup)',
             'patterns' => [
