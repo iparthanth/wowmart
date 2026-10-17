@@ -86,7 +86,7 @@ php artisan key:generate
 php artisan serve| php artisan serve --port=8124
 ```
 
-Leave this window open, then go to **<http://127.0.0.1:8124/login>** in your browser and sign in with the demo admin account:
+Leave this window open, then go to **<http://127.0.0.1:8000/login>** or **<http://127.0.0.1:8124/login>** in your browser and sign in with the demo admin account:
 
 | Email | Password |
 |---|---|
