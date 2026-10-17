@@ -13,37 +13,6 @@ that product's source code is used: the whole panel was written fresh in Laravel
 
 ---
 
-## Screenshots
-
-
-
-| | |
-|---|---|
-| **Sign in** — admin-only, with one generic error for every failed attempt<br>![Sign in](docs/screenshots/01-sign-in.png) | **Dashboard** — a to-do list of what needs attention, totals and a 14-day sales chart<br>![Dashboard](docs/screenshots/02-dashboard.png) |
-| **All products** — search, filters, and switches for published / featured / today's deal<br>![Products](docs/screenshots/03-products.png) | **Product form** — one long form in seven sections, so every error shows at once<br>![Product form](docs/screenshots/04-product-form.png) |
-| **Categories** — a tree with levels, order and product counts<br>![Categories](docs/screenshots/05-categories.png) | **Brands** — list and add on one page<br>![Brands](docs/screenshots/06-brands.png) |
-| **All orders** — filter by delivery status, payment status, date or customer<br>![Orders](docs/screenshots/07-orders.png) | **Order details** — lines, totals and the next allowed status steps<br>![Order details](docs/screenshots/08-order-detail.png) |
-| **Stock report** — stock value, sold-out and low-stock products, CSV download<br>![Stock report](docs/screenshots/09-stock-report.png) | **Product reviews** — hide or show a review; the product rating updates itself<br>![Reviews](docs/screenshots/10-product-reviews.png) |
-| **Support tickets** — customer tickets with replies and status<br>![Support](docs/screenshots/11-support-tickets.png) | **Staff** — staff accounts with a role each<br>![Staff](docs/screenshots/12-staff.png) |
-| **Staff permissions** — roles decide which sections a staff member can open<br>![Permissions](docs/screenshots/13-staff-permissions.png) | **Uploaded files** — one media library; products and brands pick images from it<br>![Uploaded files](docs/screenshots/14-uploaded-files.png) |
-
----
-
-## What's inside
-
-| Section | What you can do |
-|---|---|
-| **Dashboard** | See pending and unpaid orders, sold-out and low-stock products and products without images, each linking to the filtered list where you fix it. |
-| **Products** | Add and edit products (price, discount window, stock, gallery, SEO, shipping, warranty), duplicate them, publish or unpublish. Manage categories, brands, attributes, colours, warranties, refund/warranty notes and product reviews. |
-| **Sales** | All orders, in-house orders, seller orders, pickup-point orders and unpaid orders. Move an order through its six states (pending → confirmed → picked up → on the way → delivered, or cancelled). Cancelling puts the stock back exactly once. |
-| **Media** | Upload images and PDFs once, reuse them everywhere. Files that are still in use can't be deleted. |
-| **Reports** | Earnings, in-house and seller sales, stock, wishlists, what customers search for, commission history and wallet recharges, each with CSV download. |
-| **Support** | Support tickets, product conversations, product questions and contact-form messages. |
-| **Staffs** | Staff accounts and roles. A staff member only sees the sections their role allows. |
-| **API** | Everything above is also available at `/api/v1`, protected by login tokens. |
-
----
-
 ## How to run it
 
 You need four things installed:
@@ -231,3 +200,38 @@ They need the `pdo_sqlite` PHP extension. All 273 tests should pass.
   payment gateways and website setup. I built several of them, then kept them out of this
   repository so the submission stays focused on the six sections above. The customer-facing
   storefront is a separate project.
+
+
+---
+
+## Screenshots
+
+
+
+| | |
+|---|---|
+| **Sign in** — admin-only, with one generic error for every failed attempt<br>![Sign in](docs/screenshots/01-sign-in.png) | **Dashboard** — a to-do list of what needs attention, totals and a 14-day sales chart<br>![Dashboard](docs/screenshots/02-dashboard.png) |
+| **All products** — search, filters, and switches for published / featured / today's deal<br>![Products](docs/screenshots/03-products.png) | **Product form** — one long form in seven sections, so every error shows at once<br>![Product form](docs/screenshots/04-product-form.png) |
+| **Categories** — a tree with levels, order and product counts<br>![Categories](docs/screenshots/05-categories.png) | **Brands** — list and add on one page<br>![Brands](docs/screenshots/06-brands.png) |
+| **All orders** — filter by delivery status, payment status, date or customer<br>![Orders](docs/screenshots/07-orders.png) | **Order details** — lines, totals and the next allowed status steps<br>![Order details](docs/screenshots/08-order-detail.png) |
+| **Stock report** — stock value, sold-out and low-stock products, CSV download<br>![Stock report](docs/screenshots/09-stock-report.png) | **Product reviews** — hide or show a review; the product rating updates itself<br>![Reviews](docs/screenshots/10-product-reviews.png) |
+| **Support tickets** — customer tickets with replies and status<br>![Support](docs/screenshots/11-support-tickets.png) | **Staff** — staff accounts with a role each<br>![Staff](docs/screenshots/12-staff.png) |
+| **Staff permissions** — roles decide which sections a staff member can open<br>![Permissions](docs/screenshots/13-staff-permissions.png) | **Uploaded files** — one media library; products and brands pick images from it<br>![Uploaded files](docs/screenshots/14-uploaded-files.png) |
+
+---
+
+## What's inside
+
+| Section | What you can do |
+|---|---|
+| **Dashboard** | See pending and unpaid orders, sold-out and low-stock products and products without images, each linking to the filtered list where you fix it. |
+| **Products** | Add and edit products (price, discount window, stock, gallery, SEO, shipping, warranty), duplicate them, publish or unpublish. Manage categories, brands, attributes, colours, warranties, refund/warranty notes and product reviews. |
+| **Sales** | All orders, in-house orders, seller orders, pickup-point orders and unpaid orders. Move an order through its six states (pending → confirmed → picked up → on the way → delivered, or cancelled). Cancelling puts the stock back exactly once. |
+| **Media** | Upload images and PDFs once, reuse them everywhere. Files that are still in use can't be deleted. |
+| **Reports** | Earnings, in-house and seller sales, stock, wishlists, what customers search for, commission history and wallet recharges, each with CSV download. |
+| **Support** | Support tickets, product conversations, product questions and contact-form messages. |
+| **Staffs** | Staff accounts and roles. A staff member only sees the sections their role allows. |
+| **API** | Everything above is also available at `/api/v1`, protected by login tokens. |
+
+---
+
