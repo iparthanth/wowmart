@@ -6,8 +6,8 @@ private back office where the shop owner manages products, follows orders from
 and decides which staff can see what.
 
 I built it during my industrial attachment at **Authentic for Technology**
-(Chittagong). The layout and features follow a real production admin panel, but every
-line of code here is my own, written from scratch in Laravel. It also has a token-based
+(Chittagong). The layout and features follow a real production admin panel, but none of
+that product's source code is used: the whole panel was written fresh in Laravel. It also has a token-based
 REST API (with a ready-to-use Postman collection) and 273 automated tests.
 
 **Stack:** Laravel 13 · PHP 8.3+ · MySQL 8 (or MariaDB 10.4+) · plain CSS, no build step.
