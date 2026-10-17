@@ -197,6 +197,28 @@ This builds all the tables from the migration files and adds the same demo data.
 Swagger UI or another viewer. Tokens expire after 24 hours; just sign in again.
 
 ---
+---
+
+## Database Architecture
+
+The panel uses one **MySQL** database, `wowmart`, with **34 tables** (InnoDB, `utf8mb4_unicode_ci`).
+Every table is defined by a migration in `database/migrations/`, the demo data comes from
+`database/seeders/`, and `database/sql/wowmart.sql` is the same database as a ready-to-import file.
+
+### Diagram
+
+**[Open the interactive diagram in Mermaid Live Editor](https://mermaid.live/edit#pako:eNqtWclu4zgQ_RVD5-4fyHkwl740MJhbAIEWaZkdiVS4OONJ8u9d3GRuWhy3T4FYG2t5VcW8Nx3HpHlqiPiLol6g8Zkd4IeUEvSoFWkvaNBEHt7dd_OjTB0oPvz8kX66scDh39GhhO-sP1hB7utnpmRLvJfA0JgKOArE8N3M0Uc56P7wb3aRgfc8ucCR8-Gg-JTo7pAiPRd0l28mJAhTuWOsMnIhwwPGcoGJaDMp5uCIGCOi0Ec7zoqPHb-AEDqinpQXPxGktCA4-4xpTxUaUp_wgYtH4mGSMZM4jlRKylkLYdnjaueQegq6s5uSwCPJMJRMmHTgkuGA8EhZe7OkpPD8BAkGarILMIU61Y5ESnDvI84hI6JlqkxnziJaRf5Th1dNxDX7Jsg0XMucUhBcmVjM-O6CVNcpV42J7ASd1OwnL9W5HhMFd_hyGJdjZYtMcKw7tQg_giJVDd8kaEcqUT3TaQJWCL1UqapXjZiiquLPwJO6xp9iMlCotGsbuz2OJbqOBicqUbH-2BkWk-AFUGh5jz9_SYCJ-TIIYwH5--X7VJ1Ru2zs_t6Ae6v4DDLxYcf1BJiAqYS_mEpcFfLgPoSuJ49FRyfnGp_lqjgDP0ibX3tLPdaa8FdMqAXPlpvXtWnUoy7QUvHxngQKCEHVQPagTlBuoGtfxJYSeuEaARhligH3YWOQDd7oXh7waYxJTJWaX_QmSlkYihHIWpC08MxoPQ0c4ccSwcmopgEXqrUoVVO-E7kAaAhuj9ftSN89KNWqeJ6VLNRUDgQ5aTgxLTE_XpuNFMfoKqHboWwoU2c9Hhm0QBi2-jJz8ak6gGhGVbvQpFIEjLHZH2Tg66pZCIe8kMXryefm4TdH2pZtz5yP0NSr93lDAhyrqi6fz2q-NQSn1_bIdX82N0_w_FqNxKSPA5XnIhRoAvZL_NkIZ3ps-amVaKi4VABiZlOcIBdK3h4E0SXAivXNkGTGTRKH1d6mAkmCD6SdiPDD6R4bLUu9nm6CCiV3jK5z8Xl2CZNxd94zwXsh2QDrSlHqQcl1lwZ9Zz59tYU8vi4GcIdGdqKd6-lLQ04l16SeJoOlinYvRLWmN-1riBnjo2NEKu5Pj57Bo_r4i3RqT-91rWenHScKKQ6zX08ZGtpqMC1JerJWpZZc0v_JyhYULJW7R3WrrUTolQpdXg0Tv8fbYXJgccQ-DuDE6DcEY5xJt-6MRP_lCWxemsdqVwpDP_SMM8elK6EnSFiX3RhcjgcWzLNHB99J6O6lFRI-FQB9A3qH-sNDZ_nI9fHx_Tt_L9_Wng7PTfx69tykGf_BLZ9_7TLUBnMWqKKtx1C6Z6B9tNEz0D4G85gUKKOjOvH8BhY4_ErrvZK_9BiW8AgwWyM3GOZdpK4jfYSoaZjHVX-HkuMW6cyqJYbCppJ-nfAjJ_RJWPO8o61swDa-twGqvO8qZ3np-pKZS6muxbHAbPGt3nxbWuaQTW7vjttSu-mOgnkxDbYYiygv6Qyb8B3aYpbcJ2khZ4usLea47peMiugXc6Jg8ovnwkWCYYs8884ZWDwQplfxcOc3uWVUSsgrFbHBsbqWrDvbCQjb0h5aWAgDmXuVrRGlO-oesckWupZQ1UyK-m1NeLT0bdueb4FLmRT2rx21EJNmlrstJtDle5P1pZu7qkgdLzHbBeZWkKJXx5beSDJR-eQd6OuLgQWVfPSvK1wWsIaguTnL9O7qwRPLEfB0MjS0utud9mIurYjN0-U20e1ImJQ4ktx8g2IVMFnj5ql5N2VDYPRunp4bTE4IltHn5hNokFb8nyvrmiclNPkGcIUBEfx_U93Hz99aAlfE)** — zoom, pan and
+export it as PNG or SVG. The full-size image is also in the repository:
+[`docs/database/wowmart-erd.svg`](docs/database/wowmart-erd.svg) (source:
+[`docs/database/wowmart-erd.mmd`](docs/database/wowmart-erd.mmd)).
+
+It shows the 29 business tables with their primary keys (PK), foreign keys (FK) and unique
+columns (UK). Each line is a foreign key: `||--o{` means the child row must have a parent,
+`|o--o{` means the link is optional. Very wide tables (products, orders, users) show only
+the columns that explain the design.
+
+
+---
 
 ## Screenshots
 
