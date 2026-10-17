@@ -68,7 +68,7 @@ class CatalogSeeder extends Seeder
 
         DB::transaction(function () use ($data, $admin) {
             $categories = $this->seedCategories($data['cats']);
-            $brands = $this->seedBrands();
+            $brands = $this->seedBrands($admin);
             $sellers = $this->seedSellers();
             $this->seedProducts($data['products'], $admin, $categories, $brands, $sellers);
             $this->seedProductOptions();
@@ -95,12 +95,17 @@ class CatalogSeeder extends Seeder
     }
 
     /** @return array<string, Brand> keyed by name */
-    private function seedBrands(): array
+    private function seedBrands(User $admin): array
     {
         $out = [];
 
         foreach ([...array_keys(self::BRANDS), ...self::OTHER_BRANDS] as $name) {
-            $brand = new Brand(['name' => $name, 'meta_title' => $name]);
+            // Logos copied from the reference panel live at uploads/brands/<slug>.<ext>;
+            // brands it shows only a placeholder for have none.
+            $logo = glob(public_path('uploads/brands/'.Str::slug($name).'.*'))[0] ?? null;
+            $upload = $logo ? $this->upload('uploads/brands/'.basename($logo), $name, $admin) : null;
+
+            $brand = new Brand(['name' => $name, 'meta_title' => $name, 'logo' => $upload?->id]);
             $brand->forceFill(['slug' => Brand::uniqueSlug($name)])->save();
             $out[$name] = $brand;
         }
