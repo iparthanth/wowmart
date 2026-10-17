@@ -214,18 +214,3 @@ Swagger UI or another viewer. Tokens expire after 24 hours; just sign in again.
 
 ---
 
-## What's inside
-
-| Section | What you can do |
-|---|---|
-| **Dashboard** | See pending and unpaid orders, sold-out and low-stock products and products without images, each linking to the filtered list where you fix it. |
-| **Products** | Add and edit products (price, discount window, stock, gallery, SEO, shipping, warranty), duplicate them, publish or unpublish. Manage categories, brands, attributes, colours, warranties, refund/warranty notes and product reviews. |
-| **Sales** | All orders, in-house orders, seller orders, pickup-point orders and unpaid orders. Move an order through its six states (pending → confirmed → picked up → on the way → delivered, or cancelled). Cancelling puts the stock back exactly once. |
-| **Media** | Upload images and PDFs once, reuse them everywhere. Files that are still in use can't be deleted. |
-| **Reports** | Earnings, in-house and seller sales, stock, wishlists, what customers search for, commission history and wallet recharges, each with CSV download. |
-| **Support** | Support tickets, product conversations, product questions and contact-form messages. |
-| **Staffs** | Staff accounts and roles. A staff member only sees the sections their role allows. |
-| **API** | Everything above is also available at `/api/v1`, protected by login tokens. |
-
----
-
