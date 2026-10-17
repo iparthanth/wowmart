@@ -206,304 +206,117 @@ Every table is defined by a migration in `database/migrations/`, the demo data c
 
 ### Diagram
 
-**[Open the interactive diagram in Mermaid Live Editor](https://mermaid.live/edit#pako:eNqtWclu4zgQ_RVD5-4fyHkwl740MJhbAIEWaZkdiVS4OONJ8u9d3GRuWhy3T4FYG2t5VcW8Nx3HpHlqiPiLol6g8Zkd4IeUEvSoFWkvaNBEHt7dd_OjTB0oPvz8kX66scDh39GhhO-sP1hB7utnpmRLvJfA0JgKOArE8N3M0Uc56P7wb3aRgfc8ucCR8-Gg-JTo7pAiPRd0l28mJAhTuWOsMnIhwwPGcoGJaDMp5uCIGCOi0Ec7zoqPHb-AEDqinpQXPxGktCA4-4xpTxUaUp_wgYtH4mGSMZM4jlRKylkLYdnjaueQegq6s5uSwCPJMJRMmHTgkuGA8EhZe7OkpPD8BAkGarILMIU61Y5ESnDvI84hI6JlqkxnziJaRf5Th1dNxDX7Jsg0XMucUhBcmVjM-O6CVNcpV42J7ASd1OwnL9W5HhMFd_hyGJdjZYtMcKw7tQg_giJVDd8kaEcqUT3TaQJWCL1UqapXjZiiquLPwJO6xp9iMlCotGsbuz2OJbqOBicqUbH-2BkWk-AFUGh5jz9_SYCJ-TIIYwH5--X7VJ1Ru2zs_t6Ae6v4DDLxYcf1BJiAqYS_mEpcFfLgPoSuJ49FRyfnGp_lqjgDP0ibX3tLPdaa8FdMqAXPlpvXtWnUoy7QUvHxngQKCEHVQPagTlBuoGtfxJYSeuEaARhligH3YWOQDd7oXh7waYxJTJWaX_QmSlkYihHIWpC08MxoPQ0c4ccSwcmopgEXqrUoVVO-E7kAaAhuj9ftSN89KNWqeJ6VLNRUDgQ5aTgxLTE_XpuNFMfoKqHboWwoU2c9Hhm0QBi2-jJz8ak6gGhGVbvQpFIEjLHZH2Tg66pZCIe8kMXryefm4TdH2pZtz5yP0NSr93lDAhyrqi6fz2q-NQSn1_bIdX82N0_w_FqNxKSPA5XnIhRoAvZL_NkIZ3ps-amVaKi4VABiZlOcIBdK3h4E0SXAivXNkGTGTRKH1d6mAkmCD6SdiPDD6R4bLUu9nm6CCiV3jK5z8Xl2CZNxd94zwXsh2QDrSlHqQcl1lwZ9Zz59tYU8vi4GcIdGdqKd6-lLQ04l16SeJoOlinYvRLWmN-1riBnjo2NEKu5Pj57Bo_r4i3RqT-91rWenHScKKQ6zX08ZGtpqMC1JerJWpZZc0v_JyhYULJW7R3WrrUTolQpdXg0Tv8fbYXJgccQ-DuDE6DcEY5xJt-6MRP_lCWxemsdqVwpDP_SMM8elK6EnSFiX3RhcjgcWzLNHB99J6O6lFRI-FQB9A3qH-sNDZ_nI9fHx_Tt_L9_Wng7PTfx69tykGf_BLZ9_7TLUBnMWqKKtx1C6Z6B9tNEz0D4G85gUKKOjOvH8BhY4_ErrvZK_9BiW8AgwWyM3GOZdpK4jfYSoaZjHVX-HkuMW6cyqJYbCppJ-nfAjJ_RJWPO8o61swDa-twGqvO8qZ3np-pKZS6muxbHAbPGt3nxbWuaQTW7vjttSu-mOgnkxDbYYiygv6Qyb8B3aYpbcJ2khZ4usLea47peMiugXc6Jg8ovnwkWCYYs8884ZWDwQplfxcOc3uWVUSsgrFbHBsbqWrDvbCQjb0h5aWAgDmXuVrRGlO-oesckWupZQ1UyK-m1NeLT0bdueb4FLmRT2rx21EJNmlrstJtDle5P1pZu7qkgdLzHbBeZWkKJXx5beSDJR-eQd6OuLgQWVfPSvK1wWsIaguTnL9O7qwRPLEfB0MjS0utud9mIurYjN0-U20e1ImJQ4ktx8g2IVMFnj5ql5N2VDYPRunp4bTE4IltHn5hNokFb8nyvrmiclNPkGcIUBEfx_U93Hz99aAlfE)** — zoom, pan and
-export it as PNG or SVG. The full-size image is also in the repository:
-[`docs/database/wowmart-erd.svg`](docs/database/wowmart-erd.svg) (source:
-[`docs/database/wowmart-erd.mmd`](docs/database/wowmart-erd.mmd)).
+The core of the design: 14 main tables and how they connect. Smaller lookup tables
+(attributes, colours, warranties, notes) and the support and report extras are listed
+in the table below the diagram.
 
-It shows the 29 business tables with their primary keys (PK), foreign keys (FK) and unique
-columns (UK). Each line is a foreign key: `||--o{` means the child row must have a parent,
-`|o--o{` means the link is optional. Very wide tables (products, orders, users) show only
-the columns that explain the design.
-
-<details>
-<summary><b>Show the diagram here</b> (GitHub draws it from the code below)</summary>
+**[Open the interactive diagram in Mermaid Live Editor](https://mermaid.live/edit#pako:eNqlVsuO4yAQ_BXEOfMDOa_2MpeV9hrJYkwngwYDC81EkZN_Xx7Gj5g8NPHFNlQ3RVNddk9bzYFuKdhfgh0s63aKhMtqCY6cz29vuk8vjQHbCeeEVo5syY4GrEK3owu8TnjvwA4g8Q2KoCYO2X5fwHk-gc_EfWqTwQ6kBEv0UbkrZKZhrOa-xQyeo1qGcNBWTAxmIxFsmAWFRO9vRyySd0yogjmVmBFxqa7BpNNECofAiVAl6CNUidcXSVMzTt5IzW5g8dN3H4oJeYtMCU5FZ7GOa96xjOcxceNQt19D5eNjFR9PH74FHDMwPy92uDiiOfZoBUL9JLXlRSFGsnZCDRMD0_TWcMCw8YxutQov08lPXPWUeBHhtOSE1Wk4b4y22KBov6DoysCU_hpQjWssGFlUMDzHBPMF-_wSLxGEKDj58z4NObRCHRK0wZOBqCbeCbXJbRNuqTM2pPXhpDqwhV_Jlxo0JP29TgpdVE0avcxb9SlGinWwil04Qf80kSlqkTG3_302cSgVp555xXJUxc_SxvHS_LW51Li1ibFLG9Ed7jONF4dWdEwSrwQ2xooWrjh4G20rN-pigzPrebzFbH7P1m4wrJ_Jo7jQU9F7EbRy6-yKOz2xvSGgch7_8LRU7-BOLyW9pRjLMOxqsd7gZi-JO36eV4McZPiwBnUGf0Dv1pI6JImiRibXjEZ_fEws4yu7vVd1H34MRCn9nNVM45e6wb5UqnkxqvlHp368zFVgfcGYblIY3dBgzcFuefid6uM3G4K26XZHOeyZl7ijl4BhHvXfk2rpFq2HDfWGh24efr7y4OU_i-kDhg)** · image:
+[`docs/database/wowmart-erd.svg`](docs/database/wowmart-erd.svg) · source:
+[`docs/database/wowmart-erd.mmd`](docs/database/wowmart-erd.mmd)
 
 ```mermaid
 erDiagram
-    attribute_values {
+    roles ||--o{ role_permissions : "grants"
+    roles |o--o{ users : "given to staff"
+    users |o--o| shops : "seller owns"
+    users ||--o{ products : "owns"
+    categories |o--o{ categories : "parent of"
+    categories |o--o{ products : "main category"
+    products }o--o{ categories : "also listed in"
+    brands |o--o{ products : "brand of"
+    uploads |o--o{ products : "thumbnail"
+    products }o--o{ uploads : "gallery"
+    products ||--|{ product_stocks : "stock"
+    products ||--o{ reviews : "reviewed in"
+    users ||--o{ reviews : "writes"
+    users ||--o{ orders : "places"
+    orders ||--|{ order_details : "contains"
+    products |o--o{ order_details : "sold as"
+    users ||--o{ support_tickets : "opens"
+    support_tickets ||--o{ support_ticket_replies : "replies"
+
+    users {
         int id PK
-        int attribute_id FK
-        string value
+        string user_type "admin, staff, seller, customer"
+        int role_id FK
+        string email
     }
-    attributes {
+    roles {
         int id PK
+        string name
+    }
+    role_permissions {
+        int role_id FK
+        string permission
+    }
+    shops {
+        int id PK
+        int user_id FK
+        string name
+    }
+    products {
+        int id PK
+        int user_id FK
+        int category_id FK
+        int brand_id FK
+        int thumbnail_img FK
+        string name
+        decimal unit_price
+        int current_stock
+    }
+    categories {
+        int id PK
+        int parent_id FK
         string name
     }
     brands {
         int id PK
         string name
-        string slug UK
-        int logo FK
-        bool top
     }
-    categories {
+    uploads {
         int id PK
-        int parent_id FK
-        int level
-        string name
-        string slug UK
-        int order_level
-        int banner FK
-        int icon FK
-        int cover_image FK
-        bool featured
-        bool digital
-    }
-    colors {
-        int id PK
-        string name
-        string code
-    }
-    commission_logs {
-        int id PK
-        int order_id FK
-        string order_code
-        int seller_id FK
-        decimal admin_commission
-        decimal seller_earning
-    }
-    contact_messages {
-        int id PK
-        string name
-        string email
-        string phone
-        text query
-        text reply
-        string status
-    }
-    notes {
-        int id PK
-        string type
-        text description
-    }
-    order_details {
-        int id PK
-        int order_id FK
-        int seller_id FK
-        int product_id FK
-        string variation
-        decimal price
-        decimal shipping_cost
-        int quantity
-        string shipping_type
-        string delivery_status
-        string payment_status
-    }
-    orders {
-        int id PK
-        string code UK
-        int user_id FK
-        int seller_id FK
-        json shipping_address
-        string delivery_status
-        string payment_type
-        string payment_status
-        decimal grand_total
-        decimal coupon_discount
-    }
-    product_categories {
-        int id PK
-        int product_id FK
-        int category_id FK
-    }
-    product_conversation_messages {
-        int id PK
-        int product_conversation_id FK
-        int user_id FK
-        text message
-    }
-    product_conversations {
-        int id PK
-        int product_id FK
-        int customer_id FK
-        int seller_id FK
-        string title
-        string status
-    }
-    product_queries {
-        int id PK
-        int user_id FK
-        int product_id FK
-        text question
-        text reply
-        string status
+        string file_name
     }
     product_stocks {
         int id PK
         int product_id FK
-        string variant
-        string sku
-        decimal price
         int qty
-        int image FK
-    }
-    product_upload {
-        int id PK
-        int product_id FK
-        int upload_id FK
-        int sort_order
-    }
-    products {
-        int id PK
-        string added_by
-        int user_id FK
-        string name
-        string slug UK
-        int category_id FK
-        int brand_id FK
-        int refund_note_id FK
-        bool featured
-        bool todays_deal
-        int thumbnail_img FK
-        int pdf FK
-        decimal unit_price
-        decimal discount
-        string discount_type
-        int current_stock
-        string sku
-        int low_stock_quantity
-        int meta_img FK
-        int warranty_id FK
-        int warranty_note_id FK
-        int fq_bought_product_category_id FK
-        bool published
-        bool approved
-        int num_of_sale
-        decimal rating
     }
     reviews {
         int id PK
         int product_id FK
         int user_id FK
         int rating
-        text comment
-        bool status
     }
-    role_permissions {
-        int id PK
-        int role_id FK
-        string permission
-    }
-    roles {
-        int id PK
-        string name UK
-    }
-    search_logs {
-        int id PK
-        string query
-        int results
-        int user_id FK
-    }
-    shops {
+    orders {
         int id PK
         int user_id FK
-        string name
-        string slug UK
-        int logo FK
-        string verification_status
-        decimal rating
+        string code
+        string delivery_status
+        decimal grand_total
+    }
+    order_details {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal price
+    }
+    support_tickets {
+        int id PK
+        int user_id FK
+        string status
     }
     support_ticket_replies {
         int id PK
         int support_ticket_id FK
-        int user_id FK
-        text message
+        string reply
     }
-    support_tickets {
-        int id PK
-        string code UK
-        int user_id FK
-        string subject
-        string status
-    }
-    uploads {
-        int id PK
-        string file_original_name
-        string file_name
-        int user_id FK
-        int file_size
-        string type
-    }
-    users {
-        int id PK
-        string user_type
-        int role_id FK
-        string name
-        string email UK
-        string phone UK
-        bool banned
-    }
-    wallet_recharges {
-        int id PK
-        int user_id FK
-        decimal amount
-        string payment_method
-        string transaction_id
-        string approval
-    }
-    warranties {
-        int id PK
-        string text
-    }
-    wishlists {
-        int id PK
-        int user_id FK
-        int product_id FK
-    }
-    attributes ||--o{ attribute_values : "attribute_id"
-    uploads |o--o{ brands : "logo"
-    uploads |o--o{ categories : "banner"
-    uploads |o--o{ categories : "cover_image"
-    uploads |o--o{ categories : "icon"
-    categories |o--o{ categories : "parent_id"
-    orders ||--o{ commission_logs : "order_id"
-    users ||--o{ commission_logs : "seller_id"
-    orders ||--o{ order_details : "order_id"
-    products |o--o{ order_details : "product_id"
-    users |o--o{ order_details : "seller_id"
-    users |o--o{ orders : "seller_id"
-    users ||--o{ orders : "user_id"
-    categories ||--o{ product_categories : "category_id"
-    products ||--o{ product_categories : "product_id"
-    product_conversations ||--o{ product_conversation_messages : "product_conversation_id"
-    users ||--o{ product_conversation_messages : "user_id"
-    users ||--o{ product_conversations : "customer_id"
-    products ||--o{ product_conversations : "product_id"
-    users ||--o{ product_conversations : "seller_id"
-    products ||--o{ product_queries : "product_id"
-    users ||--o{ product_queries : "user_id"
-    uploads |o--o{ product_stocks : "image"
-    products ||--o{ product_stocks : "product_id"
-    products ||--o{ product_upload : "product_id"
-    uploads ||--o{ product_upload : "upload_id"
-    brands |o--o{ products : "brand_id"
-    categories |o--o{ products : "category_id"
-    categories |o--o{ products : "fq_bought_product_category_id"
-    uploads |o--o{ products : "meta_img"
-    uploads |o--o{ products : "pdf"
-    notes |o--o{ products : "refund_note_id"
-    uploads |o--o{ products : "thumbnail_img"
-    users ||--o{ products : "user_id"
-    warranties |o--o{ products : "warranty_id"
-    notes |o--o{ products : "warranty_note_id"
-    products ||--o{ reviews : "product_id"
-    users ||--o{ reviews : "user_id"
-    roles ||--o{ role_permissions : "role_id"
-    users |o--o{ search_logs : "user_id"
-    uploads |o--o{ shops : "logo"
-    users ||--o{ shops : "user_id"
-    support_tickets ||--o{ support_ticket_replies : "support_ticket_id"
-    users ||--o{ support_ticket_replies : "user_id"
-    users ||--o{ support_tickets : "user_id"
-    users |o--o{ uploads : "user_id"
-    roles |o--o{ users : "role_id"
-    users ||--o{ wallet_recharges : "user_id"
-    products ||--o{ wishlists : "product_id"
-    users ||--o{ wishlists : "user_id"
 ```
 
-</details>
+How to read the lines: `||` means exactly one, `|o` means zero or one, `o{` means zero or more,
+`|{` means one or more. For example, `orders ||--|{ order_details` reads "one order contains one
+or more order lines".
 
 ### Tables by area
 

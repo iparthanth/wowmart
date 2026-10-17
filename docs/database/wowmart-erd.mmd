@@ -1,281 +1,97 @@
 erDiagram
-    attribute_values {
+    roles ||--o{ role_permissions : "grants"
+    roles |o--o{ users : "given to staff"
+    users |o--o| shops : "seller owns"
+    users ||--o{ products : "owns"
+    categories |o--o{ categories : "parent of"
+    categories |o--o{ products : "main category"
+    products }o--o{ categories : "also listed in"
+    brands |o--o{ products : "brand of"
+    uploads |o--o{ products : "thumbnail"
+    products }o--o{ uploads : "gallery"
+    products ||--|{ product_stocks : "stock"
+    products ||--o{ reviews : "reviewed in"
+    users ||--o{ reviews : "writes"
+    users ||--o{ orders : "places"
+    orders ||--|{ order_details : "contains"
+    products |o--o{ order_details : "sold as"
+    users ||--o{ support_tickets : "opens"
+    support_tickets ||--o{ support_ticket_replies : "replies"
+
+    users {
         int id PK
-        int attribute_id FK
-        string value
+        string user_type "admin, staff, seller, customer"
+        int role_id FK
+        string email
     }
-    attributes {
+    roles {
         int id PK
+        string name
+    }
+    role_permissions {
+        int role_id FK
+        string permission
+    }
+    shops {
+        int id PK
+        int user_id FK
+        string name
+    }
+    products {
+        int id PK
+        int user_id FK
+        int category_id FK
+        int brand_id FK
+        int thumbnail_img FK
+        string name
+        decimal unit_price
+        int current_stock
+    }
+    categories {
+        int id PK
+        int parent_id FK
         string name
     }
     brands {
         int id PK
         string name
-        string slug UK
-        int logo FK
-        bool top
     }
-    categories {
+    uploads {
         int id PK
-        int parent_id FK
-        int level
-        string name
-        string slug UK
-        int order_level
-        int banner FK
-        int icon FK
-        int cover_image FK
-        bool featured
-        bool digital
-    }
-    colors {
-        int id PK
-        string name
-        string code
-    }
-    commission_logs {
-        int id PK
-        int order_id FK
-        string order_code
-        int seller_id FK
-        decimal admin_commission
-        decimal seller_earning
-    }
-    contact_messages {
-        int id PK
-        string name
-        string email
-        string phone
-        text query
-        text reply
-        string status
-    }
-    notes {
-        int id PK
-        string type
-        text description
-    }
-    order_details {
-        int id PK
-        int order_id FK
-        int seller_id FK
-        int product_id FK
-        string variation
-        decimal price
-        decimal shipping_cost
-        int quantity
-        string shipping_type
-        string delivery_status
-        string payment_status
-    }
-    orders {
-        int id PK
-        string code UK
-        int user_id FK
-        int seller_id FK
-        json shipping_address
-        string delivery_status
-        string payment_type
-        string payment_status
-        decimal grand_total
-        decimal coupon_discount
-    }
-    product_categories {
-        int id PK
-        int product_id FK
-        int category_id FK
-    }
-    product_conversation_messages {
-        int id PK
-        int product_conversation_id FK
-        int user_id FK
-        text message
-    }
-    product_conversations {
-        int id PK
-        int product_id FK
-        int customer_id FK
-        int seller_id FK
-        string title
-        string status
-    }
-    product_queries {
-        int id PK
-        int user_id FK
-        int product_id FK
-        text question
-        text reply
-        string status
+        string file_name
     }
     product_stocks {
         int id PK
         int product_id FK
-        string variant
-        string sku
-        decimal price
         int qty
-        int image FK
-    }
-    product_upload {
-        int id PK
-        int product_id FK
-        int upload_id FK
-        int sort_order
-    }
-    products {
-        int id PK
-        string added_by
-        int user_id FK
-        string name
-        string slug UK
-        int category_id FK
-        int brand_id FK
-        int refund_note_id FK
-        bool featured
-        bool todays_deal
-        int thumbnail_img FK
-        int pdf FK
-        decimal unit_price
-        decimal discount
-        string discount_type
-        int current_stock
-        string sku
-        int low_stock_quantity
-        int meta_img FK
-        int warranty_id FK
-        int warranty_note_id FK
-        int fq_bought_product_category_id FK
-        bool published
-        bool approved
-        int num_of_sale
-        decimal rating
     }
     reviews {
         int id PK
         int product_id FK
         int user_id FK
         int rating
-        text comment
-        bool status
     }
-    role_permissions {
-        int id PK
-        int role_id FK
-        string permission
-    }
-    roles {
-        int id PK
-        string name UK
-    }
-    search_logs {
-        int id PK
-        string query
-        int results
-        int user_id FK
-    }
-    shops {
+    orders {
         int id PK
         int user_id FK
-        string name
-        string slug UK
-        int logo FK
-        string verification_status
-        decimal rating
+        string code
+        string delivery_status
+        decimal grand_total
+    }
+    order_details {
+        int id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        decimal price
+    }
+    support_tickets {
+        int id PK
+        int user_id FK
+        string status
     }
     support_ticket_replies {
         int id PK
         int support_ticket_id FK
-        int user_id FK
-        text message
+        string reply
     }
-    support_tickets {
-        int id PK
-        string code UK
-        int user_id FK
-        string subject
-        string status
-    }
-    uploads {
-        int id PK
-        string file_original_name
-        string file_name
-        int user_id FK
-        int file_size
-        string type
-    }
-    users {
-        int id PK
-        string user_type
-        int role_id FK
-        string name
-        string email UK
-        string phone UK
-        bool banned
-    }
-    wallet_recharges {
-        int id PK
-        int user_id FK
-        decimal amount
-        string payment_method
-        string transaction_id
-        string approval
-    }
-    warranties {
-        int id PK
-        string text
-    }
-    wishlists {
-        int id PK
-        int user_id FK
-        int product_id FK
-    }
-    attributes ||--o{ attribute_values : "attribute_id"
-    uploads |o--o{ brands : "logo"
-    uploads |o--o{ categories : "banner"
-    uploads |o--o{ categories : "cover_image"
-    uploads |o--o{ categories : "icon"
-    categories |o--o{ categories : "parent_id"
-    orders ||--o{ commission_logs : "order_id"
-    users ||--o{ commission_logs : "seller_id"
-    orders ||--o{ order_details : "order_id"
-    products |o--o{ order_details : "product_id"
-    users |o--o{ order_details : "seller_id"
-    users |o--o{ orders : "seller_id"
-    users ||--o{ orders : "user_id"
-    categories ||--o{ product_categories : "category_id"
-    products ||--o{ product_categories : "product_id"
-    product_conversations ||--o{ product_conversation_messages : "product_conversation_id"
-    users ||--o{ product_conversation_messages : "user_id"
-    users ||--o{ product_conversations : "customer_id"
-    products ||--o{ product_conversations : "product_id"
-    users ||--o{ product_conversations : "seller_id"
-    products ||--o{ product_queries : "product_id"
-    users ||--o{ product_queries : "user_id"
-    uploads |o--o{ product_stocks : "image"
-    products ||--o{ product_stocks : "product_id"
-    products ||--o{ product_upload : "product_id"
-    uploads ||--o{ product_upload : "upload_id"
-    brands |o--o{ products : "brand_id"
-    categories |o--o{ products : "category_id"
-    categories |o--o{ products : "fq_bought_product_category_id"
-    uploads |o--o{ products : "meta_img"
-    uploads |o--o{ products : "pdf"
-    notes |o--o{ products : "refund_note_id"
-    uploads |o--o{ products : "thumbnail_img"
-    users ||--o{ products : "user_id"
-    warranties |o--o{ products : "warranty_id"
-    notes |o--o{ products : "warranty_note_id"
-    products ||--o{ reviews : "product_id"
-    users ||--o{ reviews : "user_id"
-    roles ||--o{ role_permissions : "role_id"
-    users |o--o{ search_logs : "user_id"
-    uploads |o--o{ shops : "logo"
-    users ||--o{ shops : "user_id"
-    support_tickets ||--o{ support_ticket_replies : "support_ticket_id"
-    users ||--o{ support_ticket_replies : "user_id"
-    users ||--o{ support_tickets : "user_id"
-    users |o--o{ uploads : "user_id"
-    roles |o--o{ users : "role_id"
-    users ||--o{ wallet_recharges : "user_id"
-    products ||--o{ wishlists : "product_id"
-    users ||--o{ wishlists : "user_id"
