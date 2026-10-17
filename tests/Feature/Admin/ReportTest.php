@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Enums\DeliveryStatus;
-use App\Models\BusinessSetting;
 use App\Models\Category;
 use App\Models\CommissionLog;
 use App\Models\Order;
@@ -301,7 +300,7 @@ class ReportTest extends TestCase
 
     public function test_commission_history_rows_match_paid_seller_orders(): void
     {
-        $rate = (float) BusinessSetting::get('seller_commission', 5);
+        $rate = 5.0; // ReportSeeder's commission rate
         // Sellers ride on the order lines, so the commission unit is one seller
         // inside one paid order.
         $pairs = OrderDetail::query()

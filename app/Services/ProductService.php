@@ -66,11 +66,8 @@ class ProductService
                 $source->gallery->mapWithKeys(fn ($u) => [$u->id => ['sort_order' => $u->pivot->sort_order]])
             );
 
-            foreach ($source->stocks()->with('wholesalePrices')->get() as $stock) {
-                $copy->stocks()
-                    ->create($stock->only(['variant', 'sku', 'price', 'qty', 'image']))
-                    ->wholesalePrices()
-                    ->createMany($stock->wholesalePrices->map->only(['min_qty', 'max_qty', 'price'])->all());
+            foreach ($source->stocks as $stock) {
+                $copy->stocks()->create($stock->only(['variant', 'sku', 'price', 'qty', 'image']));
             }
 
             return $copy;

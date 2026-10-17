@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\BusinessSetting;
 use App\Models\CommissionLog;
 use App\Models\Order;
 use App\Models\SearchLog;
@@ -42,8 +41,8 @@ class ReportSeeder extends Seeder
         // One commission row per seller inside each paid order: a multi-vendor
         // order carries the seller on its lines, so the marketplace's cut is
         // computed from the value each seller's lines added (price × quantity),
-        // at the seller_commission setting's percentage.
-        $rate = (float) BusinessSetting::get('seller_commission', 5);
+        // at the marketplace's 5% commission.
+        $rate = 5.0;
         Order::query()
             ->where('payment_status', 'paid')
             ->with('details')

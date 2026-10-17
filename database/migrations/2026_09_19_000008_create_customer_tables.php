@@ -15,28 +15,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('addresses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('phone', 32);
-            $table->text('address');
-            $table->string('city', 120);
-            $table->string('postal_code', 20)->nullable();
-            $table->boolean('set_default')->default(false);
-            $table->timestamps();
-        });
 
-        Schema::create('carts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
-            $table->string('temp_user_id', 64)->nullable()->index(); // guest carts
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('variation')->default('');
-            $table->decimal('price', 20, 2)->default(0);
-            $table->unsignedInteger('quantity')->default(1);
-            $table->timestamps();
-        });
 
         Schema::create('wishlists', function (Blueprint $table) {
             $table->id();
@@ -60,7 +39,7 @@ return new class extends Migration
 
     public function down(): void
     {
-        foreach (['reviews', 'wishlists', 'carts', 'addresses'] as $t) {
+        foreach (['reviews', 'wishlists'] as $t) {
             Schema::dropIfExists($t);
         }
     }

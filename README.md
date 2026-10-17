@@ -78,7 +78,7 @@ It can take a few minutes the first time.
 5. Click **Choose File** and pick **`database/sql/wowmart.sql`** from the project folder.
 6. Scroll down and click **Import** (or **Go**).
 
-You should see a green "Import has been successfully finished" message and 42 tables
+You should see a green "Import has been successfully finished" message and 34 tables
 on the left. The file already contains the demo data: 42 products, 29 brands, 13 orders,
 reviews, report data, support tickets and two demo staff accounts.
 

@@ -205,15 +205,6 @@ class CatalogSeeder extends Seeder
                 'price' => $product->unit_price,
                 'qty' => $stock,
             ]);
-
-            if ($p['wholesale']) {
-                $base = (float) $p['price'];
-                foreach ([[10, 49, 0.92], [50, 199, 0.85], [200, 9999, 0.78]] as [$min, $max, $factor]) {
-                    $stockRow->wholesalePrices()->create([
-                        'min_qty' => $min, 'max_qty' => $max, 'price' => round($base * $factor, 2),
-                    ]);
-                }
-            }
         }
     }
 

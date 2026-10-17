@@ -136,20 +136,11 @@ return new class extends Migration
             $table->unique(['product_id', 'variant']);
         });
 
-        Schema::create('wholesale_prices', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('product_stock_id')->constrained()->cascadeOnDelete();
-            $table->unsignedInteger('min_qty');
-            $table->unsignedInteger('max_qty');
-            $table->decimal('price', 20, 2);
-            $table->timestamps();
-            $table->index(['product_stock_id', 'min_qty']);
-        });
     }
 
     public function down(): void
     {
-        foreach (['wholesale_prices', 'product_stocks', 'product_upload', 'product_categories', 'products'] as $t) {
+        foreach (['product_stocks', 'product_upload', 'product_categories', 'products'] as $t) {
             Schema::dropIfExists($t);
         }
     }
