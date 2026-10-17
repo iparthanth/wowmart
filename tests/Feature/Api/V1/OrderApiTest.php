@@ -39,7 +39,7 @@ class OrderApiTest extends TestCase
             ]], 'links', 'meta']);
 
         $this->getJson('/api/v1/orders?delivery_status=pending')->assertOk()->assertJsonPath('meta.total', 2);
-        $this->getJson('/api/v1/orders?payment_status=unpaid')->assertOk()->assertJsonPath('meta.total', 6); // the manual-payment seed flips one paid order back
+        $this->getJson('/api/v1/orders?payment_status=unpaid')->assertOk()->assertJsonPath('meta.total', 5);
         $this->getJson('/api/v1/orders?delivery_status=nonsense')->assertOk()->assertJsonPath('meta.total', 13);
 
         $code = $this->orderIn(DeliveryStatus::Confirmed)->code;

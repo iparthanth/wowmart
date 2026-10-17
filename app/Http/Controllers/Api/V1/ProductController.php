@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
-    private const RELATIONS = ['owner:id,name', 'thumbnail', 'gallery', 'categories:id', 'flashDeals:id', 'stocks'];
+    private const RELATIONS = ['owner:id,name', 'thumbnail', 'gallery', 'categories:id', 'stocks'];
 
     private const FLAGS = ['published', 'approved', 'featured', 'todays_deal'];
 
@@ -49,8 +49,8 @@ class ProductController extends Controller
      * PUT replaces the whole product with the panel form's rules, so EVERY omitted
      * field means empty / none, as an empty input on the form does: optional
      * columns are cleared (0 for weight, discount, shipping cost), unsent switches
-     * are off, and an omitted photos / category_ids / flash_deal_id clears the
-     * gallery, extra categories and flash deal. Keeping omitted values instead
+     * are off, and an omitted photos / category_ids clears the
+     * gallery and extra categories. Keeping omitted values instead
      * would let a stored discount skip the discount rules (a flat 150 kept as a
      * 150% discount after the type changed). A GET body can be sent back as is.
      */

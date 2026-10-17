@@ -162,12 +162,6 @@ class Product extends Model
         return $this->belongsTo(Note::class, 'warranty_note_id');
     }
 
-    public function flashDeals(): BelongsToMany
-    {
-        return $this->belongsToMany(FlashDeal::class, 'flash_deal_products')
-            ->withPivot('discount', 'discount_type');
-    }
-
     /** Visible on the storefront: published by its owner AND approved by an admin. */
     public function scopeLive(Builder $query): Builder
     {

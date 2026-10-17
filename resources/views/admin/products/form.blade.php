@@ -14,7 +14,7 @@
     $v = fn (string $key, $stored = null) => $fresh ? $stored : old($key);
 
     $sections = [
-        'general' => ['General', ['name', 'category_id', 'category_ids', 'category_ids.*', 'brand_id', 'unit', 'weight', 'min_qty', 'tags', 'barcode', 'quick_overview', 'description', 'refund_note_id', 'flash_deal_id', 'flash_discount', 'flash_discount_type']],
+        'general' => ['General', ['name', 'category_id', 'category_ids', 'category_ids.*', 'brand_id', 'unit', 'weight', 'min_qty', 'tags', 'barcode', 'quick_overview', 'description', 'refund_note_id']],
         'media' => ['Files & media', ['photos', 'photos.*', 'thumbnail_img', 'video_provider', 'video_link', 'pdf']],
         'price' => ['Price & stock', ['unit_price', 'discount', 'discount_type', 'discount_start_date', 'discount_end_date', 'current_stock', 'sku', 'low_stock_quantity', 'stock_visibility_state', 'external_link', 'external_link_btn']],
         'seo' => ['SEO', ['meta_title', 'meta_description', 'meta_img']],
@@ -24,7 +24,6 @@
     ];
 
     $listed = array_map('intval', (array) $v('category_ids', $product->categories->pluck('id')->all()));
-    $deal = $product->flashDeals->first();
     $visibility = [
         'quantity' => 'Show the number in stock',
         'text' => 'Show "In stock" without a number',
@@ -117,25 +116,6 @@
                         @endforeach
                     </select>
                 </x-admin.field>
-
-                <div class="grid-3">
-                    <x-admin.field name="flash_deal_id" label="Flash deal">
-                        <select id="f-flash_deal_id" name="flash_deal_id" class="select">
-                            <option value="">Not in a flash deal</option>
-                            @foreach ($flashDeals as $d)
-                                <option value="{{ $d->id }}" @selected((int) $v('flash_deal_id', $deal?->id) === $d->id)>{{ $d->title }}{{ $d->end_date?->isPast() ? ' (ended)' : '' }}</option>
-                            @endforeach
-                        </select>
-                    </x-admin.field>
-                    <x-admin.field name="flash_discount" label="Flash discount" type="number" :value="$v('flash_discount', $deal?->pivot->discount)" step="0.01" min="0" />
-                    <x-admin.field name="flash_discount_type" label="Discount is">
-                        <select id="f-flash_discount_type" name="flash_discount_type" class="select">
-                            @foreach (DiscountType::cases() as $t)
-                                <option value="{{ $t->value }}" @selected($v('flash_discount_type', $deal?->pivot->discount_type ?? 'percent') === $t->value)>{{ $t === DiscountType::Percent ? 'A percentage' : 'A fixed amount (৳)' }}</option>
-                            @endforeach
-                        </select>
-                    </x-admin.field>
-                </div>
             </div>
         </section>
 

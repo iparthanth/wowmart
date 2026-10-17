@@ -4,11 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\DeliveryStatus;
 use App\Enums\PaymentStatus;
-use App\Enums\UserType;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use App\Models\User;
-use App\Services\DeliveryBoyService;
 use App\Services\OrderService;
 use DomainException;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +15,7 @@ use Illuminate\View\View;
 
 class OrderController extends Controller
 {
-    public function __construct(private readonly OrderService $orders, private readonly DeliveryBoyService $deliveryBoys) {}
+    public function __construct(private readonly OrderService $orders) {}
 
     public function index(Request $request): View
     {
@@ -124,31 +121,5 @@ class OrderController extends Controller
 
         return redirect()->route('admin.orders.show', $updated)
             ->with('status', "Order {$order->code} is marked as ".strtolower($to->label()).'.');
-    }
-
-    public function assignDeliveryBoy(Request $request, Order $order): RedirectResponse
-    {
-        $validated = $request->validate([
-            'delivery_boy_id' => ['required', Rule::exists('users', 'id')->where('user_type', UserType::DeliveryBoy->value)],
-        ]);
-
-        $boy = User::findOrFail($validated['delivery_boy_id']);
-
-        try {
-            $this->deliveryBoys->assign($order, $boy);
-        } catch (DomainException $e) {
-            return back()->with('error', $e->getMessage());
-        }
-
-        return redirect()->route('admin.orders.show', $order)
-            ->with('status', "Order {$order->code} is assigned to {$boy->name}.");
-    }
-
-    public function unassignDeliveryBoy(Order $order): RedirectResponse
-    {
-        $this->deliveryBoys->unassign($order);
-
-        return redirect()->route('admin.orders.show', $order)
-            ->with('status', "Order {$order->code} is back in the unassigned pool.");
     }
 }

@@ -30,14 +30,7 @@ class Upload extends Model
         'category banner' => ['categories', 'banner'],
         'category icon' => ['categories', 'icon'],
         'category cover' => ['categories', 'cover_image'],
-        'flash deal banner' => ['flash_deals', 'banner'],
-        'blog post banner' => ['blogs', 'banner'],
-        'pop-up banner' => ['dynamic_popups', 'banner'],
         'shop logo' => ['shops', 'logo'],
-        'manual payment method logo' => ['manual_payment_methods', 'logo'],
-        'offline package payment receipt' => ['offline_package_payments', 'upload_id'],
-        'wallet recharge receipt' => ['wallet_recharges', 'upload_id'],
-        'notification type image' => ['notification_types', 'image'],
     ];
 
     protected function casts(): array

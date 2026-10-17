@@ -9,7 +9,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\FlashDeal;
 use App\Models\Note;
 use App\Models\Product;
 use App\Models\Upload;
@@ -73,7 +72,7 @@ class ProductController extends Controller
 
     public function edit(Product $product): View
     {
-        $product->load(['categories:id', 'gallery:id', 'flashDeals:id', 'owner.shop']);
+        $product->load(['categories:id', 'gallery:id', 'owner.shop']);
 
         return view('admin.products.edit', $this->formData($product));
     }
@@ -124,7 +123,6 @@ class ProductController extends Controller
             // hundreds of files; past that, page it or search it server-side.
             'images' => Upload::where('type', 'image')->latest('id')->get(),
             'documents' => Upload::where('type', 'document')->latest('id')->get(['id', 'file_original_name']),
-            'flashDeals' => FlashDeal::orderByDesc('end_date')->get(['id', 'title', 'end_date']),
             'warranties' => Warranty::orderBy('id')->get(),
             'notes' => Note::orderBy('id')->get()->groupBy('type'),
         ];

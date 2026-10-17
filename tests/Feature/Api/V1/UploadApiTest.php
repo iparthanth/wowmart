@@ -73,7 +73,7 @@ class UploadApiTest extends TestCase
 
         $this->post('/api/v1/uploads', ['files' => [
             $this->file('logo.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),
-            $this->file('photo.jpg', '<?php system($_GET["c"]); ?>'),
+            $this->file('photo.jpg', '<?php echo "not an image"; ?>'),
         ]], ['Accept' => 'application/json'])
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['files.0', 'files.1']);

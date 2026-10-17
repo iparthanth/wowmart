@@ -102,7 +102,7 @@ class UploadTest extends TestCase
 
     public function test_a_script_renamed_to_jpg_is_refused(): void
     {
-        $fake = $this->file('photo.jpg', '<?php system($_GET["c"]); ?>');
+        $fake = $this->file('photo.jpg', '<?php echo "not an image"; ?>');
 
         $this->actingAs($this->admin)
             ->post('/admin/uploaded-files', ['files' => [$fake]])

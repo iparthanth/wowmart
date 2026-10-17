@@ -4,7 +4,6 @@ namespace Tests\Feature\Api\V1;
 
 use App\Models\Brand;
 use App\Models\Category;
-use App\Models\FlashDeal;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Upload;
@@ -50,7 +49,7 @@ class ProductApiTest extends TestCase
             ->assertOk()
             ->assertJsonCount(5, 'data')
             ->assertJsonPath('meta.total', 42)
-            ->assertJsonStructure(['data' => [['id', 'slug', 'owner' => ['id', 'name'], 'thumbnail', 'gallery', 'category_ids', 'flash_deal', 'stock']], 'links', 'meta']);
+            ->assertJsonStructure(['data' => [['id', 'slug', 'owner' => ['id', 'name'], 'thumbnail', 'gallery', 'category_ids', 'stock']], 'links', 'meta']);
 
         $soldOut = Product::where('current_stock', '<=', 0)->sole();
         $this->getJson('/api/v1/products?stock=out')
@@ -105,13 +104,11 @@ class ProductApiTest extends TestCase
         $seller = User::factory()->seller()->create();
         [$a, $b] = Upload::where('type', 'image')->orderBy('id')->limit(2)->pluck('id')->all();
         $extra = Category::skip(1)->firstOrFail();
-        $deal = FlashDeal::firstOrFail();
 
         $this->postJson('/api/v1/products', $this->payload([
             'category_ids' => [$extra->id],
             'photos' => [$b, $a],
             'featured' => true,
-            'flash_deal_id' => $deal->id, 'flash_discount' => 12, 'flash_discount_type' => 'percent',
             // none of these may come from input
             'slug' => 'chosen-slug', 'added_by' => 'seller', 'user_id' => $seller->id, 'num_of_sale' => 999,
         ]))
@@ -126,7 +123,6 @@ class ProductApiTest extends TestCase
             ->assertJsonPath('data.category_ids', collect([Category::first()->id, $extra->id])->sort()->values()->all())
             ->assertJsonPath('data.gallery.*.id', [$b, $a])
             ->assertJsonPath('data.thumbnail.id', $b)
-            ->assertJsonPath('data.flash_deal', ['id' => $deal->id, 'discount' => '12.00', 'discount_type' => 'percent'])
             ->assertJsonPath('data.stock', 40);
     }
 
@@ -135,7 +131,7 @@ class ProductApiTest extends TestCase
         $product = Product::has('gallery')->firstOrFail();
         $slug = $product->slug;
 
-        // No photos / category_ids / flash_deal_id sent: those lists become empty, as on the form.
+        // No photos / category_ids sent: those lists become empty, as on the form.
         $this->putJson("/api/v1/products/{$product->id}", $this->payload(['name' => 'Renamed product', 'current_stock' => 7]))
             ->assertOk()
             ->assertJsonPath('data.name', 'Renamed product')
@@ -174,11 +170,9 @@ class ProductApiTest extends TestCase
     public function test_a_get_body_can_be_put_back_unchanged(): void
     {
         $product = Product::has('gallery')->firstOrFail();
-        $product->flashDeals()->sync([FlashDeal::firstOrFail()->id => ['discount' => 12, 'discount_type' => 'percent']]);
 
         $before = $this->getJson("/api/v1/products/{$product->id}")->assertOk()->json('data');
         $this->assertNotEmpty($before['photos']);
-        $this->assertSame('12.00', $before['flash_discount']);
 
         $after = $this->putJson("/api/v1/products/{$product->id}", $before)->assertOk()->json('data');
 
@@ -256,22 +250,6 @@ class ProductApiTest extends TestCase
         ]))
             ->assertUnprocessable()
             ->assertJsonValidationErrors(['featured', 'discount_start_date']);
-    }
-
-    public function test_the_flash_deal_discount_obeys_the_flash_deal_caps(): void
-    {
-        $deal = FlashDeal::firstOrFail();
-
-        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 151, 'flash_discount_type' => 'amount']))
-            ->assertUnprocessable()
-            ->assertJsonValidationErrors('flash_discount');
-
-        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 101, 'flash_discount_type' => 'percent']))
-            ->assertUnprocessable()
-            ->assertJsonValidationErrors('flash_discount');
-
-        $this->postJson('/api/v1/products', $this->payload(['flash_deal_id' => $deal->id, 'flash_discount' => 150, 'flash_discount_type' => 'amount']))
-            ->assertCreated();
     }
 
     public function test_cleared_number_fields_are_stored_as_zero(): void

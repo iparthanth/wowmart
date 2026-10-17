@@ -22,7 +22,7 @@ use Illuminate\Support\Str;
 class ProductService
 {
     /** Validated keys that are relations rather than product columns. */
-    private const RELATION_KEYS = ['category_ids', 'photos', 'flash_deal_id', 'flash_discount', 'flash_discount_type'];
+    private const RELATION_KEYS = ['category_ids', 'photos'];
 
     public function create(array $data, User $by): Product
     {
@@ -95,7 +95,7 @@ class ProductService
             ));
         }
 
-        $product->delete(); // gallery, categories, stock rows and flash-deal entries cascade
+        $product->delete(); // gallery, categories, stock rows cascade
     }
 
     private function columns(array $data): array
@@ -114,7 +114,7 @@ class ProductService
         }
 
         // API clients may send an offset ("…Z"); store the instant in the app's
-        // timezone, as coupons and flash deals do, not the wall-clock digits.
+        // timezone, not the wall-clock digits.
         foreach (['discount_start_date', 'discount_end_date'] as $key) {
             if (! empty($columns[$key])) {
                 $columns[$key] = Date::parse($columns[$key])->setTimezone(config('app.timezone'));
@@ -147,11 +147,5 @@ class ProductService
             'qty' => $product->current_stock,
         ]);
 
-        $product->flashDeals()->sync(empty($data['flash_deal_id']) ? [] : [
-            $data['flash_deal_id'] => [
-                'discount' => $data['flash_discount'],
-                'discount_type' => $data['flash_discount_type'],
-            ],
-        ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace Tests\Feature\Admin;
 
 use App\Models\Category;
-use App\Models\FlashDeal;
 use App\Models\OrderDetail;
 use App\Models\Product;
 use App\Models\Upload;
@@ -150,7 +149,6 @@ class ProductTest extends TestCase
             'unknown category' => [['category_id' => 99999], 'category_id'],
             'negative stock' => [['current_stock' => -1], 'current_stock'],
             'video link that is not https' => [['video_provider' => 'youtube', 'video_link' => 'javascript:alert(1)'], 'video_link'],
-            'flash deal without a discount' => [['flash_deal_id' => 1], 'flash_discount'],
         ];
     }
 
@@ -200,21 +198,6 @@ class ProductTest extends TestCase
         $this->assertSame($slug, $product->slug, 'renaming must not break existing links');
         $this->assertCount(0, $product->gallery, 'no photos[] posted means every image was unticked');
         $this->assertSame(7, $product->stocks()->sole()->qty);
-    }
-
-    public function test_a_product_can_be_put_in_a_flash_deal_and_taken_out(): void
-    {
-        $product = Product::doesntHave('flashDeals')->firstOrFail();
-        $deal = FlashDeal::firstOrFail();
-
-        $this->actingAs($this->admin)->put("/admin/products/{$product->id}", $this->payload([
-            'flash_deal_id' => $deal->id, 'flash_discount' => 12, 'flash_discount_type' => 'percent',
-        ]))->assertSessionHasNoErrors();
-
-        $this->assertSame('12.00', number_format($product->flashDeals()->sole()->pivot->discount, 2));
-
-        $this->actingAs($this->admin)->put("/admin/products/{$product->id}", $this->payload());
-        $this->assertCount(0, $product->flashDeals()->get());
     }
 
     // -- delete, duplicate, toggle -------------------------------------------

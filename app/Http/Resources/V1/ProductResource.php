@@ -8,9 +8,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Every ProductRequest field under the same name, so a GET body can be edited
- * and PUT back unchanged (PUT is a full replacement: a missing photos or
- * flash_deal_id would clear the gallery or flash deal). The relations also come
- * back richer for display: gallery [{id,url}], thumbnail, owner, flash_deal.
+ * and PUT back unchanged (PUT is a full replacement: a missing photos list
+ * would clear the gallery). The relations also come back richer for display:
+ * gallery [{id,url}], thumbnail, owner.
  *
  * @mixin \App\Models\Product
  */
@@ -19,8 +19,6 @@ class ProductResource extends JsonResource
     public function toArray(Request $request): array
     {
         $file = fn (?Upload $u) => $u ? ['id' => $u->id, 'url' => $u->url()] : null;
-        $deal = fn () => $this->flashDeals->first(); // a product sits in at most one flash deal
-        $dealDiscount = fn () => $deal() ? number_format((float) $deal()->pivot->discount, 2, '.', '') : null;
 
         return [
             'id' => $this->id,
@@ -48,14 +46,6 @@ class ProductResource extends JsonResource
             'refund_note_id' => $this->refund_note_id,
             'featured' => $this->featured,
             'todays_deal' => $this->todays_deal,
-            'flash_deal_id' => $this->whenLoaded('flashDeals', fn () => $deal()?->id),
-            'flash_discount' => $this->whenLoaded('flashDeals', $dealDiscount),
-            'flash_discount_type' => $this->whenLoaded('flashDeals', fn () => $deal()?->pivot->discount_type),
-            'flash_deal' => $this->whenLoaded('flashDeals', fn () => $deal() ? [
-                'id' => $deal()->id,
-                'discount' => $dealDiscount(),
-                'discount_type' => $deal()->pivot->discount_type,
-            ] : null),
 
             // Files & media
             'thumbnail_img' => $this->thumbnail_img,

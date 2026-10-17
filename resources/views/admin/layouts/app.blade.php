@@ -25,11 +25,6 @@
     $menu = [
         ['label' => 'Dashboard', 'route' => 'admin.dashboard', 'patterns' => ['admin.dashboard']],
 
-        ['label' => 'POS System', 'children' => [
-            ['label' => 'POS Manager'],
-            ['label' => 'POS Configuration'],
-        ]],
-
         ['label' => 'Products', 'children' => [
             ['label' => 'Add New Product', 'route' => 'admin.products.create', 'patterns' => ['admin.products.create']],
             ['label' => 'All Products', 'route' => 'admin.products.index', 'patterns' => ['admin.products.index', 'admin.products.edit']],
@@ -58,12 +53,6 @@
                 ['label' => 'Add New Note'],
                 ['label' => 'Note List', 'route' => 'admin.notes.index', 'patterns' => ['admin.notes.*']],
             ]],
-            ['label' => 'Wholesale Products', 'children' => [
-                ['label' => 'Add New Wholesale Product'],
-                ['label' => 'All Wholesale Products'],
-                ['label' => 'In House Wholesale Products'],
-                ['label' => 'Seller Wholesale Products'],
-            ]],
         ]],
 
         ['label' => 'Sales', 'children' => [
@@ -72,37 +61,9 @@
             ['label' => 'Seller Orders', 'route' => 'admin.orders.seller', 'patterns' => ['admin.orders.*']],
             ['label' => 'Pickup Point Orders', 'route' => 'admin.orders.pickup', 'patterns' => ['admin.orders.*']],
             ['label' => 'Unpaid Orders', 'route' => 'admin.orders.unpaid', 'patterns' => ['admin.orders.*']],
-            ['label' => 'Delivery Boy', 'children' => [
-                ['label' => 'All Delivery Boys', 'route' => 'admin.delivery-boys.index', 'patterns' => ['admin.delivery-boys*']],
-                ['label' => 'Payment Histories', 'route' => 'admin.delivery-boys.payments', 'patterns' => ['admin.delivery-boys.payments*']],
-                ['label' => 'Collected Histories', 'route' => 'admin.delivery-boys.collections', 'patterns' => ['admin.delivery-boys.collections*']],
-                ['label' => 'Cancel Requests', 'route' => 'admin.delivery-boys.cancel-requests', 'patterns' => ['admin.delivery-boys.cancel-requests*']],
-                ['label' => 'Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'delivery-boy'], 'patterns' => ['admin.settings.*']],
-            ]],
-            ['label' => 'Refunds', 'children' => [
-                ['label' => 'Refund Requests', 'route' => 'admin.refunds.index', 'patterns' => ['admin.refunds.*'], 'count' => $pendingRefunds ?? 0],
-                ['label' => 'Approved Refunds', 'route' => 'admin.refunds.index', 'params' => ['status' => 'approved'], 'patterns' => ['admin.refunds.*']],
-                ['label' => 'Rejected Refunds', 'route' => 'admin.refunds.index', 'params' => ['status' => 'rejected'], 'patterns' => ['admin.refunds.*']],
-                ['label' => 'Refund Configuration', 'route' => 'admin.refunds.settings', 'patterns' => ['admin.refunds.settings*']],
-            ]],
         ]],
 
-        ['label' => 'Customers', 'children' => [
-            ['label' => 'Customer List', 'route' => 'admin.customers.index', 'patterns' => ['admin.customers.*']],
-            ['label' => 'Classified Products'],
-            ['label' => 'Classified Packages'],
-        ]],
-
-        ['label' => 'Sellers', 'children' => [
-            ['label' => 'All Sellers', 'route' => 'admin.sellers.index', 'patterns' => ['admin.sellers.*'], 'count' => $pendingSellers ?? 0],
-            ['label' => 'Seller Rating & Followers'],
-            ['label' => 'Payouts'],
-            ['label' => 'Payout Requests'],
-            ['label' => 'Seller Commission'],
-            ['label' => 'Seller Based Commission'],
-            ['label' => 'Category Based Commission'],
-            ['label' => 'Seller Packages'],
-            ['label' => 'Seller Verification Form'],
+        ['label' => 'Media', 'children' => [
             ['label' => 'Uploaded Files', 'route' => 'admin.uploads.index', 'patterns' => ['admin.uploads.*']],
         ]],
 
@@ -117,33 +78,6 @@
             ['label' => 'Wallet Recharge History', 'route' => 'admin.reports.wallet-recharges', 'patterns' => ['admin.reports.wallet-recharges']],
         ]],
 
-        ['label' => 'Blog System', 'children' => [
-            ['label' => 'All Posts', 'route' => 'admin.blog.index', 'patterns' => ['admin.blog.index', 'admin.blog.edit', 'admin.blog.update', 'admin.blog.destroy', 'admin.blog.store']],
-            ['label' => 'Categories', 'route' => 'admin.blog-categories.index', 'patterns' => ['admin.blog-categories.*']],
-        ]],
-
-        ['label' => 'Marketing', 'children' => [
-            ['label' => 'Flash Deals', 'route' => 'admin.flash-deals.index', 'patterns' => ['admin.flash-deals.*']],
-            ['label' => 'Dynamic Pop-up', 'route' => 'admin.marketing.popups', 'patterns' => ['admin.marketing.popups*']],
-            ['label' => 'Custom Alert', 'route' => 'admin.marketing.alerts', 'patterns' => ['admin.marketing.alerts*']],
-            ['label' => 'Email Templates', 'children' => [
-                ['label' => 'Admin Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'admin'], 'patterns' => ['admin.marketing.templates*']],
-                ['label' => 'Seller Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'seller'], 'patterns' => ['admin.marketing.templates*']],
-                ['label' => 'Customer Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'customer'], 'patterns' => ['admin.marketing.templates*']],
-                ['label' => 'Common Templates', 'route' => 'admin.marketing.templates', 'params' => ['receiver' => 'common'], 'patterns' => ['admin.marketing.templates*']],
-            ]],
-            ['label' => 'Newsletters', 'route' => 'admin.marketing.newsletters', 'patterns' => ['admin.marketing.newsletters*']],
-            ['label' => 'Notification', 'children' => [
-                ['label' => 'Settings', 'route' => 'admin.notifications.settings', 'patterns' => ['admin.notifications.settings*']],
-                ['label' => 'Notification Types', 'route' => 'admin.notifications.types', 'patterns' => ['admin.notifications.types*']],
-                ['label' => 'Custom Notification', 'route' => 'admin.notifications.custom', 'patterns' => ['admin.notifications.custom', 'admin.notifications.custom.store']],
-                ['label' => 'Custom Notification History', 'route' => 'admin.notifications.history', 'patterns' => ['admin.notifications.history*']],
-            ]],
-            ['label' => 'Bulk SMS', 'route' => 'admin.bulk-sms.index', 'patterns' => ['admin.bulk-sms*']],
-            ['label' => 'Subscribers', 'route' => 'admin.marketing.subscribers', 'patterns' => ['admin.marketing.subscribers*']],
-            ['label' => 'Coupons', 'route' => 'admin.coupons.index', 'patterns' => ['admin.coupons.*']],
-        ]],
-
         ['label' => 'Support', 'children' => [
             ['label' => 'Tickets', 'route' => 'admin.support.tickets', 'patterns' => ['admin.support.tickets*']],
             ['label' => 'Product Conversations', 'route' => 'admin.support.conversations', 'patterns' => ['admin.support.conversations*']],
@@ -151,82 +85,9 @@
             ['label' => 'Contacts', 'route' => 'admin.support.contacts', 'patterns' => ['admin.support.contacts*']],
         ]],
 
-        ['label' => 'Affiliate System', 'children' => [
-            ['label' => 'Affiliate Registration Form', 'route' => 'admin.affiliate.registration', 'patterns' => ['admin.affiliate.registration*']],
-            ['label' => 'Affiliate Configurations', 'route' => 'admin.affiliate.index', 'patterns' => ['admin.affiliate.index', 'admin.affiliate.configurations']],
-            ['label' => 'Affiliate Users', 'route' => 'admin.affiliate.users', 'patterns' => ['admin.affiliate.users*']],
-            ['label' => 'Referral Users', 'route' => 'admin.affiliate.referrals', 'patterns' => ['admin.affiliate.referrals*']],
-            ['label' => 'Affiliate Withdraw Requests', 'route' => 'admin.affiliate.withdrawals', 'patterns' => ['admin.affiliate.withdrawals*']],
-            ['label' => 'Affiliate Logs', 'route' => 'admin.affiliate.logs', 'patterns' => ['admin.affiliate.logs*']],
-        ]],
-
-        ['label' => 'OTP System', 'children' => [
-            ['label' => 'OTP Login Configuration', 'route' => 'admin.otp.login', 'patterns' => ['admin.otp.login*']],
-            ['label' => 'OTP Configurations', 'route' => 'admin.otp.configuration', 'patterns' => ['admin.otp.configuration*']],
-            ['label' => 'SMS Templates', 'route' => 'admin.otp.templates', 'patterns' => ['admin.otp.templates*']],
-        ]],
-
-        ['label' => 'Payment Gateways', 'children' => [
-            ['label' => 'Payment Methods', 'route' => 'admin.payment-methods.index', 'patterns' => ['admin.payment-methods*']],
-            ['label' => 'Offline Payment System', 'children' => [
-                ['label' => 'Manual Payment Methods', 'route' => 'admin.manual-methods.index', 'patterns' => ['admin.manual-methods*']],
-                ['label' => 'Offline Payment Orders', 'route' => 'admin.offline.orders', 'patterns' => ['admin.offline.orders*']],
-                ['label' => 'Offline Wallet Recharge', 'route' => 'admin.offline.wallet', 'patterns' => ['admin.offline.wallet*']],
-                ['label' => 'Offline Customer Package Payments', 'route' => 'admin.offline.packages.customer', 'patterns' => ['admin.offline.packages.customer']],
-                ['label' => 'Offline Seller Package Payments', 'route' => 'admin.offline.packages.seller', 'patterns' => ['admin.offline.packages.seller']],
-            ]],
-        ]],
-
-        ['label' => 'Website Setup', 'children' => [
-            ['label' => 'Select Homepage', 'route' => 'admin.settings.show', 'params' => ['screen' => 'homepage-select'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Homepage Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'homepage'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Authentication Layout & Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'authentication'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Header', 'route' => 'admin.settings.show', 'params' => ['screen' => 'header'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Footer', 'route' => 'admin.settings.show', 'params' => ['screen' => 'footer'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Pages', 'route' => 'admin.pages.index', 'patterns' => ['admin.pages.*']],
-            ['label' => 'Appearance', 'route' => 'admin.settings.show', 'params' => ['screen' => 'appearance'], 'patterns' => ['admin.settings.*']],
-        ]],
-
-        ['label' => 'Setup & Configurations', 'children' => [
-            ['label' => 'Features Activation', 'route' => 'admin.settings.show', 'params' => ['screen' => 'features'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Languages', 'route' => 'admin.languages.index', 'patterns' => ['admin.languages.*']],
-            ['label' => 'Currency', 'route' => 'admin.currencies.index', 'patterns' => ['admin.currencies.*']],
-            ['label' => 'Vat & Tax', 'route' => 'admin.taxes.index', 'patterns' => ['admin.taxes.*']],
-            ['label' => 'Pickup Points', 'route' => 'admin.pickup-points.index', 'patterns' => ['admin.pickup-points.*']],
-            ['label' => 'SMTP Settings', 'route' => 'admin.settings.show', 'params' => ['screen' => 'smtp'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Order Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'orders'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'File System & Cache Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'file-system'], 'patterns' => ['admin.settings.*']],
-            ['label' => 'Social Media Logins', 'route' => 'admin.settings.show', 'params' => ['screen' => 'social-login'], 'patterns' => ['admin.settings.*'], 'children' => [
-                ['label' => 'Facebook', 'route' => 'admin.settings.show', 'params' => ['screen' => 'facebook'], 'patterns' => ['admin.settings.*'], 'children' => [
-                    ['label' => 'WhatsApp Chat', 'route' => 'admin.settings.show', 'params' => ['screen' => 'whatsapp'], 'patterns' => ['admin.settings.*']],
-                    ['label' => 'Facebook Comment', 'route' => 'admin.settings.show', 'params' => ['screen' => 'facebook'], 'patterns' => ['admin.settings.*']],
-                ]],
-                ['label' => 'Google', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*'], 'children' => [
-                    ['label' => 'Analytics Tools', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
-                    ['label' => 'Google reCAPTCHA', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
-                    ['label' => 'Google Map', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
-                    ['label' => 'Google Firebase', 'route' => 'admin.settings.show', 'params' => ['screen' => 'google'], 'patterns' => ['admin.settings.*']],
-                ]],
-            ]],
-            ['label' => 'Shipping', 'children' => [
-                ['label' => 'Shipping Configuration', 'route' => 'admin.settings.show', 'params' => ['screen' => 'shipping'], 'patterns' => ['admin.settings.*']],
-                ['label' => 'Shipping Countries', 'route' => 'admin.countries.index', 'patterns' => ['admin.countries.*']],
-                ['label' => 'Shipping States', 'route' => 'admin.states.index', 'patterns' => ['admin.states.*']],
-                ['label' => 'Shipping Cities', 'route' => 'admin.cities.index', 'patterns' => ['admin.cities.*']],
-                ['label' => 'Shipping Zones', 'route' => 'admin.zones.index', 'patterns' => ['admin.zones.*']],
-                ['label' => 'Shipping Carriers', 'route' => 'admin.carriers.index', 'patterns' => ['admin.carriers.*']],
-            ]],
-        ]],
-
         ['label' => 'Staffs', 'children' => [
             ['label' => 'All Staffs', 'route' => 'admin.staff.index', 'patterns' => ['admin.staff.*']],
             ['label' => 'Staff Permissions', 'route' => 'admin.roles.index', 'patterns' => ['admin.roles.*']],
-        ]],
-
-        ['label' => 'System', 'children' => [
-            ['label' => 'Update', 'route' => 'admin.system.update', 'patterns' => ['admin.system.update*']],
-            ['label' => 'Server Status', 'route' => 'admin.system.server-status', 'patterns' => ['admin.system.server-status']],
-            ['label' => 'Sitemap Generator', 'route' => 'admin.system.sitemaps', 'patterns' => ['admin.system.sitemaps*']],
         ]],
     ];
 @endphp

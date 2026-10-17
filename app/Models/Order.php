@@ -48,19 +48,9 @@ class Order extends Model
         return $this->belongsTo(User::class, 'seller_id');
     }
 
-    public function deliveryBoy(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'delivery_boy_id');
-    }
-
     public function details(): HasMany
     {
         return $this->hasMany(OrderDetail::class);
-    }
-
-    public function refundRequests(): HasMany
-    {
-        return $this->hasMany(RefundRequest::class);
     }
 
     /** Same shape as the reference, e.g. 20260721-14411730: timestamp plus two digits. */

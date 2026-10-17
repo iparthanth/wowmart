@@ -127,8 +127,8 @@ class ReportApiTest extends TestCase
 
         $wallet = $this->getJson('/api/v1/reports/wallet-recharges?approval=pending')
             ->assertOk()
-            ->assertJsonCount(3, 'data') // ReportSeeder's two + PaymentSeeder's 500 pending
-            ->assertJsonPath('totals.amount', '775.00')
+            ->assertJsonCount(2, 'data') // ReportSeeder's two pending
+            ->assertJsonPath('totals.amount', '275.00')
             ->assertJsonPath('filters', ['approval' => 'pending'])
             ->assertJsonStructure(['data' => [['id', 'customer', 'email', 'amount', 'payment_method', 'approval', 'created_at']], 'totals' => ['requests', 'amount'], 'filters']);
 

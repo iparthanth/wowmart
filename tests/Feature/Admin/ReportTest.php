@@ -347,18 +347,18 @@ class ReportTest extends TestCase
         $response = $this->report('wallet-recharges');
         $rows = $response->viewData('rows');
 
-        $this->assertSame(8, $rows->count()); // 5 from ReportSeeder + 3 from PaymentSeeder
-        $this->assertSame(2455.0, $response->viewData('totals')['amount']);
+        $this->assertSame(5, $rows->count()); // all from ReportSeeder
+        $this->assertSame(455.0, $response->viewData('totals')['amount']);
 
         // Pending first, then newest first.
         $this->assertSame('pending', $rows[0]['approval']);
 
         $pending = $this->report('wallet-recharges', ['approval' => 'pending'])->viewData('rows');
-        $this->assertCount(3, $pending);
-        $this->assertSame(775.0, $pending->sum('amount'));
+        $this->assertCount(2, $pending);
+        $this->assertSame(275.0, $pending->sum('amount'));
 
         // An unknown state shows everything rather than nothing.
-        $this->assertSame(8, $this->report('wallet-recharges', ['approval' => 'maybe'])->viewData('rows')->count());
+        $this->assertSame(5, $this->report('wallet-recharges', ['approval' => 'maybe'])->viewData('rows')->count());
     }
 
     // ---------------------------------------------------------------- earning

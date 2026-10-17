@@ -4,8 +4,6 @@ namespace App\Providers;
 
 use App\Enums\DeliveryStatus;
 use App\Models\Order;
-use App\Models\RefundRequest;
-use App\Models\Shop;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
@@ -47,8 +45,6 @@ class AppServiceProvider extends ServiceProvider
         View::composer('admin.layouts.app', function ($view) {
             $view->with([
                 'pendingOrders' => Order::where('delivery_status', DeliveryStatus::Pending)->count(),
-                'pendingRefunds' => RefundRequest::where('refund_status', 'pending')->count(),
-                'pendingSellers' => Shop::where('verification_status', 'pending')->count(),
             ]);
         });
     }

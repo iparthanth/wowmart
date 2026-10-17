@@ -53,23 +53,11 @@ return new class extends Migration
             $table->timestamps();
             $table->index(['order_id', 'seller_id']);
         });
-
-        Schema::create('refund_requests', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('order_detail_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('seller_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->decimal('refund_amount', 20, 2);
-            $table->text('reason')->nullable();
-            $table->string('refund_status', 16)->default('pending')->index(); // pending | approved | rejected
-            $table->timestamps();
-        });
     }
 
     public function down(): void
     {
-        foreach (['refund_requests', 'order_details', 'orders'] as $t) {
+        foreach (['order_details', 'orders'] as $t) {
             Schema::dropIfExists($t);
         }
     }

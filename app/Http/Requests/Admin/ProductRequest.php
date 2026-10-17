@@ -5,10 +5,8 @@ namespace App\Http\Requests\Admin;
 use App\Enums\DiscountType;
 use App\Enums\ShippingType;
 use App\Enums\StockVisibility;
-use App\Models\FlashDeal;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Validator;
 
 /**
  * The seven-section product form. Field names match the captured reference form
@@ -72,9 +70,6 @@ class ProductRequest extends FormRequest
             'refund_note_id' => ['nullable', 'integer', Rule::exists('notes', 'id')->where('type', 'refund')],
             'featured' => ['boolean'],
             'todays_deal' => ['boolean'],
-            'flash_deal_id' => ['nullable', 'integer', 'exists:flash_deals,id'],
-            'flash_discount' => ['nullable', 'required_with:flash_deal_id', 'numeric', 'min:0'],
-            'flash_discount_type' => ['nullable', 'required_with:flash_deal_id', Rule::enum(DiscountType::class)],
 
             // Files & media - ids from the media library, never raw files
             'photos' => ['nullable', 'array', 'max:20'],
@@ -125,25 +120,6 @@ class ProductRequest extends FormRequest
             'frequently_bought_selection_type' => ['required', Rule::in(['product', 'category'])],
             'fq_bought_product_category_id' => ['nullable', 'integer', 'exists:categories,id'],
         ];
-    }
-
-    /**
-     * The flash-deal discount set from the product form obeys the same caps as
-     * the flash-deal screen, so neither form can sell a product below zero.
-     */
-    public function after(): array
-    {
-        return [function (Validator $validator) {
-            [$discount, $type, $price] = [$this->input('flash_discount'), $this->input('flash_discount_type'), $this->input('unit_price')];
-
-            if (! $this->filled('flash_deal_id') || ! is_numeric($discount) || ! is_string($type) || ! is_numeric($price)) {
-                return; // the field rules already report what is missing or malformed
-            }
-
-            if ($problem = FlashDeal::discountProblem((float) $discount, $type, (float) $price)) {
-                $validator->errors()->add('flash_discount', $problem);
-            }
-        }];
     }
 
     public function messages(): array

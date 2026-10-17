@@ -23,8 +23,6 @@ Route::controller(OrderController::class)
         Route::get('{order:code}', 'show')->name('show');
         Route::post('{order:code}/delivery-status', 'deliveryStatus')->name('delivery-status');
         Route::post('{order:code}/payment-status', 'paymentStatus')->name('payment-status');
-        Route::post('{order:code}/assign-delivery-boy', 'assignDeliveryBoy')->name('assign-delivery-boy');
-        Route::post('{order:code}/unassign-delivery-boy', 'unassignDeliveryBoy')->name('unassign-delivery-boy');
     });
 
 // The reference panel's Sales lists: fixed-filter views over the same orders.

@@ -82,3 +82,14 @@ photography, or licensed images, before this is deployed anywhere public.
 (`php scripts/generate-openapi.php`) — import it into Postman or any OpenAPI viewer for a
 clickable catalog of all `/api/v1` endpoints. `docs/postman_collection.json` is the same
 catalog as a ready-to-run Postman collection.
+
+## Archived modules
+
+To keep the panel focused, only **Dashboard, Products, Sales, Reports, Support and
+Staffs** (plus Uploaded Files, which products depend on) live in this folder.
+Every other module — POS, customers, sellers, refunds, delivery boys, marketing
+(flash deals, coupons, pop-ups, newsletters), notifications, blog, pages, website
+setup, settings, currencies, taxes, pickup points, shipping, languages, affiliate,
+OTP, payment gateways and system — was moved, with its routes, code, views, tests,
+seeders and migrations, to `D:\wowmart_archive\admin` under the same paths.
+See `D:\wowmart_archive\README.md` to bring one back.

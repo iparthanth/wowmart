@@ -13,22 +13,10 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             CatalogSeeder::class,
             ProductOptionSeeder::class,
-            MarketingSeeder::class,
             OrderSeeder::class,
             ReviewSeeder::class,
-            RefundSeeder::class,
-            SettingsSeeder::class,
-            ShippingSeeder::class,
-            PageSeeder::class,
-            BlogSeeder::class,
-            DeliveryBoySeeder::class,
             ReportSeeder::class,
-            LanguageSeeder::class,
             SupportSeeder::class,
-            AffiliateSeeder::class,
-            OtpSeeder::class,
-            PaymentSeeder::class,
-            NotificationSeeder::class,
         ]);
     }
 }
