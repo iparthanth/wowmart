@@ -35,6 +35,16 @@ class CatalogSeeder extends Seeder
         'Kingston' => 'a400',
     ];
 
+    /**
+     * The rest of the reference panel's brand list (picklymart.com/admin/brands,
+     * read 18 Oct 2026), names exactly as listed there. No product matches them.
+     */
+    private const OTHER_BRANDS = [
+        'Apple', 'Audi', 'Baby & me', 'Baby Care', 'Baby TV', 'BMW', 'Canon', 'Dell', 'Demo brand',
+        'Demo brand1', 'Denim', 'Dior', 'Ford', 'Honda', 'HP', 'Huwaei', 'Hyundai',
+        'Label & Barcode Sticker', 'lucky Brand', 'Nike', 'Nissan', 'One Plus', 'Pampers', 'Pos Roll', 'Tanishq',
+    ];
+
     /** Category => lowercase fragments; first match wins, so order matters. */
     private const CATEGORY_RULES = [
         'Pos Roll' => ['paper roll', 'pos printer'],
@@ -89,9 +99,9 @@ class CatalogSeeder extends Seeder
     {
         $out = [];
 
-        foreach (array_keys(self::BRANDS) as $name) {
+        foreach ([...array_keys(self::BRANDS), ...self::OTHER_BRANDS] as $name) {
             $brand = new Brand(['name' => $name, 'meta_title' => $name]);
-            $brand->forceFill(['slug' => Str::slug($name)])->save();
+            $brand->forceFill(['slug' => Brand::uniqueSlug($name)])->save();
             $out[$name] = $brand;
         }
 

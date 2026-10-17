@@ -25,7 +25,7 @@ class BrandApiTest extends TestCase
         $this->getJson('/api/v1/brands?per_page=2')
             ->assertOk()
             ->assertJsonCount(2, 'data')
-            ->assertJsonPath('meta.total', 4)
+            ->assertJsonPath('meta.total', 29)
             ->assertJsonStructure(['data' => [['id', 'name', 'slug', 'top', 'logo', 'meta_title', 'meta_description', 'product_count']], 'links', 'meta']);
 
         $this->getJson('/api/v1/brands?search=rasp')
@@ -33,7 +33,7 @@ class BrandApiTest extends TestCase
             ->assertJsonCount(1, 'data')
             ->assertJsonPath('data.0.name', 'Raspberry Pi');
 
-        $this->getJson('/api/v1/brands?search[]=x')->assertOk()->assertJsonPath('meta.total', 4);
+        $this->getJson('/api/v1/brands?search[]=x')->assertOk()->assertJsonPath('meta.total', 29);
     }
 
     public function test_an_invalid_top_is_422_not_silently_false(): void
