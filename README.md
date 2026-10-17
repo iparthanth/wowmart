@@ -7,47 +7,84 @@ and decides which staff can see what.
 
 I built it during my industrial attachment at **Authentic for Technology**
 (Chittagong). The layout and features follow a real production admin panel, but none of
-that product's source code is used: the whole panel was written fresh in Laravel. It also has a token-based
-REST API (with a ready-to-use Postman collection) and 273 automated tests.
+that product's source code is used: the whole panel was written fresh in Laravel.
 
 **Stack:** Laravel 13 · PHP 8.3+ · MySQL 8 (or MariaDB 10.4+) · plain CSS, no build step.
 
 ---
 
-## Screenshots
+## Features
 
-If you can't run the project, these show what it does. All data is demo data.
+**Dashboard**
+- A "needs attention" list: pending orders, unpaid orders, sold-out products, low-stock products and products without an image, each linking to the filtered list where you fix it
+- Totals for products, customers, sellers and order value
+- A 14-day sales chart, with a table view of the same numbers
+- The latest orders at a glance
 
-| | |
-|---|---|
-| **Sign in** — admin-only, with one generic error for every failed attempt<br>![Sign in](docs/screenshots/01-sign-in.png) | **Dashboard** — a to-do list of what needs attention, totals and a 14-day sales chart<br>![Dashboard](docs/screenshots/02-dashboard.png) |
-| **All products** — search, filters, and switches for published / featured / today's deal<br>![Products](docs/screenshots/03-products.png) | **Product form** — one long form in seven sections, so every error shows at once<br>![Product form](docs/screenshots/04-product-form.png) |
-| **Categories** — a tree with levels, order and product counts<br>![Categories](docs/screenshots/05-categories.png) | **Brands** — list and add on one page<br>![Brands](docs/screenshots/06-brands.png) |
-| **All orders** — filter by delivery status, payment status, date or customer<br>![Orders](docs/screenshots/07-orders.png) | **Order details** — lines, totals and the next allowed status steps<br>![Order details](docs/screenshots/08-order-detail.png) |
-| **Stock report** — stock value, sold-out and low-stock products, CSV download<br>![Stock report](docs/screenshots/09-stock-report.png) | **Product reviews** — hide or show a review; the product rating updates itself<br>![Reviews](docs/screenshots/10-product-reviews.png) |
-| **Support tickets** — customer tickets with replies and status<br>![Support](docs/screenshots/11-support-tickets.png) | **Staff** — staff accounts with a role each<br>![Staff](docs/screenshots/12-staff.png) |
-| **Staff permissions** — roles decide which sections a staff member can open<br>![Permissions](docs/screenshots/13-staff-permissions.png) | **Uploaded files** — one media library; products and brands pick images from it<br>![Uploaded files](docs/screenshots/14-uploaded-files.png) |
+**Products**
+- Add, edit, duplicate and delete products, with price, discount window, stock, low-stock warning, gallery, video, SEO, shipping, warranty and refund settings in one form
+- Search and filter the product list by owner, category, stock level, status and missing image
+- One-click switches for published, featured and today's deal
+- Categories as a tree (parent, level and display order), brands with logos, attributes with their values, colours, warranties, and reusable refund and warranty notes
+- Product reviews: hide or show a review, and the product's rating recalculates itself
+- Anything still in use (a category with products, a brand on products) can't be deleted by mistake
+
+**Sales**
+- All orders, plus in-house, seller, pickup-point and unpaid order lists
+- Filter by delivery status, payment status, date range or customer
+- Move an order through its six states: pending → confirmed → picked up → on the way → delivered, or cancelled
+- Cancelling an order puts the stock back exactly once, even on a double click
+- Mark orders paid or unpaid; a delivered cash-on-delivery order is marked paid automatically
+
+**Media**
+- Upload images and PDFs once, then pick them anywhere a product, category or brand needs a picture
+- Files are checked by their content, not their name, and a file that's still in use can't be deleted
+
+**Reports**
+- Earnings, in-house sales, seller sales, stock, wishlists, user searches, commission history and wallet recharges
+- Date and category filters, with a CSV download for every report
+
+**Support**
+- Customer support tickets with replies and open / answered / closed status
+- Product conversations between customers and sellers, product questions and contact-form messages
+
+**Staff and permissions**
+- Staff accounts, each with a role
+- Roles decide which sections a staff member can open; the menu hides everything else
+
+**Security**
+- Admin-only sign-in, with the same message for every failed attempt and a one-minute lock after five tries
+- Every page and API endpoint checks the user's role
+
+**REST API**
+- Every section is also available at `/api/v1`, protected by login tokens that expire after 24 hours
+- A ready-to-import Postman collection and an OpenAPI 3.1 description
 
 ---
 
-## What's inside
+## Technologies Used
 
-| Section | What you can do |
+| Technology | What it's used for |
 |---|---|
-| **Dashboard** | See pending and unpaid orders, sold-out and low-stock products and products without images, each linking to the filtered list where you fix it. |
-| **Products** | Add and edit products (price, discount window, stock, gallery, SEO, shipping, warranty), duplicate them, publish or unpublish. Manage categories, brands, attributes, colours, warranties, refund/warranty notes and product reviews. |
-| **Sales** | All orders, in-house orders, seller orders, pickup-point orders and unpaid orders. Move an order through its six states (pending → confirmed → picked up → on the way → delivered, or cancelled). Cancelling puts the stock back exactly once. |
-| **Media** | Upload images and PDFs once, reuse them everywhere. Files that are still in use can't be deleted. |
-| **Reports** | Earnings, in-house and seller sales, stock, wishlists, what customers search for, commission history and wallet recharges, each with CSV download. |
-| **Support** | Support tickets, product conversations, product questions and contact-form messages. |
-| **Staffs** | Staff accounts and roles. A staff member only sees the sections their role allows. |
-| **API** | Everything above is also available at `/api/v1`, protected by login tokens. |
+| **PHP 8.3+** | The language the whole panel is written in |
+| **Laravel 13** | The web framework: routing, controllers, Eloquent database models, validation, migrations and seeders |
+| **MySQL 8** (or MariaDB 10.4+) | The database |
+| **Blade** | Laravel's template engine, used for every screen |
+| **HTML and CSS** | Plain, hand-written CSS in a single file; no CSS framework and no build step |
+| **SVG** | The WowMart logo and the dashboard's sales chart |
+| **Laravel Sanctum** | Login tokens for the REST API |
+| **PHPUnit 12** | The automated tests (273 tests on an in-memory SQLite database) |
+| **Composer** | Installs Laravel and the other PHP libraries |
+| **Postman** | Trying out and documenting the API |
+| **phpMyAdmin / XAMPP** | Creating and importing the database |
+| **Google Fonts** | Sora (headings), Hanken Grotesk (text), JetBrains Mono (codes and numbers), Hind Siliguri (the ৳ sign) |
+| **Git and GitHub** | Version control and hosting the code |
 
 ---
 
 ## How to run it
 
-This takes about ten minutes. You need four things installed:
+You need four things installed:
 
 | Tool | Version | Notes |
 |---|---|---|
@@ -115,10 +152,10 @@ php artisan key:generate
 ### Step 4 — Start the panel
 
 ```bash
-php artisan serve --port=8124
+php artisan serve| php artisan serve --port=8124
 ```
 
-Leave this window open, then go to **<http://127.0.0.1:8124/login>** in your browser and sign in with the demo admin account:
+Leave this window open, then go to **<http://127.0.0.1:8000/login>** or **<http://127.0.0.1:8124/login>** in your browser and sign in with the demo admin account:
 
 | Email | Password |
 |---|---|
@@ -161,74 +198,19 @@ Swagger UI or another viewer. Tokens expire after 24 hours; just sign in again.
 
 ---
 
-## Running the tests
+## Screenshots
 
-```bash
-php artisan test
-```
 
-The tests use a temporary in-memory SQLite database, so they never touch your MySQL data.
-They need the `pdo_sqlite` PHP extension. All 273 tests should pass.
 
----
-
-## If something goes wrong
-
-| What you see | What to do |
+| | |
 |---|---|
-| `Your PHP version does not satisfy...` during `composer install` | Your PHP is older than 8.3. Install a newer PHP (see the table above) and make sure `php -v` shows it. |
-| `could not find driver` | Enable `extension=pdo_mysql` in your `php.ini`, then restart the terminal. |
-| `Access denied for user` or `Unknown database 'wowmart'` | Check the database name, user and password in `.env`, and that XAMPP's MySQL is running. |
-| `No application encryption key has been specified` | Run `php artisan key:generate`. |
-| Port 8124 is already in use | Use another port, e.g. `php artisan serve --port=8125`, and open that address instead. |
-| Pages look unstyled or images are missing | Open the site at `http://127.0.0.1:8124`, not through another folder path, so the CSS and `uploads/` images load. |
-| phpMyAdmin says the file is too big | It's about 110 KB, so this shouldn't happen. If it does, use the `php artisan migrate --seed` way instead. |
+| **Sign in** — admin-only, with one generic error for every failed attempt<br>![Sign in](docs/screenshots/01-sign-in.png) | **Dashboard** — a to-do list of what needs attention, totals and a 14-day sales chart<br>![Dashboard](docs/screenshots/02-dashboard.png) |
+| **All products** — search, filters, and switches for published / featured / today's deal<br>![Products](docs/screenshots/03-products.png) | **Product form** — one long form in seven sections, so every error shows at once<br>![Product form](docs/screenshots/04-product-form.png) |
+| **Categories** — a tree with levels, order and product counts<br>![Categories](docs/screenshots/05-categories.png) | **Brands** — list and add on one page<br>![Brands](docs/screenshots/06-brands.png) |
+| **All orders** — filter by delivery status, payment status, date or customer<br>![Orders](docs/screenshots/07-orders.png) | **Order details** — lines, totals and the next allowed status steps<br>![Order details](docs/screenshots/08-order-detail.png) |
+| **Stock report** — stock value, sold-out and low-stock products, CSV download<br>![Stock report](docs/screenshots/09-stock-report.png) | **Product reviews** — hide or show a review; the product rating updates itself<br>![Reviews](docs/screenshots/10-product-reviews.png) |
+| **Support tickets** — customer tickets with replies and status<br>![Support](docs/screenshots/11-support-tickets.png) | **Staff** — staff accounts with a role each<br>![Staff](docs/screenshots/12-staff.png) |
+| **Staff permissions** — roles decide which sections a staff member can open<br>![Permissions](docs/screenshots/13-staff-permissions.png) | **Uploaded files** — one media library; products and brands pick images from it<br>![Uploaded files](docs/screenshots/14-uploaded-files.png) |
 
 ---
 
-## How it's built
-
-- **Admins only.** The panel lives at `/admin`, and the sign-in page isn't linked from the
-  shop. Customers who try get "forbidden". Failed sign-ins all show the same message, so the form never reveals which
-  emails exist, and it locks for a minute after five attempts.
-- **Every rule lives in one place.** Each section has a *service* class that holds its
-  business rules, for example "a delivered order can't be cancelled" or "a brand that
-  products still use can't be deleted". The screens and the API both go through it,
-  so they can never disagree.
-- **Safe status changes.** Order status changes lock the order row first, so
-  double-clicking "Cancel" can't restock twice.
-- **Search treats `%` and `_` as normal characters.** They aren't wildcards here, so
-  searching for `50%` finds "50%".
-- **Plain HTML forms, no JavaScript framework.** Everything works with a normal browser
-  form. The design uses one CSS file with the WowMart colours: tangerine `#F2622E`,
-  ink navy `#14213D`, amber `#FFB627`.
-
-### Where things are
-
-| Folder | What's there |
-|---|---|
-| `routes/admin/` | One file of web routes per section |
-| `routes/api/v1/` | One file of API routes per section |
-| `app/Http/Controllers/` | Thin controllers: check the input, call a service, show the result |
-| `app/Services/` | The business rules |
-| `app/Models/` | Database models |
-| `resources/views/admin/` | The screens (Blade templates) |
-| `database/migrations/` | The table definitions |
-| `database/seeders/` | The demo data |
-| `database/sql/wowmart.sql` | The ready-to-import database |
-| `tests/Feature/` | The automated tests |
-| `docs/` | Postman collection, OpenAPI file, screenshots |
-
----
-
-## Notes
-
-- **Demo images.** The product photos in `public/uploads/catalog/` and the brand logos in
-  `public/uploads/brands/` come from the reference shop and belong to their owners. They're
-  here only so the demo looks realistic and would be replaced before a real launch.
-- **Demo accounts and data are fictional.** Customer names, phone numbers and orders were
-  made up for the seed data.
-- **Scope.** The reference panel has more sections, such as POS, marketing, shipping,
-  payment gateways and website setup. I built several of them, then kept them out of this
-  repository so the submission stays focused on the six sections above. The customer-facing
-  storefront is a separate project.
