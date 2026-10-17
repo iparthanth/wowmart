@@ -1,8 +1,8 @@
 {
     "info": {
-        "name": "Picklymart Admin API",
+        "name": "WowMart Admin API",
         "_postman_id": "87fe2076-4d62-4ea8-a5cb-cf8bf9189fc4",
-        "description": "Versioned REST API for the Picklymart admin panel, generated from the live route list.\n\n1. Run **Authentication > Sign in** — the bearer token is saved to the collection automatically.\n2. Everything else is then authorized; just Send.\n3. Sample ids are baked into the URLs — run a List request first and paste a real id.",
+        "description": "Versioned REST API for the WowMart admin panel, generated from the live route list.\n\n1. Run **Authentication > Sign in** — the bearer token is saved to the collection automatically.\n2. Everything else is then authorized; just Send.\n3. Sample ids are baked into the URLs — run a List request first and paste a real id.",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
     },
     "item": [

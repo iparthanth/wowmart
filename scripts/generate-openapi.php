@@ -74,9 +74,9 @@ $titles = [
 $spec = [
     'openapi' => '3.0.3',
     'info' => [
-        'title' => 'Picklymart Admin API',
+        'title' => 'WowMart Admin API',
         'version' => '1.0.0',
-        'description' => 'Versioned REST API for the Picklymart admin panel.'
+        'description' => 'Versioned REST API for the WowMart admin panel.'
             ." Every endpoint below is generated from the live route list, so it\n"
             .'always matches what is deployed. Sign in with POST /auth/login to get'
             ." a bearer token, then send it as `Authorization: Bearer <token>`.\n\n"

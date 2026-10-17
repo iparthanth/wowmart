@@ -376,9 +376,9 @@ usort($folderItems, fn (array $a, array $b): int => $a['name'] === 'Authenticati
 
 $collection = [
     'info' => [
-        'name' => 'Picklymart Admin API',
+        'name' => 'WowMart Admin API',
         '_postman_id' => Str::uuid()->toString(),
-        'description' => "Versioned REST API for the Picklymart admin panel, generated from the live route list.\n\n"
+        'description' => "Versioned REST API for the WowMart admin panel, generated from the live route list.\n\n"
             ."1. Run **Authentication > Sign in** — the bearer token is saved to the collection automatically.\n"
            ."2. Everything else is then authorized; just Send.\n"
            .'3. Sample ids are baked into the URLs — run a List request first and paste a real id.',
