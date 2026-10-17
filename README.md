@@ -7,8 +7,7 @@ and decides which staff can see what.
 
 I built it during my industrial attachment at **Authentic for Technology**
 (Chittagong). The layout and features follow a real production admin panel, but none of
-that product's source code is used: the whole panel was written fresh in Laravel. It also has a token-based
-REST API (with a ready-to-use Postman collection) and 273 automated tests.
+that product's source code is used: the whole panel was written fresh in Laravel.
 
 **Stack:** Laravel 13 · PHP 8.3+ · MySQL 8 (or MariaDB 10.4+) · plain CSS, no build step.
 
@@ -16,7 +15,7 @@ REST API (with a ready-to-use Postman collection) and 273 automated tests.
 
 ## Screenshots
 
-If you can't run the project, these show what it does. All data is demo data.
+
 
 | | |
 |---|---|
@@ -47,7 +46,7 @@ If you can't run the project, these show what it does. All data is demo data.
 
 ## How to run it
 
-This takes about ten minutes. You need four things installed:
+You need four things installed:
 
 | Tool | Version | Notes |
 |---|---|---|
