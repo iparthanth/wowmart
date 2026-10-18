@@ -211,6 +211,7 @@ Every table is defined by a migration in `database/migrations/`, the demo data c
 [`docs/database/wowmart-erd.svg`](docs/database/wowmart-erd.svg) · source:
 [`docs/database/wowmart-erd.mmd`](docs/database/wowmart-erd.mmd)
 
+![image](https://github.com/iparthanth/wowmart/blob/70e39476a608c621c150a4416616d654e5a7588e/wowmart-erd.svg)
 
 ---
 
