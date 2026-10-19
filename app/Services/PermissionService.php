@@ -86,7 +86,7 @@ class PermissionService
             return $menu;
         }
 
-        $keep = function (array $node) use (&$keep): bool {
+        $keep = function (array $node) use (&$keep, $user): bool {
             $route = $node['route'] ?? null;
 
             if ($route !== null) {

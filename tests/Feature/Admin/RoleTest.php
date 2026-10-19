@@ -89,4 +89,22 @@ class RoleTest extends TestCase
             ->assertRedirect('/admin/roles')->assertSessionHas('status');
         $this->assertNull($role->fresh());
     }
+
+    public function test_staff_sign_in_and_see_only_their_roles_sections(): void
+    {
+        $role = Role::create(['name' => 'Orders']);
+        $role->permissions()->create(['permission' => 'orders']);
+        $staff = User::create(['name' => 'Rita', 'email' => 'rita@wowmart.test', 'password' => 'secret123']);
+        $staff->forceFill(['user_type' => 'staff', 'role_id' => $role->id])->save();
+
+        $this->post('/login', ['email' => 'rita@wowmart.test', 'password' => 'secret123'])
+            ->assertRedirect('/admin');
+
+        $this->get('/admin')->assertOk()
+            ->assertSee('All Orders')
+            ->assertDontSee('All Products')
+            ->assertDontSee('All Staffs');
+
+        $this->get('/admin/staff')->assertForbidden();
+    }
 }

@@ -76,6 +76,9 @@
             ['label' => 'Staff Permissions', 'route' => 'admin.roles.index', 'patterns' => ['admin.roles.*']],
         ]],
     ];
+
+    // Staff only see the sections their role opens; admins get the whole menu.
+    $menu = app(\App\Services\PermissionService::class)->filterMenu($menu, auth()->user());
 @endphp
 
 <input type="checkbox" id="nav-open" class="sr-only" aria-label="Open menu">
