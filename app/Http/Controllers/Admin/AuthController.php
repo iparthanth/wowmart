@@ -38,7 +38,7 @@ class AuthController extends Controller
 
         // Same message as a wrong password: never reveal that an account exists
         // but is the wrong type, or has been banned.
-        if (! Auth::user()->isAdmin() || Auth::user()->banned) {
+        if (! Auth::user()->canSignIn() || Auth::user()->banned) {
             Auth::logout();
 
             throw ValidationException::withMessages([

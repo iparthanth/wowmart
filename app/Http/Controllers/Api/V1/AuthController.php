@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         // One message for unknown email, wrong password, non-admin and banned,
         // so the endpoint never confirms which accounts exist.
-        if (! $user || ! Hash::check($data['password'], $user->password) || ! $user->isAdmin() || $user->banned) {
+        if (! $user || ! Hash::check($data['password'], $user->password) || ! $user->canSignIn() || $user->banned) {
             throw ValidationException::withMessages(['email' => 'Those credentials do not match our records.']);
         }
 

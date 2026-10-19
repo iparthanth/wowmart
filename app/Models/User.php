@@ -51,6 +51,12 @@ class User extends Authenticatable
         return $this->user_type === UserType::Staff;
     }
 
+    /** Admins and staff may sign in to the panel; staff then only reach what their role allows. */
+    public function canSignIn(): bool
+    {
+        return $this->isAdmin() || $this->isStaff();
+    }
+
     /** The role a staff member signs in with. Admins have none and pass every check by type. */
     public function role(): BelongsTo
     {
