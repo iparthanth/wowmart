@@ -222,31 +222,6 @@ Every table is defined by a migration in `database/migrations/`, the demo data c
 | **Reports** (2) | `search_logs`, `wallet_recharges` | What customers search for, and wallet top-ups, for the reports |
 | **Framework** (5) | `migrations`, `sessions`, `cache`, `cache_locks`, `personal_access_tokens` | Laravel's own tables: which migrations ran, sign-in sessions, the cache used for sign-in throttling, and API login tokens |
 
-### How the design works
-
-- **One account table.** Admins, staff, sellers and customers are all rows in `users`, told
-  apart by `user_type`. Staff also have a `role_id`, and `role_permissions` lists the
-  sections that role can open.
-- **Main category plus extra categories.** `products.category_id` is the main category.
-  `product_categories` lists every category the product appears in, the main one included.
-- **Images by reference.** Products, categories, brands and shops store upload ids, for example
-  `products.thumbnail_img` and `brands.logo`. A product's gallery is `product_upload`, whose
-  `sort_order` keeps the order the images were picked in.
-- **Stock in one place.** Every product has at least one `product_stocks` row. A simple product
-  has a single row with an empty `variant`, so stock is always read the same way.
-- **Orders keep their history.** An order line stores the price, quantity, shipping cost and
-  seller at the time of sale, and the order stores the delivery address as a JSON snapshot.
-  Editing a product or an address later never changes a past order.
-- **Delete rules protect data.** Foreign keys either delete child rows with their parent
-  (`CASCADE`, for example order lines, gallery links, ticket replies), clear an optional link
-  (`SET NULL`, for example a product's brand, category, images or notes), or refuse the delete
-  (`RESTRICT`: a customer who has orders can't be deleted). On top of that, the services refuse
-  deletes that would silently lose data, such as a category that still has products or an
-  image that is still in use.
-- **Statuses are fixed lists.** Delivery status (`pending`, `confirmed`, `picked_up`,
-  `on_the_way`, `delivered`, `cancelled`) and payment status (`paid`, `unpaid`) are stored as
-  text and checked against PHP enums in `app/Enums/`.
-
 ---
 
 ## Repository Architecture
