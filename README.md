@@ -164,12 +164,12 @@ Leave this window open, then go to **<http://127.0.0.1:8000/login>** or **<http:
 That's it. To stop the server, press `Ctrl + C` in that window.
 
 To see staff permissions in action, sign out and sign in as one of the demo staff members.
-They share the password `password`, and each only sees the sections their role opens:
+Each one only sees the sections their role opens:
 
-| Staff member | Email | Role | Can open |
-|---|---|---|---|
-| Sadia Rahman | `sadia@staff.wowmart.test` | Order manager | Sales, reports, support |
-| Imran Hossain | `imran@staff.wowmart.test` | Catalogue editor | Products, media |
+| Staff member | Email | Password | Role | Can open |
+|---|---|---|---|---|
+| Sadia Rahman | `sadia@staff.wowmart.test` | `sadiastaff` | Order manager | Sales, reports, support |
+| Imran Hossain | `imran@staff.wowmart.test` | `imranstaff` | Catalogue editor | Products, media |
 
 ### Another way to fill the database (instead of Step 2)
 
