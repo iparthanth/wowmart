@@ -98,6 +98,7 @@ Check PHP with `php -v` — it must say 8.3 or higher.
 ### Step 1 — Download the code
 
 ```bash
+cd C:\xampp\htdocs
 git clone https://github.com/iparthanth/wowmart.git
 cd wowmart
 composer install
@@ -149,6 +150,14 @@ Then generate the app's secret key (needed for logins and sessions):
 php artisan key:generate
 ```
 
+### Another way to fill the database (instead of Step 2)
+
+Run database migrations and seeders:
+
+```bash
+php artisan migrate --seed
+```
+
 ### Step 4 — Start the panel
 
 ```bash
@@ -171,14 +180,6 @@ Each one only sees the sections their role opens:
 | Sadia Rahman | `sadia@staff.wowmart.test` | `sadiastaff` | Order manager | Sales, reports, support |
 | Imran Hossain | `imran@staff.wowmart.test` | `imranstaff` | Catalogue editor | Products, media |
 
-### Another way to fill the database (instead of Step 2)
-
-If you prefer not to use the SQL file, create an empty `wowmart` database, finish Step 3,
-and run:
-
-```bash
-php artisan migrate --seed
-```
 
 This builds all the tables from the migration files and adds the same demo data.
 
