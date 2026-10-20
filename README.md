@@ -84,56 +84,205 @@ that product's source code is used: the whole panel was written fresh in Laravel
 
 ## How to run it
 
+This project was tested with **PHP 8.4.10**. The current locked Composer dependencies require **PHP 8.4.1 or newer**. XAMPP may still be used for MySQL and phpMyAdmin, but do not serve this project with XAMPP's PHP 8.2.
+
 You need four things installed:
 
 | Tool | Version | Notes |
 |---|---|---|
-| **PHP** | 8.3 or newer | Laravel 13 needs it. **XAMPP's own PHP (8.2) is too old** — install PHP separately from [windows.php.net](https://windows.php.net/download/) or with [php.new](https://php.new). In `php.ini`, make sure `pdo_mysql`, `mbstring`, `openssl` and `fileinfo` are enabled (and `pdo_sqlite` if you want to run the tests). |
+| **PHP** | 8.4.1 or newer | Laravel 13 needs it. **XAMPP's own PHP (8.2) is too old** — install PHP separately from [windows.php.net](https://windows.php.net/download/) or with [php.new](https://php.new). In `php.ini`, make sure `pdo_mysql`, `mbstring`, `openssl` and `fileinfo` are enabled (and `pdo_sqlite` if you want to run the tests). |
 | **Composer** | 2.x | [getcomposer.org](https://getcomposer.org/download/) |
 | **MySQL + phpMyAdmin** | MySQL 8 or MariaDB 10.4+ | The easiest way is **XAMPP**: start only **Apache** and **MySQL** from the XAMPP Control Panel. |
 | **Git** | any | to download the code |
 
 Check PHP with `php -v` — it must say 8.3 or higher.
 
-### Step 1 — Download the code
+### Step 1: Install PHP 8.4 separately on Windows
+
+Keep XAMPP's existing PHP 8.2 installation unchanged at:
+
+```text
+D:\xampp\php
+```
+
+Download the latest supported **PHP 8.4 x64 ZIP** from the official PHP for Windows website:
+
+- https://windows.php.net/download/
+
+For this setup, download the **x64 Thread Safe ZIP** build. Extract the ZIP directly into:
+
+```text
+C:\php
+```
+
+After extraction, this file must exist:
+
+```text
+C:\php\php.exe
+```
+
+The final layout must look similar to:
+
+```text
+C:\php\php.exe
+C:\php\php.ini-development
+C:\php\php.ini-production
+C:\php\ext\
+```
+
+Do not extract PHP inside the Laravel project and do not overwrite:
+
+```text
+D:\xampp\php
+```
+
+The two PHP installations have separate purposes:
+
+```text
+C:\php\php.exe        -> PHP 8.4 for this Laravel 13 project
+D:\xampp\php\php.exe -> XAMPP PHP 8.2 for older compatible projects
+```
+
+Create the PHP configuration file:
+
+```cmd
+copy C:\php\php.ini-development C:\php\php.ini
+```
+
+Open `C:\php\php.ini` and make sure the extension directory is configured:
+
+```ini
+extension_dir = "ext"
+```
+
+Enable the extensions needed by this project by removing the leading semicolon from the corresponding lines:
+
+```ini
+extension=curl
+extension=fileinfo
+extension=mbstring
+extension=openssl
+extension=pdo_mysql
+```
+
+Enable this extension as well if the automated SQLite tests will be run:
+
+```ini
+extension=pdo_sqlite
+```
+
+Save `php.ini`, close all terminals, and open a new terminal.
+
+#### Add PHP 8.4 to Windows PATH
+
+1. Search Windows for **Environment Variables**.
+2. Open **Edit the system environment variables**.
+3. Click **Environment Variables**.
+4. Edit the user or system `Path` variable.
+5. Add:
+
+```text
+C:\php
+```
+
+6. Move `C:\php` above `D:\xampp\php` if both entries are present.
+7. Click **OK** on every window and open a new terminal.
+
+Adding PHP to PATH is optional if the full executable path is used in every command.
+
+### Step 2: Verify PHP 8.4 and Composer
 
 ```bash
-cd C:\xampp\htdocs
+php -v
+composer --version
+```
+
+`php -v` must report **PHP 8.4.1 or newer**. On Windows, check the PHP executable selected by PATH:
+
+```cmd
+where php
+```
+
+The first result should be:
+
+```text
+C:\php\php.exe
+```
+
+If another PHP appears first, the evaluator may still run PHP 8.4 explicitly.
+
+**Command Prompt or PowerShell**
+
+```cmd
+C:\php\php.exe -v
+```
+
+**Git Bash**
+
+```bash
+/c/php/php.exe -v
+export PATH="/c/php:$PATH"
+```
+
+In Git Bash, `/c/php/php.exe` and `C:\php\php.exe` refer to the same executable. The first form uses Git Bash path syntax.
+
+### Step 3: Download the project
+
+```bash
 git clone https://github.com/iparthanth/wowmart.git
 cd wowmart
 composer install
+composer check-platform-reqs
 ```
 
-`composer install` downloads Laravel and the other libraries into a `vendor` folder.
-It can take a few minutes the first time.
+`composer install` uses `composer.lock`, giving evaluators the same dependency versions used during development. Do not use `--ignore-platform-reqs`.
 
-### Step 2 — Create the database and import the SQL file
+### Step 4: Start MySQL and create the database
 
-1. Open **phpMyAdmin**: <http://localhost/phpmyadmin>
-2. Click **New** in the left panel.
-3. Type the database name **`wowmart`**, choose collation **`utf8mb4_unicode_ci`**, and click **Create**.
-4. With `wowmart` selected on the left, open the **Import** tab.
-5. Click **Choose File** and pick **`database/sql/wowmart.sql`** from the project folder.
-6. Scroll down and click **Import** (or **Go**).
+1. Open the XAMPP Control Panel.
+2. Start **MySQL**.
+3. Start **Apache only to access phpMyAdmin**. Apache is not used to serve this Laravel project unless Apache has separately been configured with PHP 8.4.1 or newer.
+4. Open [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
+5. Click **New** and create a database named `wowmart` with collation `utf8mb4_unicode_ci`.
 
-You should see a green "Import has been successfully finished" message and 34 tables
-on the left. The file already contains the demo data: 42 products, 29 brands, 13 orders,
-reviews, report data, support tickets and two demo staff accounts.
+### Step 5: Import the supplied demo database
 
-### Step 3 — Tell the app how to reach the database
+1. In phpMyAdmin, select `wowmart`.
+2. Open **Import**.
+3. Choose `database/sql/wowmart.sql` from the project.
+4. Click **Import** or **Go**.
 
-Make a copy of the example settings file:
+A successful import creates 34 tables and includes the demo catalogue, orders, reports, support data, administrator account, and staff accounts.
 
-```bash
+> Use either the SQL import method or the migration-and-seeder method below. Do not run both.
+
+### Step 6: Create and configure `.env`
+
+**Command Prompt**
+
+```cmd
 copy .env.example .env
 ```
 
-(On macOS or Linux use `cp .env.example .env`.)
+**PowerShell**
 
-Open `.env` in any text editor and check the database lines. They are already set up for
-a standard XAMPP install, where the MySQL user is `root` with no password:
-
+```powershell
+Copy-Item .env.example .env
 ```
+
+**Git Bash, macOS, or Linux**
+
+```bash
+cp .env.example .env
+```
+
+Open `.env` and confirm the following values for a standard local XAMPP database:
+
+```env
+APP_ENV=local
+APP_DEBUG=true
+APP_URL=http://127.0.0.1:8124
+
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -142,26 +291,60 @@ DB_USERNAME=root
 DB_PASSWORD=
 ```
 
-If your MySQL uses a different user or password, change `DB_USERNAME` and `DB_PASSWORD`.
+If MySQL uses another username or password, update `DB_USERNAME` and `DB_PASSWORD`. Never commit the real `.env` file.
 
-Then generate the app's secret key (needed for logins and sessions):
+Generate the application key and clear cached configuration:
 
 ```bash
 php artisan key:generate
+php artisan optimize:clear
 ```
 
-### Another way to fill the database (instead of Step 2)
+If `php` points to an older Windows installation:
 
-Run database migrations and seeders:
+```cmd
+C:\php\php.exe artisan key:generate
+C:\php\php.exe artisan optimize:clear
+```
+
+### Step 7: Check the database
+
+```bash
+php artisan migrate:status
+```
+
+After importing the SQL file, all migrations should show `Ran`.
+
+#### Alternative: build the database with migrations and seeders
+
+Instead of importing the SQL file, create an empty `wowmart` database, configure `.env`, and run:
 
 ```bash
 php artisan migrate --seed
 ```
 
-### Step 4 — Start the panel
+This creates the tables and inserts the same demo data. Do not use `migrate:fresh` on a database containing data that must be preserved.
+
+### Step 8: Start the application
+
+The Postman collection uses port `8124`, so start the project with:
 
 ```bash
-php artisan serve| php artisan serve --port=8124
+php artisan serve --port=8124
+```
+
+If required, select PHP 8.4 explicitly:
+
+**Command Prompt or PowerShell**
+
+```cmd
+C:\php\php.exe artisan serve --port=8124
+```
+
+**Git Bash**
+
+```bash
+/c/php/php.exe artisan serve --port=8124
 ```
 
 Leave this window open, then go to **<http://127.0.0.1:8000/login>** or **<http://127.0.0.1:8124/login>** in your browser and sign in with the demo admin account:
